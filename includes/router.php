@@ -1,6 +1,6 @@
 <?php
 
-const INDEX_HOME = 'login';
+const INDEX_HOME = 'home';
 function normalizePath(string $path): string {
     $path = strtok($path, '?');
     $path = ltrim($path, '/');
