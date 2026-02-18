@@ -1,8 +1,8 @@
 <?php
 
 $host = 'localhost';
-$db = 'enrollment';
-$user = 'demo';
+$db = 'final';
+$user = 'Final';
 $pass = 'abc123';
 
 $con = new mysqli($host, $user, $pass, $db);
@@ -14,3 +14,5 @@ function getConnection() {
     }
     return $con;
 }
+
+require_once DATABASE_DIR_ . 'user.php';
