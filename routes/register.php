@@ -13,6 +13,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit();
     }
 
+    if (checkEmailExists($email)) {
+        $_SESSION['error'] = 'อีเมลนี้มีบัญชีอยู่เเล้ว';
+        header('Location: /home');
+        exit();
+    }
+
     $result = insertUser($username, $birthday, $email, $password, $gender);
     
     if ($result) {
@@ -20,7 +26,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         header('Location: /home');
         exit();
     } else {
-        $_SESSION['error'] = 'อีเมลนี้มีบัญชีอยู่เเล้ว';
+        $_SESSION['error'] = 'เกิดข้อผิดพลาดในการบันทึกข้อมูล';
         header('Location: /home');
         exit();
     }

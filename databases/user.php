@@ -18,9 +18,20 @@ function insertUser($name, $birthday, $email, $password, $gender) {
     $stmt->bind_param('sssss', $name, $birthday, $email, $hashPassword, $gender);
     $stmt->execute();
 
-    if ($stmt->affected_rows > 0) {
+    if ($stmt->affected_rows > 0 ) {
         return true;
     } else {
         return false;
     }
+}
+
+function checkEmailExists($email) {
+    $conn = getConnection();
+    $sql = 'select email from users where email = ?';
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param('s', $email);
+    $stmt->execute();
+    
+    return $stmt->get_result()->num_rows > 0;
+    
 }

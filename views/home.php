@@ -199,7 +199,7 @@
 
                 <div class="space-y-1">
                     <label class="text-sm font-medium text-gray-200 block ml-1">Date of birth</label>
-                    <input type="text" name="dob" placeholder="yy/mm/dd" class="w-full px-4 py-2.5 rounded-lg custom-input text-white" onfocus="(this.type='date')">
+                    <input type="text" name="birthday" placeholder="yy/mm/dd" class="w-full px-4 py-2.5 rounded-lg custom-input text-white" onfocus="(this.type='date')">
                 </div>
 
                 <div class="space-y-1">
@@ -213,7 +213,7 @@
                 </div>
 
                 <div class="pt-4">
-                    <button type="submit" class="w-full bg-[#fffdd0] hover:bg-[#fff9c4] text-[#2e2335] font-oswald font-bold text-xl py-3 rounded-full shadow-lg transform active:scale-95 transition-all duration-200 uppercase tracking-wider">
+                    <button type="submit" id="sign-up" class="w-full bg-[#fffdd0] hover:bg-[#fff9c4] text-[#2e2335] font-oswald font-bold text-xl py-3 rounded-full shadow-lg transform active:scale-95 transition-all duration-200 uppercase tracking-wider">
                         Sign Up
                     </button>
                 </div>
@@ -230,6 +230,7 @@
         const password = document.getElementById('password');
         const conPassword = document.getElementById('confirm-password');
         const errorText = document.getElementById('password-error');
+        const signUp = document.getElementById('sign-up');
 
         function openLogin() {
             modalOverlay.style.opacity = '1';
@@ -243,9 +244,16 @@
             mainContent.classList.remove('background-blur');
         }
 
-        function notify(msg) {
+        function notify(msg, type = 'error') {
             if (!msg) return;
             const div = document.createElement('div');
+
+            if (type == 'success') {
+                div.style.background = '#2ecc71';
+            } else {
+                div.style.background = '#ff4d4d';
+            }
+
             div.className = 'toast';
             div.innerHTML = `<i class="fa-solid fa-circle-exclamation mr-2"></i> ${msg}`;
             document.body.appendChild(div);
@@ -281,13 +289,23 @@
         function checkConfirmPassword() {
             if (conPassword.value === '') {
                 errorText.classList.add('hidden');
+                signUp.disabled = false;
+
+                signUp.style.opacity = '1';
+                signUp.style.cursor = 'pointer'; 
                 return;
             }
 
             if (conPassword.value !== password.value) {
                 errorText.classList.remove('hidden');
+                signUp.disabled = true;
+                signUp.style.opacity = '0.5';
+                signUp.style.cursor = 'not-allowed'; 
             } else {
                 errorText.classList.add('hidden');
+                signUp.disabled = false;
+                signUp.style.opacity = '1';
+                signUp.style.cursor = 'pointer'; 
             }
         }
 
@@ -297,14 +315,14 @@
 
     <?php if (!empty($_SESSION['error'])): ?>
         <script>
-            notify("<?php echo $_SESSION['error']; ?>");
+            notify("<?php echo $_SESSION['error']; ?>", 'error');
         </script>
         <?php unset($_SESSION['error']); ?>
     <?php endif; ?>
 
     <?php if (!empty($_SESSION['success'])): ?>
         <script>
-            notify("<?php echo $_SESSION['success']; ?>");
+            notify("<?php echo $_SESSION['success']; ?>", 'success');
         </script>
         <?php unset($_SESSION['success']); ?>
     <?php endif; ?>
