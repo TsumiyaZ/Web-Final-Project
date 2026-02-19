@@ -16,3 +16,5 @@ function getConnection() {
 }
 
 require_once DATABASE_DIR_ . 'user.php';
+require_once DATABASE_DIR_ . 'imgEvent.php';
+require_once DATABASE_DIR_ . 'events.php';
