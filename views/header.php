@@ -120,7 +120,13 @@
                 </div>
                 <?php if (isset($_SESSION['user'])) { ?>
                     <div class="mb-6">
-                        <a href="/createEvent" class="bg-[#4d4d4d] px-4 py-1 rounded-full text-sm text-gray-300">สร้างกิจกรรม</a>
+                        <a href="/" class="bg-[#4d4d4d] px-4 py-1 rounded-full text-sm text-gray-300">กิจกรรมของฉัน</a>
+                    </div>
+                    <div class="mb-6">
+                        <a href="/" class="bg-[#4d4d4d] px-4 py-1 rounded-full text-sm text-gray-300">กิจกรรมที่ขอเข้าร่วม</a>
+                    </div>
+                    <div class="mb-6">
+                        <a href="/createEvent" class="bg-[#4d4d4d] px-4 py-1 rounded-full text-sm text-gray-300">กิจกรรมที่สร้าง</a>
                     </div>
                 <?php } ?>
             </div>

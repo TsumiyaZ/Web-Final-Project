@@ -10,11 +10,20 @@ function uploadImg($event_id, $path) {
     return $stmt->affected_rows > 0;
 }
 
-function getImgById($event_id) {
+function getImgByEventId($event_id) {
     $conn = getConnection();
     $sql = 'select * from event_imgs where event_id = ?';
     $stmt = $conn->prepare($sql);
     $stmt->bind_param('i', $event_id);
     $stmt->execute();
     return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+}
+
+function getFirstImgByEventId($event_id) {
+    $conn = getConnection();
+    $sql = 'select * from event_imgs where event_id = ? LIMIT 1';
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param('i', $event_id);
+    $stmt->execute();
+    return $stmt->get_result()->fetch_assoc();
 }

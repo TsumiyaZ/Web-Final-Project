@@ -17,3 +17,14 @@ function getAllEvents() {
     $stmt->execute();
     return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
 }
+
+function getAllYourEventByUserId($user_id) {
+    $conn = getConnection();
+    $sql = 'select events.* from events 
+            JOIN users ON events.creator_id = users.user_id 
+            where events.creator_id = ?';
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param('i', $user_id);
+    $stmt->execute();
+    return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+}

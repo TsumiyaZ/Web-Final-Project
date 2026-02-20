@@ -1,19 +1,14 @@
         <?php include 'header.php' ?>
         <?php $allEvent = getAllEvents(); ?>
 
-
-
-
         <div class="space-y-4 p-10 rounded-2xl bg-gray-500 h-[800px] overflow-y-auto custom-scrollbar">
             <?php foreach ($allEvent as $each) { ?>
-                <?php $picture = getImgById($each['event_id']); ?>
-                <?php foreach($picture as $pic) { ?>
-                    <img src="<?php echo $pic['img_path']; ?>" alt="">
-                <?php } ?>
+                <?php $firstImg = getFirstImgByEventId($each['event_id']); ?>
+         
                 <div class="flex items-center bg-[#8b6a96]/30  p-4 rounded-2xl border border-white/10 shadow-2xl hover:bg-[#8b6a96]/40 transition-all duration-300">
                     <div class="flex-shrink-0 w-32 h-32 md:w-40 md:h-40 bg-[#a38caf]/40 rounded-xl overflow-hidden shadow-inner">
                         <div class="w-full h-full flex items-center justify-center text-white/50">
-                            <i class="fa-regular fa-image text-4xl"></i>
+                                 <img src="<?php echo $firstImg['img_path'] ?>" alt="">
                         </div>
                     </div>
 
