@@ -27,7 +27,7 @@ $allYourEvent = getAllYourEventByUserId((int)$_SESSION['user']['user_id']);
         <div class="flex items-center bg-[#8b6a96]/30  p-4 rounded-2xl border border-white/10 shadow-2xl hover:bg-[#8b6a96]/40 transition-all duration-300">
             <div class="flex-shrink-0 w-32 h-32 md:w-40 md:h-40 bg-[#a38caf]/40 rounded-xl overflow-hidden shadow-inner">
                 <div class="w-full h-full flex items-center justify-center text-white/50">
-                    <i class="fa-regular fa-image text-4xl"></i>
+                    <img src="<?= getFirstImgByEventId($allEvent['event_id'])['img_path'] ?>" alt="">
                 </div>
             </div>
 
@@ -45,9 +45,12 @@ $allYourEvent = getAllYourEventByUserId((int)$_SESSION['user']['user_id']);
             <div class="flex flex-col justify-between items-end h-32 md:h-40 ml-4">
                 <div class="h-6 bg-[#d1c4e9]/30 border border-white/10 rounded-full w-16"></div>
 
-                <button class="bg-[#f5f5f7] hover:bg-white text-[#5b3765] px-6 py-1.5 rounded-lg font-semibold text-sm transition-all transform active:scale-95 shadow-[0_4px_10px_rgba(0,0,0,0.2)]">
-                    จัดการกิจกรรม
-                </button>
+                <form action="/editEvent" method="POST" style="display: inline;">
+                    <input type="hidden" name="event_id" value="<?= $allEvent['event_id'] ?>">
+                    <button type="submit" class="bg-[#f5f5f7] hover:bg-white text-[#5b3765] px-6 py-1.5 rounded-lg font-semibold text-sm transition-all transform active:scale-95 shadow-[0_4px_10px_rgba(0,0,0,0.2)]">
+                        จัดการกิจกรรม
+                    </button>
+                </form>
             </div>
         </div>
     <?php } ?>

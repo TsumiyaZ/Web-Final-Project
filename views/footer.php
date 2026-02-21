@@ -84,6 +84,7 @@
             }
         }
 
+
         password.addEventListener('input', checkConfirmPassword);
         conPassword.addEventListener('input', checkConfirmPassword);
     </script>

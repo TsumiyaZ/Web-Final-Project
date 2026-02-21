@@ -28,3 +28,30 @@ function getAllYourEventByUserId($user_id) {
     $stmt->execute();
     return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
 }
+
+function getEventByEventId($event_id) {
+    $conn = getConnection();
+    $sql = 'select * from events where event_id = ?';
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param('i', $event_id);
+    $stmt->execute();
+
+    return $stmt->get_result()->fetch_assoc();
+}
+
+function updateEventByEventId($name_event, $startDate, $stopDate, $description, $amount, $event_id) {
+    $conn = getConnection();
+    $sql = 'update events 
+            set event_name = ?,
+            start_date = ?,
+            stop_date = ?,
+            description = ?,
+            amount = ?
+            where event_id = ?';
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param('ssssii', $name_event, $startDate, $stopDate, $description, $amount, $event_id);
+    $stmt->execute();
+
+    return $stmt->affected_rows > 0;
+
+}
