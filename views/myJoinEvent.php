@@ -1,5 +1,5 @@
         <?php include 'header.php' ?>
-        <?php $allEvent = getAllEvents(); ?>
+        <?php $allEvent = getJoinedEventsByUserId($_SESSION['user']['user_id']); ?>
 
         <div class="space-y-4 p-10 rounded-2xl bg-gray-500 h-[800px] overflow-y-auto custom-scrollbar">
             <?php foreach ($allEvent as $each) { ?>
@@ -26,11 +26,11 @@
                     <div class="flex flex-col justify-between items-end h-32 md:h-40 ml-4">
                         <div class="h-6 bg-[#d1c4e9]/30 border border-white/10 rounded-full w-16"></div>
 
-                        <form action="/joinEvent" method="post">
-                            <input type="hidden" name="event_id" value="<?php echo $each['event_id'] ?? '' ?>">
-                            <input type="hidden" name="user_id" value="<?php echo $_SESSION['user']['user_id'] ?? '' ?>">
+                        <form action="/" method="post">
+                            <input type="hidden" name="event_id" value="<?php echo $each['event_id'] ?>">
+                            <input type="hidden" name="user_id" value="<?php echo $_SESSION['user']['user_id'] ?>">
                             <button type="submit" class="bg-[#f5f5f7] hover:bg-white text-[#5b3765] px-6 py-1.5 rounded-lg font-semibold text-sm transition-all transform active:scale-95 shadow-[0_4px_10px_rgba(0,0,0,0.2)]">
-                                ขอเข้าร่วม
+                                ขอ OTP
                             </button>
                         </form>
                     </div>
