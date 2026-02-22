@@ -14,17 +14,17 @@ $event_id = isset($_POST['event_id']) ? (int)$_POST['event_id'] : 0;
 
 if ($event_id <= 0) {
     $_SESSION['error'] = 'ไม่พบรหัสกิจกรรม';
-    header('Location: /myEvent');
+    header('Location: /myCreateEvent');
     exit();
 }
 
 if (updateEventByEventId($event_name, $startDate, $stopDate, $description, $amount, $event_id)) {
     $_SESSION['success'] = 'อัพเดทข้อมูลเสร็จ';
-    header('Location: /myEvent');
+    header('Location: /myCreateEvent');
     exit();
 } else {
     $_SESSION['error'] = 'อัพเดทข้อมูลไม่สําเร็จ';
-    header('Location: /myEvent');
+    header('Location: /myCreateEvent');
     exit();
 }
 

@@ -5,4 +5,4 @@ if (!isset($_SESSION['user'])) {
     exit();
 }
 
-renderView('/myEvent');
+renderView('/myCreateEvent');
