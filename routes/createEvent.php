@@ -43,12 +43,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $_SESSION['success'] = 'สร้าง event เสร็จแล้ว';
         $_POST = [];
 
-        header('Location: /createEvent');
+        header('Location: /myEvent');
         exit();
 
     } else {
         $_SESSION['error'] = 'กรุณาใส่รูปอย่างน้อย 1 รูป';
-        header('Location: /createEvent');
+        header('Location: /myEvent');
         exit();
     }
 }
