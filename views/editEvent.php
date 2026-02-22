@@ -51,7 +51,68 @@
             </div>
         </header>
 
-        
+        <main class="relative">
+            <div class="fixed inset-0 bg-black/40 backdrop-blur-sm z-40"></div>
+
+            <div id="edit-event" class="fixed inset-0 z-50 flex items-center justify-center p-4">
+                <div class="relative w-full max-w-md modal-gradient rounded-2xl p-8 shadow-2xl border border-white/10">
+                    
+                    <div class="absolute -top-12 left-0">
+                        <a href="/createEvent" class="flex items-center gap-2 text-gray-300 hover:text-white transition-colors group">
+                            <i class="fa-solid fa-arrow-left transition-transform group-hover:-translate-x-1"></i>
+                            <span class="font-medium">ย้อนกลับ</span>
+                        </a>
+                    </div>
+ 
+                    <div class="text-center mb-8">
+                        <h1 class="text-4xl font-oswald font-bold text-white tracking-wide uppercase">Edit Event</h1>
+                        <p class="text-gray-400 text-sm mt-1">แก้ไขข้อมูลกิจกรรมของคุณ</p>
+                    </div>
+
+                    <form action="/updateEvent" method="POST" class="space-y-4">
+                        <!-- เอาไอดีของ event มาใส่ใน input type hidden เพื่อส่งไปกับ form ด้วย -->
+                        <input type="hidden" name="event_id" value="<?= htmlspecialchars($data['event']['event_id']) ?>">
+                        <div class="space-y-1">
+                            <label class="text-xs font-medium text-gray-300 uppercase tracking-wider ml-1">ชื่ออีเว้นท์</label>
+                            <input type="text" name="eventName" 
+                                   value="<?= htmlspecialchars($data['event']['event_name']) ?>" 
+                                   class="w-full px-4 py-2.5 rounded-xl custom-input text-white focus:ring-2 focus:ring-[#fff9c4]/20" required>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-4">
+                            <div class="space-y-1">
+                                <label class="text-xs font-medium text-gray-300 uppercase tracking-wider ml-1">วันที่เริ่มงาน</label>
+                                <input type="date" name="startDate" value="<?= htmlspecialchars($data['event']['start_date']) ?>" 
+                                       class="w-full px-4 py-2.5 rounded-xl custom-input text-white" required>
+                            </div>
+                            <div class="space-y-1">
+                                <label class="text-xs font-medium text-gray-300 uppercase tracking-wider ml-1">วันที่เริ่มงาน</label>
+                                <input type="date" name="stopDate" value="<?= htmlspecialchars($data['event']['stop_date']) ?>" 
+                                       class="w-full px-4 py-2.5 rounded-xl custom-input text-white" required>
+                            </div>
+                        </div>
+
+                        <div class="space-y-1">
+                            <label class="text-xs font-medium text-gray-300 uppercase tracking-wider ml-1">Description</label>
+                            <textarea name="description" class="w-full px-4 py-4 rounded-xl custom-input text-white" required><?= htmlspecialchars($data['event']['description']) ?></textarea>
+                        </div>
+
+                        <div class="space-y-1">
+                            <label class="text-xs font-medium text-gray-300 uppercase tracking-wider ml-1">จํากัดจํานวนคนเข้าร่วม</label>
+                            <input type="number" name="amount" 
+                                   value="<?= htmlspecialchars($data['event']['amount']) ?>" 
+                                   class="w-full px-4 py-2.5 rounded-xl custom-input text-white focus:ring-2 focus:ring-[#fff9c4]/20" required>
+                        </div>
+
+                        <div class="pt-6">
+                            <button type="submit" class="w-full bg-[#fffdd0] hover:bg-white text-[#2e2335] font-oswald font-bold text-lg py-3 rounded-xl shadow-xl transform active:scale-95 transition-all duration-200 uppercase tracking-widest">
+                                Save Changes
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </main>
     </div> <?php include 'footer.php'; ?>
 </body>
 </html>
