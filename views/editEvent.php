@@ -63,7 +63,7 @@
                             <span class="font-medium">ย้อนกลับ</span>
                         </a>
                     </div>
-
+ 
                     <div class="text-center mb-8">
                         <h1 class="text-4xl font-oswald font-bold text-white tracking-wide uppercase">Edit Event</h1>
                         <p class="text-gray-400 text-sm mt-1">แก้ไขข้อมูลกิจกรรมของคุณ</p>
