@@ -4,7 +4,23 @@ include 'header.php';
 $allYourEvent = getAllYourEventByUserId((int)$_SESSION['user']['user_id']);
 ?>
 <a href="">สร้างกิจกรรม</a>
-
+<div>
+    <form action="/createEvent" method="POST" enctype="multipart/form-data">
+        <input type="text" name="nameEvent" placeholder="Name Event" class="text-black border-2 border-black m-2" required>
+        <br>
+        <input type="date" name="startDate" placeholder="Start Date" class="text-black border-2 border-black m-2" required>
+        <br>
+        <input type="date" name="stopDate" placeholder="Stop Date" class="text-black border-2 border-black m-2" required>
+        <br>
+        <input type="number" name="amount" placeholder="amount" class="text-black border-2 border-black m-2" required>
+        <br>
+        <textarea name="description" placeholder="Description" class="text-black border-2 border-black m-2"></textarea>
+        <br>
+        <input type="file" name="picture[]" accept="image/*" multiple class="text-black border-2 border-black m-2" required>
+        <br>
+        <input type="submit">
+    </form>
+</div>
 
 <div class="space-y-4 p-10 rounded-2xl bg-gray-500 h-[800px] overflow-y-auto custom-scrollbar">
     <?php foreach ($allYourEvent as $allEvent) { ?>
