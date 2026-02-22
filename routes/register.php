@@ -21,13 +21,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $result = insertUser($username, $birthday, $email, $password, $gender);
     
-    if ($result) {
-        $_SESSION['success'] = 'สมัครสมาชิกสำเร็จ! กรุณาเข้าสู่ระบบ';
-        header('Location: /home');
-        exit();
-    } else {
-        $_SESSION['error'] = 'เกิดข้อผิดพลาดในการบันทึกข้อมูล';
-        header('Location: /home');
-        exit();
-    }
+   
 }        
