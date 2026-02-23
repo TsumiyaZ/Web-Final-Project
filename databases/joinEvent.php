@@ -1,6 +1,7 @@
 <?php
 
-function joinEvent($event_id, $user_id) {
+function joinEvent($event_id, $user_id)
+{
     $conn = getConnection();
     $sql = 'INSERT INTO event_join (user_id, event_id) VALUES (?, ?)';
     $stmt = $conn->prepare($sql);
@@ -9,7 +10,8 @@ function joinEvent($event_id, $user_id) {
     return $stmt->affected_rows > 0;
 }
 
-function getJoinedEventsByUserId($user_id) {
+function getJoinedEventsByUserId($user_id)
+{
     $conn = getConnection();
     $sql = 'SELECT events.* FROM events 
             JOIN event_join ON events.event_id = event_join.event_id 
@@ -18,4 +20,160 @@ function getJoinedEventsByUserId($user_id) {
     $stmt->bind_param('i', $user_id);
     $stmt->execute();
     return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+}
+
+function getAllJoinMember($event_id)
+{
+    $conn = getConnection();
+    $sql = 'SELECT users.* FROM users 
+        JOIN event_join ON users.user_id = event_join.user_id
+        WHERE event_join.event_id = ?';
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param('i', $event_id);
+    $stmt->execute();
+
+    return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+}
+
+function approveMember($eventId, $userId) {
+    $conn = getConnection();
+    $now = new DateTime();
+    $approved_date = $now->format('Y-m-d H:i:s');
+    $sql = 'UPDATE event_join 
+            SET status = "approved", approved_date = ? 
+            WHERE event_id = ? AND user_id = ?';
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param('sii', $approved_date, $eventId, $userId);
+    $stmt->execute();
+    $result = $stmt->affected_rows > 0;
+    $stmt->close();
+
+    return $result;
+}
+
+function rejectMember($eventId, $userId) {
+    $conn = getConnection();
+    $sql = 'update event_join
+            set status = "rejected"
+            where event_id = ? and user_id = ?';
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param('ii', $eventId, $userId);
+    $stmt->execute();
+    $result = $stmt->affected_rows > 0;
+    $stmt->close();
+
+    return $result;
+}
+
+function getAllApprovedByEventId($eventId) {
+    $conn = getConnection();
+    $sql = 'SELECT users.*, event_join.status 
+            FROM users 
+            JOIN event_join ON users.user_id = event_join.user_id
+            WHERE event_join.event_id = ? AND event_join.status = "approved"';
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param('i', $eventId);
+    $stmt->execute();
+    
+    $result = $stmt->get_result();
+    
+    $data = $result->fetch_all(MYSQLI_ASSOC);
+    
+    $stmt->close();
+
+    return $data ? $data : [];
+}
+
+function getAllRejectedByEventId($eventId) {
+    $conn = getConnection();
+    $sql = 'SELECT users.*, event_join.status 
+            FROM users 
+            JOIN event_join ON users.user_id = event_join.user_id
+            WHERE event_join.event_id = ? AND event_join.status = "rejected"';
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param('i', $eventId);
+    $stmt->execute();
+    
+    $result = $stmt->get_result();
+    
+    $data = $result->fetch_all(MYSQLI_ASSOC);
+    
+    $stmt->close();
+
+    return $data ? $data : [];
+}
+
+function getAllPendingByEventId($eventId) {
+    $conn = getConnection();
+    $sql = 'SELECT users.*, event_join.status 
+            FROM users 
+            JOIN event_join ON users.user_id = event_join.user_id
+            WHERE event_join.event_id = ? AND event_join.status = "pending"';
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param('i', $eventId);
+    $stmt->execute();
+    
+    $result = $stmt->get_result();
+    
+    $data = $result->fetch_all(MYSQLI_ASSOC);
+    
+    $stmt->close();
+
+    return $data ? $data : [];
+}
+
+function countApprovedMember($eventId) {
+    $conn = getConnection();
+    $sql = 'select count(*) as total from event_join where event_id = ? and status = "approved"';
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param('i', $eventId);
+    $stmt->execute();
+    $result = $stmt->get_result()->fetch_assoc();
+    $stmt->close();
+
+    return $result['total'] ?? 0;
+}
+
+function countRejectedMember($eventId) {
+    $conn = getConnection();
+    $sql = 'select count(*) as total from event_join where event_id = ? and status = "rejected"';
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param('i', $eventId);
+    $stmt->execute();
+    $result = $stmt->get_result()->fetch_assoc();
+    $stmt->close();
+
+    return $result['total'] ?? 0;
+}
+
+function countPendingMember($eventId) {
+    $conn = getConnection();
+    $sql = 'select count(*) as total from event_join where event_id = ? and status = "pending"';
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param('i', $eventId);
+    $stmt->execute();
+    $result = $stmt->get_result()->fetch_assoc();
+    $stmt->close();
+
+    return $result['total'] ?? 0;
+}
+
+function countAllMemberByEventId($eventId) {
+    $pending = countPendingMember($eventId);
+    $approved = countApprovedMember($eventId);
+    $rejected = countRejectedMember($eventId);
+    return $pending + $approved + $rejected;
+}
+
+function isApproved($user_id, $event_id) {
+    $conn = getConnection();
+    $sql = 'select status from event_join where user_id = ? and event_id = ?';
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param('ii', $user_id, $event_id);
+    $stmt->execute();
+
+    $result = $stmt->get_result()->fetch_assoc();
+    $stmt->close();
+
+    return $result['status'] ?? 'null';
 }

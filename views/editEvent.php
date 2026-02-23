@@ -55,8 +55,8 @@ include 'header.php';
 <main class="max-w-6xl mx-auto glass-container p-6 md:p-10 shadow-2xl mt-6 mb-12">
     
     <div class="mb-8 flex items-center justify-between">
-        <button onclick="history.back()" class="bg-white text-gray-800 px-5 py-1.5 rounded-full flex items-center gap-2 text-sm font-medium hover:bg-gray-100 transition-all shadow-sm">
-            <i class="fa-solid fa-arrow-left"></i> แก้ไขกิจกรรม
+        <button onclick="window.location.href='/myCreateEvent'" class="bg-white text-gray-800 px-5 py-1.5 rounded-full flex items-center gap-2 text-sm font-medium hover:bg-gray-100 transition-all shadow-sm">
+            <i class="fa-solid fa-arrow-left"></i> กลับไปยังกิจกรรม
         </button>
         <h2 class="text-xl font-medium tracking-wide">รายละเอียดการแก้ไข</h2>
     </div>
@@ -80,13 +80,13 @@ include 'header.php';
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div class="space-y-2">
                 <label class="block text-sm font-light ml-2">วันที่จัดกิจกรรม</label>
-                <input type="date" name="startDate" 
+                <input type="date" id="startDate" name="startDate" 
                        value="<?= htmlspecialchars($data['event']['start_date'] ?? '') ?>" 
                        class="w-full px-6 py-3 custom-field">
             </div>
             <div class="space-y-2">
                 <label class="block text-sm font-light ml-2">วันที่สิ้นสุดกิจกรรม</label>
-                <input type="date" name="stopDate" 
+                <input type="date" id="stopDate" name="stopDate" 
                        value="<?= htmlspecialchars($data['event']['stop_date'] ?? '') ?>" 
                        class="w-full px-6 py-3 custom-field">
             </div>
@@ -100,7 +100,7 @@ include 'header.php';
         </div>
 
         <div class="flex justify-end gap-4 pt-10">
-            <button type="submit" class="btn-save px-12 py-2.5 rounded-full font-medium shadow-md hover:brightness-105 transition-all">
+            <button type="submit" id="btn-save" class="btn-save px-12 py-2.5 rounded-full font-medium shadow-md hover:brightness-105 transition-all">
                 บันทึก
             </button>
             <button type="button" onclick="window.location.href='/myCreateEvent'" class="btn-cancel px-12 py-2.5 rounded-full font-medium shadow-md hover:brightness-105 transition-all">

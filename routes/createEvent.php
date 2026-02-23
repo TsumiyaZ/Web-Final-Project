@@ -13,6 +13,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $description = $_POST['description'] ?? '';
     $amount      = isset($_POST['amount']) ? (int)$_POST['amount'] : 0;
 
+    // Validate date range
+    if (strtotime($startDate) >= strtotime($stopDate)) {
+        $_SESSION['error'] = 'วันที่สิ้นสุดกิจกรรมต้องมากกว่าวันที่เริ่มกิจกรรม';
+        header('Location: /createEvent');
+        exit();
+    }
+
     if (!empty($_FILES['picture']['name'][0])) {
 
         $event_id = createEvent(

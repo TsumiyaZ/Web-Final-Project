@@ -87,14 +87,13 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
                     <label class="label-text">วันที่เริ่มกิจกรรม</label>
-                    <input type="date" name="startDate" class="custom-field" required>
+                    <input type="date" name="startDate" id="startDate" class="custom-field" required>
                 </div>
                 <div>
                     <label class="label-text">วันที่สิ้นสุดกิจกรรม</label>
-                    <input type="date" name="stopDate" class="custom-field" required>
+                    <input type="date" name="stopDate" id="stopDate" class="custom-field" required>
                 </div>
             </div>
-
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
                     <label class="label-text">รับจำนวน (คน)</label>
@@ -111,11 +110,11 @@
             <div>
                 <label class="label-text">รายละเอียดกิจกรรม</label>
                 <textarea name="description" rows="5" placeholder="อธิบายกิจกรรมของคุณที่นี่..." 
-                          class="custom-field resize-none"></textarea>
+                          class="custom-field resize-none" required></textarea>
             </div>
 
             <div class="pt-6">
-                <button type="submit" class="btn-create w-full py-4 rounded-2xl font-semibold text-lg shadow-lg hover:scale-[1.02] active:scale-[0.98] transition-all uppercase tracking-widest">
+                <button type="submit" id="btn-create" class="btn-create w-full py-4 rounded-2xl font-semibold text-lg shadow-lg hover:scale-[1.02] active:scale-[0.98] transition-all uppercase tracking-widest">
                     ยืนยันการสร้างกิจกรรม
                 </button>
             </div>

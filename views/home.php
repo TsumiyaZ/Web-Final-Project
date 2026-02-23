@@ -4,7 +4,7 @@
         <div class="space-y-4 p-10 rounded-2xl bg-[#2e2335] h-[800px] overflow-y-auto custom-scrollbar">
             <?php foreach ($allEvent as $each) { ?>
                 <?php $firstImg = getFirstImgByEventId($each['event_id']); ?>
-         
+
                 <div class="flex items-center bg-[#8b6a96]/30 p-6 rounded-2xl border border-white/10 shadow-2xl hover:bg-[#8b6a96]/40 transition-all duration-300">
                     <div class="flex-shrink-0 w-32 h-32 md:w-40 md:h-40 bg-[#a38caf]/40 rounded-xl overflow-hidden shadow-inner">
                         <div class="w-full h-full flex items-center justify-center text-white/50">
@@ -19,31 +19,56 @@
                     <div class="flex-grow ml-6 space-y-3">
                         <h3 class="text-xl font-semibold text-white"><?php echo htmlspecialchars($each['event_name']); ?></h3>
                         <div class="space-y-2">
-                            <p class="text-gray-300 text-sm line-clamp-2"><?php echo htmlspecialchars($each['description']); ?></p>
-                            <div class="flex items-center gap-2 text-gray-400 text-sm">
-                                <i class="fa-solid fa-calendar"></i>
-                                <span><?php echo htmlspecialchars($each['start_date']); ?> - <?php echo htmlspecialchars($each['stop_date']); ?></span>
+                            <p class="text-gray-300 text-sm line-clamp-2">
+                                <i class="fa-solid fa-book"></i> <?php echo htmlspecialchars($each['description']); ?>
+                            </p>
+                            <div class="flex flex-col gap-2 text-gray-400 text-sm">
+                                <div>
+                                    <i class="fa-solid fa-calendar"></i>
+                                    <span>วันที่เริ่มกิจกรรม: <?php echo htmlspecialchars($each['start_date']); ?></span>
+                                </div>
+                                <div>
+                                    <i class="fa-solid fa-calendar"></i>
+                                    <span>วันที่สิ้นสุดกิจกรรม: <?php echo htmlspecialchars($each['stop_date']); ?></span>
+                                </div>
                             </div>
                             <div class="flex items-center gap-2 text-gray-400 text-sm">
                                 <i class="fa-solid fa-users"></i>
-                                <span><?php echo htmlspecialchars($each['amount']); ?> คน</span>
+                                <span><?php echo countApprovedMember($each['event_id']) ?>/<?php echo htmlspecialchars($each['amount']); ?> คน</span>
                             </div>
                         </div>
                     </div>
 
                     <div class="flex flex-col justify-center items-end h-32 md:h-40 ml-4">
-                        <form action="/joinEvent" method="post">
-                            <input type="hidden" name="event_id" value="<?php echo $each['event_id'] ?? '' ?>">
-                            <input type="hidden" name="user_id" value="<?php echo $_SESSION['user']['user_id'] ?? '' ?>">
-                            <button type="submit" class="bg-[#f5f5f7] hover:bg-white text-[#5b3765] px-8 py-2 rounded-lg font-semibold text-sm transition-all transform active:scale-95 shadow-[0_4px_10px_rgba(0,0,0,0.2)]">
-                                Join
+                        <?php if (isset($_SESSION['user'])) { ?>
+                            <form action="/joinEvent" method="post">
+                                <input type="hidden" name="event_id" value="<?php echo $each['event_id'] ?? '' ?>">
+                                <input type="hidden" name="user_id" value="<?php echo $_SESSION['user']['user_id'] ?? '' ?>">
+                                <?php if (countApprovedMember($each['event_id']) < $each['amount']) { ?>
+                                    <?php if (isApproved($_SESSION['user']['user_id'] ?? 0,$each['event_id']) == 'pending') { ?>
+                                        <button disabled type="submit" class="bg-yellow-700 text-white px-8 py-2 rounded-lg font-semibold text-sm transition-all transform active:scale-95 shadow-[0_4px_10px_rgba(0,0,0,0.2)]">
+                                            <i class="fa-solid fa-clock-rotate-left mr-2"></i>ขอลงทะเบียนเเล้ว
+                                        </button>
+                                    <?php } else { ?>
+                                        <button type="submit" class="bg-[#f5f5f7] hover:bg-white text-[#5b3765] px-8 py-2 rounded-lg font-semibold text-sm transition-all transform active:scale-95 shadow-[0_4px_10px_rgba(0,0,0,0.2)]">
+                                            <i class="fa-solid fa-user-plus mr-2"></i>ลงทะเบียน
+                                        </button>
+                                    <?php } ?>
+                                <?php } else { ?>
+                                    <button type="submit" disabled class="bg-red-700 text-white px-8 py-2 rounded-lg font-semibold text-sm transition-all transform active:scale-95 shadow-[0_4px_10px_rgba(0,0,0,0.2)]">
+                                        ผู้เข้าร่วมเต็ม
+                                    </button>
+                                <?php } ?>
+                            </form>
+                        <?php } else { ?>
+                            <button type="submit" onclick="openLogin()" class="bg-[#f5f5f7] hover:bg-white text-[#5b3765] px-8 py-2 rounded-lg font-semibold text-sm transition-all transform active:scale-95 shadow-[0_4px_10px_rgba(0,0,0,0.2)]">
+                                <i class="fa-solid fa-user-plus mr-2"></i>ลงทะเบียน
                             </button>
-                        </form>
+                        <?php } ?>
                     </div>
                 </div>
             <?php } ?>
         </div>
-        </main>
         </div>
 
         <div id="modal-overlay" class="fixed inset-0 z-50 flex items-center justify-center p-4">
@@ -139,4 +164,4 @@
                 </form>
             </div>
         </div>
-        <?php include 'footer.php' ?> 
+        <?php include 'footer.php' ?>

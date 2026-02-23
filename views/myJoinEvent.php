@@ -17,19 +17,27 @@
                     </div>
 
                     <div class="flex-grow ml-6 space-y-3">
-                        <h3 class="text-xl font-semibold text-white"><?php echo htmlspecialchars($each['event_name']); ?></h3>
-                        <div class="space-y-2">
-                            <p class="text-gray-300 text-sm line-clamp-2"><?php echo htmlspecialchars($each['description']); ?></p>
-                            <div class="flex items-center gap-2 text-gray-400 text-sm">
-                                <i class="fa-solid fa-calendar"></i>
-                                <span><?php echo htmlspecialchars($each['start_date']); ?> - <?php echo htmlspecialchars($each['stop_date']); ?></span>
-                            </div>
-                            <div class="flex items-center gap-2 text-gray-400 text-sm">
-                                <i class="fa-solid fa-users"></i>
-                                <span><?php echo htmlspecialchars($each['amount']); ?> คน</span>
-                            </div>
+                <h3 class="text-xl font-semibold text-white"><?php echo htmlspecialchars($each['event_name']); ?></h3>
+                <div class="space-y-2">
+                    <p class="text-gray-300 text-sm line-clamp-2">
+                        <i class="fa-solid fa-book"></i> <?php echo htmlspecialchars($each['description']); ?>
+                    </p>
+                    <div class="flex flex-col gap-2 text-gray-400 text-sm">
+                        <div>
+                            <i class="fa-solid fa-calendar"></i>
+                            <span>วันที่เริ่มกิจกรรม: <?php echo htmlspecialchars($each['start_date']); ?></span>
+                        </div>
+                        <div>
+                            <i class="fa-solid fa-calendar"></i>
+                            <span>วันที่สิ้นสุดกิจกรรม: <?php echo htmlspecialchars($each['stop_date']); ?></span>
                         </div>
                     </div>
+                    <div class="flex items-center gap-2 text-gray-400 text-sm">
+                        <i class="fa-solid fa-users"></i>
+                        <span><?php echo countApprovedMember($each['event_id']) ?>/<?php echo htmlspecialchars($each['amount']); ?> คน</span>
+                    </div>
+                </div>
+            </div>
 
                     <div class="flex flex-col justify-center items-end h-32 md:h-40 ml-4">
                         <form action="/" method="post">

@@ -33,5 +33,15 @@ function checkEmailExists($email) {
     $stmt->execute();
     
     return $stmt->get_result()->num_rows > 0;
-    
+}
+
+function getAge($birthday) {
+    if (!$birthday || $birthday == '0000-00-00') return '-';
+
+    $today = new DateTime();
+    $birthday = new DateTime($birthday);
+
+    $diff = $today->diff($birthday);
+
+    return $diff->y;
 }

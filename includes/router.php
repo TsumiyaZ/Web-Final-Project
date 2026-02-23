@@ -1,6 +1,8 @@
 <?php
 
 const INDEX_HOME = 'home';
+
+const allowedMethods = ['GET', 'POST'];
 function normalizePath(string $path): string {
     $path = strtok($path, '?');
     $path = ltrim($path, '/');
@@ -16,7 +18,7 @@ function getPathSegments(string $path) {
 
 function dispatch(string $method, string $path) {
     $path = getPathSegments($path);
-    if (file_exists($path)) {
+    if (file_exists($path) && in_array($method, allowedMethods)) {
         include $path;
     } else {
         http_response_code(404);

@@ -29,11 +29,11 @@ function getAllYourEventByUserId($user_id) {
     return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
 }
 
-function getEventByEventId($event_id) {
+function getEventByEventId($event_id, $user_id) {
     $conn = getConnection();
-    $sql = 'select * from events where event_id = ?';
+    $sql = 'select * from events where event_id = ? and creator_id = ?';
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param('i', $event_id);
+    $stmt->bind_param('ii', $event_id, $user_id);
     $stmt->execute();
 
     return $stmt->get_result()->fetch_assoc();
@@ -54,4 +54,14 @@ function updateEventByEventId($name_event, $startDate, $stopDate, $description, 
 
     return $stmt->affected_rows > 0;
 
+}
+
+function deleteEvent($event_Id) {
+    $conn = getConnection();
+    $sql = 'delete from events where event_id = ?';
+    $stmt= $conn->prepare($sql);
+    $stmt->bind_param('i', $event_Id);
+    $stmt->execute();
+
+    return $stmt->affected_rows > 0;
 }
