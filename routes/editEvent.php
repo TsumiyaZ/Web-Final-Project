@@ -8,4 +8,4 @@ if (!isset($_SESSION['user'])) {
 $event_id = $_POST['event_id'] ?? '';
 $event = getEventByEventId($event_id);
 
-renderView('/myCreateEvent', ['event' => $event]);
+renderView('/editEvent', ['event' => $event]);

@@ -85,7 +85,7 @@ include 'header.php';
             <button type="submit" class="btn-save px-12 py-2.5 rounded-full font-medium shadow-md hover:brightness-105 transition-all">
                 บันทึก
             </button>
-            <button type="button" onclick="history.back()" class="btn-cancel px-12 py-2.5 rounded-full font-medium shadow-md hover:brightness-105 transition-all">
+            <button type="button" onclick="window.location.href='/myCreateEvent'" class="btn-cancel px-12 py-2.5 rounded-full font-medium shadow-md hover:brightness-105 transition-all">
                 ยกเลิก
             </button>
         </div>
