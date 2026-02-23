@@ -4,34 +4,52 @@ include 'header.php';
 ?>
 
 <style>
-    /* เขียน Style ทับหรือเพิ่มเติมเพื่อให้ตรงกับภาพต้นฉบับ */
     body { 
-        background: linear-gradient(to bottom right, #8e6b91, #c4a1c0) !important;
+        background: #2e2335 !important;
     }
     
     .glass-container {
-        background-color: rgba(255, 255, 255, 0.15);
+        background-color: rgba(139, 106, 150, 0.3);
         backdrop-filter: blur(10px);
         border-radius: 2rem;
         border: 1px solid rgba(255, 255, 255, 0.1);
     }
 
     .custom-field {
-        background-color: #513952;
-        border: none;
-        color: #b5a4b7;
+        background-color: rgba(163, 140, 175, 0.4);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        color: #ffffff;
         border-radius: 1.25rem;
         transition: all 0.2s;
     }
 
     .custom-field:focus {
         outline: none;
-        background-color: #5d425e;
+        background-color: rgba(163, 140, 175, 0.5);
+        border-color: rgba(255, 255, 255, 0.2);
         box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.2);
     }
 
-    .btn-save { background-color: #fcf6d5; color: #4a334b; }
-    .btn-cancel { background-color: #f9d3cf; color: #4a334b; }
+    .btn-save { 
+        background-color: #f5f5f7; 
+        color: #5b3765;
+        border: none;
+    }
+    
+    .btn-save:hover {
+        background-color: #ffffff;
+        transform: scale(1.02);
+    }
+    
+    .btn-cancel { 
+        background-color: #f9d3cf; 
+        color: #4a334b;
+        border: none;
+    }
+    
+    .btn-cancel:hover {
+        transform: scale(1.02);
+    }
 </style>
 
 <main class="max-w-6xl mx-auto glass-container p-6 md:p-10 shadow-2xl mt-6 mb-12">

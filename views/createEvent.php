@@ -2,21 +2,21 @@
 
 <style>
     body { 
-        background: linear-gradient(to bottom right, #8e6b91, #c4a1c0) !important;
+        background: #2e2335 !important;
         min-height: 100vh;
     }
     
     .glass-container {
-        background-color: rgba(255, 255, 255, 0.15);
+        background-color: rgba(139, 106, 150, 0.3);
         backdrop-filter: blur(10px);
         border-radius: 2.5rem;
         border: 1px solid rgba(255, 255, 255, 0.1);
     }
 
     .custom-field {
-        background-color: #513952;
-        border: none;
-        color: #e2d5e2;
+        background-color: rgba(163, 140, 175, 0.4);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        color: #ffffff;
         border-radius: 1.25rem;
         transition: all 0.2s;
         width: 100%;
@@ -25,12 +25,13 @@
 
     .custom-field:focus {
         outline: none;
-        background-color: #5d425e;
+        background-color: rgba(163, 140, 175, 0.5);
+        border-color: rgba(255, 255, 255, 0.2);
         box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.2);
     }
 
     .custom-field::placeholder {
-        color: #a389a4;
+        color: rgba(255, 255, 255, 0.5);
     }
 
     /* สไตล์สำหรับ input file */
@@ -45,8 +46,14 @@
     }
 
     .btn-create { 
-        background-color: #fcf6d5; 
-        color: #4a334b; 
+        background-color: #f5f5f7; 
+        color: #5b3765;
+        border: none;
+    }
+    
+    .btn-create:hover {
+        background-color: #ffffff;
+        transform: scale(1.02);
     }
     
     .label-text {
