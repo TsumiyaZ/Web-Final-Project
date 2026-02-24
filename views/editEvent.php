@@ -80,13 +80,13 @@ include 'header.php';
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div class="space-y-2">
                 <label class="block text-sm font-light ml-2">วันที่จัดกิจกรรม</label>
-                <input type="date" id="startDate" name="startDate" 
+                <input type="datetime-local" id="startDate" name="startDate" 
                        value="<?= htmlspecialchars($data['event']['start_date'] ?? '') ?>" 
                        class="w-full px-6 py-3 custom-field">
             </div>
             <div class="space-y-2">
                 <label class="block text-sm font-light ml-2">วันที่สิ้นสุดกิจกรรม</label>
-                <input type="date" id="stopDate" name="stopDate" 
+                <input type="datetime-local" id="stopDate" name="stopDate" 
                        value="<?= htmlspecialchars($data['event']['stop_date'] ?? '') ?>" 
                        class="w-full px-6 py-3 custom-field">
             </div>

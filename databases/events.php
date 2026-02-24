@@ -39,6 +39,16 @@ function getEventByEventId($event_id, $user_id) {
     return $stmt->get_result()->fetch_assoc();
 }
 
+function getEventByEventIdForDetail($event_id) {
+    $conn = getConnection();
+    $sql = 'select * from events where event_id = ?';
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param('i', $event_id);
+    $stmt->execute();
+
+    return $stmt->get_result()->fetch_assoc();
+}
+
 function updateEventByEventId($name_event, $startDate, $stopDate, $description, $amount, $event_id) {
     $conn = getConnection();
     $sql = 'update events 

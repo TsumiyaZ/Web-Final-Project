@@ -87,11 +87,11 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
                     <label class="label-text">วันที่เริ่มกิจกรรม</label>
-                    <input type="date" name="startDate" id="startDate" class="custom-field" required>
+                    <input type="datetime-local" name="startDate" id="startDate" class="custom-field" required>
                 </div>
                 <div>
                     <label class="label-text">วันที่สิ้นสุดกิจกรรม</label>
-                    <input type="date" name="stopDate" id="stopDate" class="custom-field" required>
+                    <input type="datetime-local" name="stopDate" id="stopDate" class="custom-field" required>
                 </div>
             </div>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
