@@ -89,4 +89,33 @@
             <?php } ?>
         </div>
         </main>
+
+        <!-- OTP Modal Overlay -->
+        <?php if ($_SESSION['showOtpModal'] && $_SESSION['generatedOtp']): ?>
+        <div id="otpModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm">
+            <div class="bg-gradient-to-br from-[#7c5176] to-[#4a304d] rounded-2xl p-8 max-w-md w-full shadow-2xl border border-white/20">
+                <div class="text-center mb-6">
+                    <div class="w-16 h-16 bg-white/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fa-solid fa-shield-halved text-3xl text-[#fff9c4]"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-white mb-2">รหัส OTP ของคุณ</h3>
+                    <p class="text-gray-300 text-sm">รหัสนี้จะหมดอายุใน 30 นาที</p>
+                </div>
+                
+                <div class="bg-[#2e2335] rounded-xl p-6 mb-6 text-center">
+                    <span class="text-4xl font-mono font-bold text-[#fff9c4] tracking-[0.5em]">
+                        <?php echo htmlspecialchars($_SESSION['generatedOtp']); ?>
+                    </span>
+                </div>
+                
+                <div class="text-center">
+                    <button onclick="window.location.href='/myJoinEvent?closeModal=1'" 
+                            class="bg-white/10 hover:bg-white/20 text-white px-8 py-3 rounded-xl font-semibold transition-all">
+                        ปิด
+                    </button>
+                </div>
+            </div>
+        </div>
+        <?php endif; ?>
+
         <?php include 'footer.php' ?>

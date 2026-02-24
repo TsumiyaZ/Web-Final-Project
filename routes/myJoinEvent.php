@@ -5,6 +5,11 @@ if (!isset($_SESSION['user'])) {
     exit();
 }
 
+if (isset($_GET['closeModal'])) {
+    unset($_SESSION['showOtpModal']);
+    unset($_SESSION['generatedOtp']);
+}
+
 $keyword = '';
 $allEvent = [];
 $startDate = '';

@@ -6,6 +6,7 @@ $approvedMember = $data['approvedMember'] ?? [];
 $rejectedMember = $data['rejectedMember'] ?? [];
 $pendingMember = $data['pendingMember'] ?? [];
 $allMember = $data['allMember'] ?? [];
+$isUsed_1_Member = $data['isUsed_1_Member'] ?? [];
 ?>
 
 <style>
@@ -267,7 +268,8 @@ $allMember = $data['allMember'] ?? [];
                         <?php } else { ?>
                             <?php foreach ($approvedMember as $member) { ?>
                                 <?php $join_id = getJoinIdByEventId($event['event_id'], $member['user_id']) ?>
-                                <?php if (getIsUsedByJoinId($join_id['join_id'])['is_used'] == 0) { ?>
+                                <?php $isUsed = getIsUsedByJoinId($join_id['join_id']) ?>
+                                <?php if ($isUsed['is_used'] == 0) { ?>
                                     <div class="participant-item opacity-75">
                                         <div class="flex items-center justify-between">
                                             <div class="flex items-center">
@@ -344,43 +346,37 @@ $allMember = $data['allMember'] ?? [];
                 <div class="bg-[#8b6a96]/20 border border-white/10 rounded-xl p-4">
                     <h4 class="text-white font-medium mb-3 flex items-center">
                         <i class="fa-solid fa-check-circle text-green-400 mr-2"></i>
-                        อนุมัติแล้ว
+                        เข้าร่วมงานเเล้ว
                     </h4>
                     <div class="space-y-3 max-h-60 overflow-y-auto custom-scrollbar pr-2">
-                        <?php if (empty($approvedMember)) { ?>
+                        <?php if (empty($isUsed_1_Member)) { ?>
                             <div class="text-gray-400 text-center py-4">
                                 <i class="fa-solid fa-users text-gray-500 mr-2"></i>
                                 ยังไม่มีผู้เข้าร่วมงาน
                             </div>
                         <?php } else { ?>
-                            <?php foreach ($approvedMember as $member) { ?>
+                            <?php foreach ($isUsed_1_Member as $member) { ?>
                                 <?php $join_id = getJoinIdByEventId($event['event_id'], $member['user_id']) ?>
-                                <?php if (getIsUsedByJoinId($join_id['join_id'])['is_used'] == 1) { ?>
-                                    <div class="participant-item opacity-75">
-                                        <div class="flex items-center justify-between">
-                                            <div class="flex items-center">
-                                                <div class="w-10 h-10 bg-gradient-to-br from-green-500 to-emerald-500 rounded-full flex items-center justify-center text-white font-semibold mr-3">
-                                                    <i class="fa-solid fa-check text-sm"></i>
-                                                </div>
-                                                <div>
-                                                    <p class="text-white font-medium"><?= htmlspecialchars($member['name']) ?></p>
-                                                    <p class="text-gray-400 text-sm"><?= htmlspecialchars($member['email']) ?></p>
-                                                    <p class="text-gray-400 text-sm">อายุ: <?= getAge($member['birthday']) ?> ปี</p>
-                                                </div>
+                                <?php $isUsed = getIsUsedByJoinId($join_id['join_id']) ?>
+                                <div class="participant-item opacity-75">
+                                    <div class="flex items-center justify-between">
+                                        <div class="flex items-center">
+                                            <div class="w-10 h-10 bg-gradient-to-br from-green-500 to-emerald-500 rounded-full flex items-center justify-center text-white font-semibold mr-3">
+                                                <i class="fa-solid fa-check text-sm"></i>
                                             </div>
-                                            <div class="text-right">
-                                                <span class="text-green-400 text-sm font-medium">
-                                                    <i class="fa-solid fa-check-circle mr-1"></i>เข้างานเเล้ว
-                                                </span>
+                                            <div>
+                                                <p class="text-white font-medium"><?= htmlspecialchars($member['name']) ?></p>
+                                                <p class="text-gray-400 text-sm"><?= htmlspecialchars($member['email']) ?></p>
+                                                <p class="text-gray-400 text-sm">อายุ: <?= getAge($member['birthday']) ?> ปี</p>
                                             </div>
                                         </div>
+                                        <div class="text-right">
+                                            <span class="text-green-400 text-sm font-medium">
+                                                <i class="fa-solid fa-check-circle mr-1"></i>เข้างานเเล้ว
+                                            </span>
+                                        </div>
                                     </div>
-                                <?php } else { ?>
-                                    <div class="text-gray-400 text-center py-4">
-                                        <i class="fa-solid fa-users text-gray-500 mr-2"></i>
-                                        ยังไม่มีผู้เข้าร่วมงาน
-                                    </div>
-                                <?php } ?>
+                                </div>
                             <?php } ?>
                         <?php } ?>
                     </div>

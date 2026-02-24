@@ -8,6 +8,8 @@ if (!isset($_SESSION['user'])) {
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $join_id = $_POST['join_id'];
     $otp = generateAndSaveOtp($join_id);
+    $_SESSION['showOtpModal'] = true;
+    $_SESSION['generatedOtp'] = $otp;
     header('Location: /myJoinEvent');
     exit();
 } else {

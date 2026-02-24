@@ -73,7 +73,8 @@ function getAllApprovedByEventId($eventId)
     $sql = 'SELECT users.*, event_join.status 
             FROM users 
             JOIN event_join ON users.user_id = event_join.user_id
-            WHERE event_join.event_id = ? AND event_join.status = "approved"';
+            LEFT JOIN otp ON event_join.join_id = otp.join_id AND otp.is_used = 1
+            WHERE event_join.event_id = ? AND event_join.status = "approved" AND otp.join_id IS NULL';
     $stmt = $conn->prepare($sql);
     $stmt->bind_param('i', $eventId);
     $stmt->execute();
@@ -176,7 +177,7 @@ function countAllMemberByEventId($eventId)
 
 function countAllCheckInMember($event_id) {
     $conn = getConnection();
-    $sql = 'select count(*) as total from event_join join otp on event_join.join_id = otp.join_id where event_join.event_id = ?';
+    $sql = 'select count(*) as total from event_join join otp on event_join.join_id = otp.join_id where event_join.event_id = ? and otp.is_used = 1';
     $stmt = $conn->prepare($sql);
     $stmt->bind_param('i', $event_id);
     $stmt->execute();
@@ -253,9 +254,30 @@ function getJoinIdByEventId($event_id, $user_id) {
 
 function getIsUsedByJoinId($join_id) {
     $conn = getConnection();
-    $sql = 'select is_used from otp where join_id = ?';
+    $sql = 'select * from otp where join_id = ?';
     $stmt = $conn->prepare($sql);
     $stmt->bind_param('i', $join_id);
     $stmt->execute();
     return $stmt->get_result()->fetch_assoc();
+}
+
+function checkExpireAt($expire_at) {
+    $conn = getConnection();
+    $sql = 'select * from otp where expire_at < ?';
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param('s', $expire_at);
+    $stmt->execute();
+    return $stmt->get_result()->fetch_assoc();
+}
+
+function getAllIs_used_1_ByEventId($eventId){
+    $conn = getConnection();
+    $sql = 'select users.* from users 
+            join event_join on users.user_id = event_join.user_id
+            join otp on event_join.join_id = otp.join_id
+            where event_join.event_id = ? and otp.is_used = 1';
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param('i', $eventId);
+    $stmt->execute();
+    return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
 }
