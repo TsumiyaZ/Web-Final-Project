@@ -135,24 +135,25 @@
                 <div>
                     <div class="event-image-container">
                         <?php if (!empty($allImg)): ?>
-                            <?php $firstImg = true; ?>
+                            <?php $firstImg = true; 
+                                $count = 0; ?>
                             <?php foreach($allImg as $img) { ?>
                                 <?php if ($firstImg == true) { ?>
                                     <img src="<?= htmlspecialchars($img['img_path']) ?>" id="event-image-1" class="w-full ">
                                     <?php $firstImg = false; ?>
                                 <?php } else { ?>
-                                    <img src="<?= htmlspecialchars($img['img_path']) ?>" id="event-image-1" class="w-full hidden">
+                                    <img src="<?= htmlspecialchars($img['img_path']) ?>" id="event-image-<?= $count ?>" class="w-full hidden">
                                 <?php } ?>
+                                <?php $count++; ?>
                             <?php } ?>
                         <?php else: ?>
                             <i class="fa-regular fa-image text-6xl text-white/20"></i>
                         <?php endif; ?>
                     </div>
                     <div class="image-dots">
-                        <div class="dot active"></div>
-                        <div class="dot"></div>
-                        <div class="dot"></div>
-                        <div class="dot"></div>
+                        <?php for ($i = 0; $i < $count; $i++) { ?>
+                            <div class="dot <?= $i == 0 ? 'active' : '' ?>"></div>
+                        <?php } ?>
                     </div>
                 </div>
 

@@ -1,63 +1,85 @@
 <?php
 include 'header.php';
 
-$allYourEvent = getAllYourEventByUserId((int)$_SESSION['user']['user_id']);
 ?>
 
-<button onclick="window.location.href='/createEvent'" class="bg-[#4d4d4d] hover:bg-[#5d5d5d] text-gray-300 px-4 py-1.5 rounded-full text-sm transition-colors mb-4">สร้างกิจกรรมใหม่</button>
+
 <div class="space-y-4 p-10 rounded-2xl bg-[#2e2335] h-[800px] overflow-y-auto custom-scrollbar">
-    <?php foreach ($allYourEvent as $allEvent) { ?>
-        <?php $firstImg = getFirstImgByEventId($allEvent['event_id']); ?>
-        <div class="flex items-center bg-[#8b6a96]/30 p-6 rounded-2xl border border-white/10 shadow-2xl hover:bg-[#8b6a96]/40 transition-all duration-300">
-            <div class="flex-shrink-0 w-32 h-32 md:w-40 md:h-40 bg-[#a38caf]/40 rounded-xl overflow-hidden shadow-inner">
-                <div class="w-full h-full flex items-center justify-center text-white/50">
-                    <?php if ($firstImg): ?>
-                        <img src="<?php echo $firstImg['img_path'] ?>" alt="Event Image" class="w-full h-full object-cover">
-                    <?php else: ?>
-                        <i class="fa-solid fa-image text-4xl"></i>
-                    <?php endif; ?>
-                </div>
-            </div>
-
-            <div class="flex-grow ml-6 space-y-3">
-                <h3 class="text-xl font-semibold text-white"><?php echo htmlspecialchars($allEvent['event_name']); ?></h3>
-                <div class="space-y-2">
-                    <p class="text-gray-300 text-sm line-clamp-2">
-                        <i class="fa-solid fa-book"></i> <?php echo htmlspecialchars($allEvent['description']); ?>
-                    </p>
-                    <div class="flex flex-col gap-2 text-gray-400 text-sm">
-                        <div>
-                            <i class="fa-solid fa-calendar"></i>
-                            <span>วันที่เริ่มกิจกรรม: <?php echo htmlspecialchars($allEvent['start_date']); ?></span>
+    <div class="flex justify-between">
+        <div class="flex gap-2 items-center">
+                <form action="/myCreateEvent" method="get">
+                    <div class="flex">
+                        <div class="relative">
+                            <input type="text" name="search" placeholder="ค้นหากิจกรรม" value="<?php echo htmlspecialchars($data['keyword'] ?? ''); ?>" class="bg-[#4d4d4d] text-gray-300 pl-4 pr-10 py-1.5 rounded-full text-sm focus:outline-none w-64">
                         </div>
                         <div>
-                            <i class="fa-solid fa-calendar"></i>
-                            <span>วันที่สิ้นสุดกิจกรรม: <?php echo htmlspecialchars($allEvent['stop_date']); ?></span>
+                            <span class="ml-2">วันที่เริ่ม </span><input type="date" value="<?php echo htmlspecialchars($data['start_date'] ?? ''); ?>" name="start_date" class="bg-[#4d4d4d] text-gray-300 pl-4 pr-10 py-1.5 rounded-full text-sm focus:outline-none w-64"> -
+                            <span>จนถึงวัน </span><input type="date" value="<?php echo htmlspecialchars($data['stop_date'] ?? ''); ?>" name="stop_date" class="bg-[#4d4d4d] text-gray-300 pl-4 pr-10 py-1.5 rounded-full text-sm focus:outline-none w-64">
+                            <button type="submit" class="bg-[#4d4d4d] hover:bg-white text-white px-8 py-2 rounded-lg font-semibold text-sm transition-all transform active:scale-95 shadow-[0_4px_10px_rgba(0,0,0,0.2)]">
+                                ค้นหาวัน
+                            </button>
                         </div>
                     </div>
-                    <div class="flex items-center gap-2 text-gray-400 text-sm">
-                        <i class="fa-solid fa-users"></i>
-                        <span><?php echo countApprovedMember($allEvent['event_id']) ?>/<?php echo htmlspecialchars($allEvent['amount']); ?> คน</span>
+                </form>
+            </div>
+        <button onclick="window.location.href='/createEvent'" class="bg-[#4d4d4d] hover:bg-[#5d5d5d] text-gray-300 px-4 py-1.5 rounded-full text-sm transition-colors mb-4">สร้างกิจกรรมใหม่</button>
+    </div>
+    <?php if (!empty($data['allEvent'])) { ?>
+        <?php foreach ($data['allEvent'] as $allEvent) { ?>
+            <?php $firstImg = getFirstImgByEventId($allEvent['event_id']); ?>
+            <div class="flex items-center bg-[#8b6a96]/30 p-6 rounded-2xl border border-white/10 shadow-2xl hover:bg-[#8b6a96]/40 transition-all duration-300">
+                <div class="flex-shrink-0 w-32 h-32 md:w-40 md:h-40 bg-[#a38caf]/40 rounded-xl overflow-hidden shadow-inner">
+                    <div class="w-full h-full flex items-center justify-center text-white/50">
+                        <?php if ($firstImg): ?>
+                            <img src="<?php echo $firstImg['img_path'] ?>" alt="Event Image" class="w-full h-full object-cover">
+                        <?php else: ?>
+                            <i class="fa-solid fa-image text-4xl"></i>
+                        <?php endif; ?>
                     </div>
                 </div>
-            </div>
 
-            <div class="flex flex-col justify-center items-end h-32 md:h-40 ml-4">
-                <form action="/editEvent" method="POST" style="display: inline;">
-                    <input type="hidden" name="event_id" value="<?= $allEvent['event_id'] ?>">
-                    <button type="submit" class="bg-[#f5f5f7] hover:bg-white text-[#5b3765] px-[37px] py-2 rounded-lg font-semibold text-sm transition-all transform active:scale-95 shadow-[0_4px_10px_rgba(0,0,0,0.2)]">
-                        แก้ไขกิจกรรม
-                    </button>
-                </form>
-                <form action="/manageEvent" method="POST" style="display: inline;">
-                    <input type="hidden" name="event_id" value="<?= $allEvent['event_id'] ?>">
-                    <input type="hidden" name="user_id" value="<?= $_SESSION['user']['user_id'] ?>">
-                    <button type="submit" class="bg-[#f5f5f7] hover:bg-white text-[#5b3765] mt-2 px-8 py-2 rounded-lg font-semibold text-sm transition-all transform active:scale-95 shadow-[0_4px_10px_rgba(0,0,0,0.2)]">
-                        จัดการกิจกรรม
-                    </button>
-                </form>
+                <div class="flex-grow ml-6 space-y-3">
+                    <h3 class="text-xl font-semibold text-white"><?php echo htmlspecialchars($allEvent['event_name']); ?></h3>
+                    <div class="space-y-2">
+                        <p class="text-gray-300 text-sm line-clamp-2">
+                            <i class="fa-solid fa-book"></i> <?php echo htmlspecialchars($allEvent['description']); ?>
+                        </p>
+                        <div class="flex flex-col gap-2 text-gray-400 text-sm">
+                            <div>
+                                <i class="fa-solid fa-calendar"></i>
+                                <span>วันที่เริ่มกิจกรรม: <?php echo htmlspecialchars($allEvent['start_date']); ?></span>
+                            </div>
+                            <div>
+                                <i class="fa-solid fa-calendar"></i>
+                                <span>วันที่สิ้นสุดกิจกรรม: <?php echo htmlspecialchars($allEvent['stop_date']); ?></span>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-2 text-gray-400 text-sm">
+                            <i class="fa-solid fa-users"></i>
+                            <span><?php echo countApprovedMember($allEvent['event_id']) ?>/<?php echo htmlspecialchars($allEvent['amount']); ?> คน</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex flex-col justify-center items-end h-32 md:h-40 ml-4">
+                    <form action="/editEvent" method="POST" style="display: inline;">
+                        <input type="hidden" name="event_id" value="<?= $allEvent['event_id'] ?>">
+                        <button type="submit" class="bg-[#f5f5f7] hover:bg-white text-[#5b3765] px-[37px] py-2 rounded-lg font-semibold text-sm transition-all transform active:scale-95 shadow-[0_4px_10px_rgba(0,0,0,0.2)]">
+                            แก้ไขกิจกรรม
+                        </button>
+                    </form>
+                    <form action="/manageEvent" method="POST" style="display: inline;">
+                        <input type="hidden" name="event_id" value="<?= $allEvent['event_id'] ?>">
+                        <input type="hidden" name="user_id" value="<?= $_SESSION['user']['user_id'] ?>">
+                        <button type="submit" class="bg-[#f5f5f7] hover:bg-white text-[#5b3765] mt-2 px-8 py-2 rounded-lg font-semibold text-sm transition-all transform active:scale-95 shadow-[0_4px_10px_rgba(0,0,0,0.2)]">
+                            จัดการกิจกรรม
+                        </button>
+                    </form>
+                </div>
             </div>
-        </div>
+        <?php } ?>
+    <?php } else { ?>
+        <p class="text-gray-300 text-sm">ไม่พบกิจกรรมที่ค้นหา</p>
     <?php } ?>
 </div>
 <div>

@@ -35,7 +35,8 @@ function getAllJoinMember($event_id)
     return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
 }
 
-function approveMember($eventId, $userId) {
+function approveMember($eventId, $userId)
+{
     $conn = getConnection();
     $now = new DateTime();
     $approved_date = $now->format('Y-m-d H:i:s');
@@ -51,7 +52,8 @@ function approveMember($eventId, $userId) {
     return $result;
 }
 
-function rejectMember($eventId, $userId) {
+function rejectMember($eventId, $userId)
+{
     $conn = getConnection();
     $sql = 'update event_join
             set status = "rejected"
@@ -65,7 +67,8 @@ function rejectMember($eventId, $userId) {
     return $result;
 }
 
-function getAllApprovedByEventId($eventId) {
+function getAllApprovedByEventId($eventId)
+{
     $conn = getConnection();
     $sql = 'SELECT users.*, event_join.status 
             FROM users 
@@ -74,17 +77,18 @@ function getAllApprovedByEventId($eventId) {
     $stmt = $conn->prepare($sql);
     $stmt->bind_param('i', $eventId);
     $stmt->execute();
-    
+
     $result = $stmt->get_result();
-    
+
     $data = $result->fetch_all(MYSQLI_ASSOC);
-    
+
     $stmt->close();
 
     return $data ? $data : [];
 }
 
-function getAllRejectedByEventId($eventId) {
+function getAllRejectedByEventId($eventId)
+{
     $conn = getConnection();
     $sql = 'SELECT users.*, event_join.status 
             FROM users 
@@ -93,17 +97,18 @@ function getAllRejectedByEventId($eventId) {
     $stmt = $conn->prepare($sql);
     $stmt->bind_param('i', $eventId);
     $stmt->execute();
-    
+
     $result = $stmt->get_result();
-    
+
     $data = $result->fetch_all(MYSQLI_ASSOC);
-    
+
     $stmt->close();
 
     return $data ? $data : [];
 }
 
-function getAllPendingByEventId($eventId) {
+function getAllPendingByEventId($eventId)
+{
     $conn = getConnection();
     $sql = 'SELECT users.*, event_join.status 
             FROM users 
@@ -112,17 +117,18 @@ function getAllPendingByEventId($eventId) {
     $stmt = $conn->prepare($sql);
     $stmt->bind_param('i', $eventId);
     $stmt->execute();
-    
+
     $result = $stmt->get_result();
-    
+
     $data = $result->fetch_all(MYSQLI_ASSOC);
-    
+
     $stmt->close();
 
     return $data ? $data : [];
 }
 
-function countApprovedMember($eventId) {
+function countApprovedMember($eventId)
+{
     $conn = getConnection();
     $sql = 'select count(*) as total from event_join where event_id = ? and status = "approved"';
     $stmt = $conn->prepare($sql);
@@ -134,7 +140,8 @@ function countApprovedMember($eventId) {
     return $result['total'] ?? 0;
 }
 
-function countRejectedMember($eventId) {
+function countRejectedMember($eventId)
+{
     $conn = getConnection();
     $sql = 'select count(*) as total from event_join where event_id = ? and status = "rejected"';
     $stmt = $conn->prepare($sql);
@@ -146,7 +153,8 @@ function countRejectedMember($eventId) {
     return $result['total'] ?? 0;
 }
 
-function countPendingMember($eventId) {
+function countPendingMember($eventId)
+{
     $conn = getConnection();
     $sql = 'select count(*) as total from event_join where event_id = ? and status = "pending"';
     $stmt = $conn->prepare($sql);
@@ -158,14 +166,25 @@ function countPendingMember($eventId) {
     return $result['total'] ?? 0;
 }
 
-function countAllMemberByEventId($eventId) {
+function countAllMemberByEventId($eventId)
+{
     $pending = countPendingMember($eventId);
     $approved = countApprovedMember($eventId);
     $rejected = countRejectedMember($eventId);
     return $pending + $approved + $rejected;
 }
 
-function isApproved($user_id, $event_id) {
+function countAllCheckInMember($event_id) {
+    $conn = getConnection();
+    $sql = 'select count(*) as total from event_join join otp on event_join.join_id = otp.join_id where event_join.event_id = ?';
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param('i', $event_id);
+    $stmt->execute();
+    return $stmt->get_result()->fetch_assoc()['total'] ?? 0;
+}
+
+function isApproved($user_id, $event_id)
+{
     $conn = getConnection();
     $sql = 'select status from event_join where user_id = ? and event_id = ?';
     $stmt = $conn->prepare($sql);
@@ -176,4 +195,67 @@ function isApproved($user_id, $event_id) {
     $stmt->close();
 
     return $result['status'] ?? 'null';
+}
+
+function searchAllMyJoinEvent($user_id, $keyword, $startDate, $stopDate)
+{
+    $conn = getConnection();
+    $sql = '';
+
+    if ($keyword != '' && $startDate != '' && $stopDate != '') {
+        $sql = 'SELECT events.* FROM events 
+        JOIN event_join ON events.event_id = event_join.event_id
+        WHERE event_join.user_id = ? and events.event_name like ? and events.start_date BETWEEN ? and ?';
+        $stmt = $conn->prepare($sql);
+        $keyword = "%$keyword%";
+        $stmt->bind_param('ssss', $user_id, $keyword, $startDate, $stopDate);
+    } else if ($startDate != '' && $stopDate != '') {
+        $sql = 'SELECT events.* FROM events 
+        JOIN event_join ON events.event_id = event_join.event_id
+        WHERE event_join.user_id = ? and events.start_date BETWEEN ? and ?';
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param('sss', $user_id, $startDate, $stopDate);
+    } else if ($startDate != '') {
+        $sql = 'SELECT events.* FROM events 
+        JOIN event_join ON events.event_id = event_join.event_id
+        WHERE event_join.user_id = ? and events.start_date >= ?';
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param('ss', $user_id, $startDate);
+    } else if ($stopDate != '') {
+        $sql = 'SELECT events.* FROM events 
+        JOIN event_join ON events.event_id = event_join.event_id
+        WHERE event_join.user_id = ? and events.start_date <= ?';
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param('ss', $user_id, $stopDate);
+    } else {
+        $sql = 'SELECT events.* FROM events 
+        JOIN event_join ON events.event_id = event_join.event_id
+        WHERE event_join.user_id = ? and events.event_name like ?';
+        $stmt = $conn->prepare($sql);
+        $keyword = "%$keyword%";
+        $stmt->bind_param('ss', $user_id, $keyword);
+    }
+
+    $stmt->execute();
+    return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+}
+
+function getJoinIdByEventId($event_id, $user_id) {
+    $conn = getConnection();
+    $sql = 'SELECT * FROM event_join WHERE user_id = ? AND event_id = ?';
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param('ii', $user_id, $event_id);
+    $stmt->execute();
+    $result = $stmt->get_result()->fetch_assoc();
+    $stmt->close();
+    return $result;
+}
+
+function getIsUsedByJoinId($join_id) {
+    $conn = getConnection();
+    $sql = 'select is_used from otp where join_id = ?';
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param('i', $join_id);
+    $stmt->execute();
+    return $stmt->get_result()->fetch_assoc();
 }

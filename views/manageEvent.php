@@ -147,7 +147,7 @@ $allMember = $data['allMember'] ?? [];
         <!-- Statistics Section -->
         <div class="mb-8">
             <h3 class="text-lg font-semibold text-white mb-4">สถิติกิจกรรม</h3>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
                 <div class="stat-card">
                     <div class="text-3xl font-bold text-white mb-2">
                         <i class="fa-solid fa-users text-blue-400"></i>
@@ -168,6 +168,13 @@ $allMember = $data['allMember'] ?? [];
                         <span id="totalCount"><?= countPendingMember($event['event_id']) ?></span>
                     </div>
                     <p class="text-gray-300 text-sm">จำนวนผู้รออนุมัติ</p>
+                </div>
+                <div class="stat-card">
+                    <div class="text-3xl font-bold text-white mb-2">
+                        <i class="fa-solid fa-right-to-bracket text-green-600"></i>
+                        <span id="totalCount"><?= countAllCheckInMember($event['event_id']) ?></span>
+                    </div>
+                    <p class="text-gray-300 text-sm">เข้างานเเล้ว</p>
                 </div>
             </div>
         </div>
@@ -259,25 +266,33 @@ $allMember = $data['allMember'] ?? [];
                             </div>
                         <?php } else { ?>
                             <?php foreach ($approvedMember as $member) { ?>
-                                <div class="participant-item opacity-75">
-                                    <div class="flex items-center justify-between">
-                                        <div class="flex items-center">
-                                            <div class="w-10 h-10 bg-gradient-to-br from-green-500 to-emerald-500 rounded-full flex items-center justify-center text-white font-semibold mr-3">
-                                                <i class="fa-solid fa-check text-sm"></i>
+                                <?php $join_id = getJoinIdByEventId($event['event_id'], $member['user_id']) ?>
+                                <?php if (getIsUsedByJoinId($join_id['join_id'])['is_used'] == 0) { ?>
+                                    <div class="participant-item opacity-75">
+                                        <div class="flex items-center justify-between">
+                                            <div class="flex items-center">
+                                                <div class="w-10 h-10 bg-gradient-to-br from-green-500 to-emerald-500 rounded-full flex items-center justify-center text-white font-semibold mr-3">
+                                                    <i class="fa-solid fa-check text-sm"></i>
+                                                </div>
+                                                <div>
+                                                    <p class="text-white font-medium"><?= htmlspecialchars($member['name']) ?></p>
+                                                    <p class="text-gray-400 text-sm"><?= htmlspecialchars($member['email']) ?></p>
+                                                    <p class="text-gray-400 text-sm">อายุ: <?= getAge($member['birthday']) ?> ปี</p>
+                                                </div>
                                             </div>
-                                            <div>
-                                                <p class="text-white font-medium"><?= htmlspecialchars($member['name']) ?></p>
-                                                <p class="text-gray-400 text-sm"><?= htmlspecialchars($member['email']) ?></p>
-                                                <p class="text-gray-400 text-sm">อายุ: <?= getAge($member['birthday']) ?> ปี</p>
+                                            <div class="text-right">
+                                                <span class="text-green-400 text-sm font-medium">
+                                                    <i class="fa-solid fa-check-circle mr-1"></i>อนุมัติแล้ว
+                                                </span>
                                             </div>
-                                        </div>
-                                        <div class="text-right">
-                                            <span class="text-green-400 text-sm font-medium">
-                                                <i class="fa-solid fa-check-circle mr-1"></i>อนุมัติแล้ว
-                                            </span>
                                         </div>
                                     </div>
-                                </div>
+                                <?php } else { ?>
+                                    <div class="text-gray-400 text-center py-4">
+                                        <i class="fa-solid fa-users text-gray-500 mr-2"></i>
+                                        ยังไม่มีผู้ใช้ที่ได้รับการอนุมัติ
+                                    </div>
+                                <?php } ?>
                             <?php } ?>
                         <?php } ?>
                     </div>
@@ -285,7 +300,7 @@ $allMember = $data['allMember'] ?? [];
             </div>
 
             <!-- Rejected Members -->
-            <div>
+            <div class="mb-6">
                 <div class="bg-[#8b6a96]/20 border border-white/10 rounded-xl p-4">
                     <h4 class="text-white font-medium mb-3 flex items-center">
                         <i class="fa-solid fa-times-circle text-red-400 mr-2"></i>
@@ -323,6 +338,55 @@ $allMember = $data['allMember'] ?? [];
                     </div>
                 </div>
             </div>
+
+            <!-- check in Members -->
+            <div class="mb-6">
+                <div class="bg-[#8b6a96]/20 border border-white/10 rounded-xl p-4">
+                    <h4 class="text-white font-medium mb-3 flex items-center">
+                        <i class="fa-solid fa-check-circle text-green-400 mr-2"></i>
+                        อนุมัติแล้ว
+                    </h4>
+                    <div class="space-y-3 max-h-60 overflow-y-auto custom-scrollbar pr-2">
+                        <?php if (empty($approvedMember)) { ?>
+                            <div class="text-gray-400 text-center py-4">
+                                <i class="fa-solid fa-users text-gray-500 mr-2"></i>
+                                ยังไม่มีผู้เข้าร่วมงาน
+                            </div>
+                        <?php } else { ?>
+                            <?php foreach ($approvedMember as $member) { ?>
+                                <?php $join_id = getJoinIdByEventId($event['event_id'], $member['user_id']) ?>
+                                <?php if (getIsUsedByJoinId($join_id['join_id'])['is_used'] == 1) { ?>
+                                    <div class="participant-item opacity-75">
+                                        <div class="flex items-center justify-between">
+                                            <div class="flex items-center">
+                                                <div class="w-10 h-10 bg-gradient-to-br from-green-500 to-emerald-500 rounded-full flex items-center justify-center text-white font-semibold mr-3">
+                                                    <i class="fa-solid fa-check text-sm"></i>
+                                                </div>
+                                                <div>
+                                                    <p class="text-white font-medium"><?= htmlspecialchars($member['name']) ?></p>
+                                                    <p class="text-gray-400 text-sm"><?= htmlspecialchars($member['email']) ?></p>
+                                                    <p class="text-gray-400 text-sm">อายุ: <?= getAge($member['birthday']) ?> ปี</p>
+                                                </div>
+                                            </div>
+                                            <div class="text-right">
+                                                <span class="text-green-400 text-sm font-medium">
+                                                    <i class="fa-solid fa-check-circle mr-1"></i>เข้างานเเล้ว
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                <?php } else { ?>
+                                    <div class="text-gray-400 text-center py-4">
+                                        <i class="fa-solid fa-users text-gray-500 mr-2"></i>
+                                        ยังไม่มีผู้เข้าร่วมงาน
+                                    </div>
+                                <?php } ?>
+                            <?php } ?>
+                        <?php } ?>
+                    </div>
+                </div>
+            </div>
+
         </div>
 
     <?php else: ?>

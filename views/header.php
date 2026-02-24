@@ -114,12 +114,6 @@
                 </div>
             </div>
             <div class="flex items-center gap-4">
-
-                <div class="relative">
-                    <input type="text" placeholder="ค้นหากิจกรรม" class="bg-[#4d4d4d] text-gray-300 pl-4 pr-10 py-1.5 rounded-full text-sm focus:outline-none w-64">
-                    <i class="fa-solid fa-magnifying-glass absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 text-xs"></i>
-                </div>
-
                 <?php if (isset($_SESSION['user'])): ?>
                     <div class="flex items-center gap-3">
                         <div class="w-8 h-8 bg-[#6b5b7a] rounded-full flex items-center justify-center">
