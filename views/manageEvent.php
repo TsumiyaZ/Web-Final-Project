@@ -7,6 +7,9 @@ $rejectedMember = $data['rejectedMember'] ?? [];
 $pendingMember = $data['pendingMember'] ?? [];
 $allMember = $data['allMember'] ?? [];
 $isUsed_1_Member = $data['isUsed_1_Member'] ?? [];
+$genderStats = $data['genderStats'] ?? ['male' => 0, 'female' => 0, 'other' => 0];
+$ageStats = $data['ageStats'] ?? ['not in' => 0, '18-25' => 0, '26-35' => 0, '36+' => 0];
+
 ?>
 
 <style>
@@ -178,6 +181,79 @@ $isUsed_1_Member = $data['isUsed_1_Member'] ?? [];
                     <p class="text-gray-300 text-sm">เข้างานเเล้ว</p>
                 </div>
             </div>
+
+            <!-- Gender & Age Statistics -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+                <!-- Gender Stats -->
+                <div class="stat-card">
+                    <h4 class="text-white font-semibold mb-4 flex items-center justify-center">
+                        <i class="fa-solid fa-venus-mars mr-2"></i>เพศ
+                    </h4>
+                    <?php $totalGender = $genderStats['male'] + $genderStats['female'] + $genderStats['other']; ?>
+                    <div class="space-y-3">
+                        <div class="flex items-center gap-3">
+                            <span class="text-gray-300 text-sm w-12">ชาย</span>
+                            <div class="flex-1 bg-gray-700/50 rounded-full h-6 overflow-hidden">
+                                <div class="bg-gray-400 h-full rounded-full transition-all duration-500" style="width: <?= $totalGender > 0 ? ($genderStats['male'] / $totalGender * 100) : 0 ?>%"></div>
+                            </div>
+                            <span class="text-white text-sm w-8 text-right"><?= $genderStats['male'] ?></span>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <span class="text-gray-300 text-sm w-12">หญิง</span>
+                            <div class="flex-1 bg-gray-700/50 rounded-full h-6 overflow-hidden">
+                                <div class="bg-gray-400 h-full rounded-full transition-all duration-500" style="width: <?= $totalGender > 0 ? ($genderStats['female'] / $totalGender * 100) : 0 ?>%"></div>
+                            </div>
+                            <span class="text-white text-sm w-8 text-right"><?= $genderStats['female'] ?></span>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <span class="text-gray-300 text-sm w-12">อื่นๆ</span>
+                            <div class="flex-1 bg-gray-700/50 rounded-full h-6 overflow-hidden">
+                                <div class="bg-blue-400 h-full rounded-full transition-all duration-500" style="width: <?= $totalGender > 0 ? ($genderStats['other'] / $totalGender * 100) : 0 ?>%"></div>
+                            </div>
+                            <span class="text-white text-sm w-8 text-right"><?= $genderStats['other'] ?></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Age Stats -->
+                <div class="stat-card">
+                    <h4 class="text-white font-semibold mb-4 flex items-center justify-center">
+                        <i class="fa-solid fa-calendar-days mr-2"></i>ช่วงอายุ
+                    </h4>
+                    <?php $totalAge = $ageStats['18-25'] + $ageStats['26-35'] + $ageStats['36+'] + $ageStats['not in']; ?>
+                    <div class="space-y-3">
+                        <div class="flex items-center gap-3">
+                            <span class="text-gray-300 text-sm w-16">น้อยกว่า 17</span>
+                            <div class="flex-1 bg-gray-700/50 rounded-full h-6 overflow-hidden">
+                                <div class="bg-red-400/80 h-full rounded-full transition-all duration-500" style="width: <?= $totalAge > 0 ? ($ageStats['not in'] / $totalAge * 100) : 0 ?>%"></div>
+                            </div>
+                            <span class="text-white text-sm w-8 text-right"><?= $ageStats['not in'] ?></span>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <span class="text-gray-300 text-sm w-16">18 - 25</span>
+                            <div class="flex-1 bg-gray-700/50 rounded-full h-6 overflow-hidden">
+                                <div class="bg-gray-400 h-full rounded-full transition-all duration-500" style="width: <?= $totalAge > 0 ? ($ageStats['18-25'] / $totalAge * 100) : 0 ?>%"></div>
+                            </div>
+                            <span class="text-white text-sm w-8 text-right"><?= $ageStats['18-25'] ?></span>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <span class="text-gray-300 text-sm w-16">26 - 35</span>
+                            <div class="flex-1 bg-gray-700/50 rounded-full h-6 overflow-hidden">
+                                <div class="bg-gray-400 h-full rounded-full transition-all duration-500" style="width: <?= $totalAge > 0 ? ($ageStats['26-35'] / $totalAge * 100) : 0 ?>%"></div>
+                            </div>
+                            <span class="text-white text-sm w-8 text-right"><?= $ageStats['26-35'] ?></span>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <span class="text-gray-300 text-sm w-16">36+</span>
+                            <div class="flex-1 bg-gray-700/50 rounded-full h-6 overflow-hidden">
+                                <div class="bg-red-400/80 h-full rounded-full transition-all duration-500" style="width: <?= $totalAge > 0 ? ($ageStats['36+'] / $totalAge * 100) : 0 ?>%"></div>
+                            </div>
+                            <span class="text-white text-sm w-8 text-right"><?= $ageStats['36+'] ?></span>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
         </div>
 
         <!-- Action Buttons -->
@@ -201,6 +277,7 @@ $isUsed_1_Member = $data['isUsed_1_Member'] ?? [];
             <div class="flex justify-between items-center">
                 <h3 class="text-lg font-semibold text-white mb-2">รายชื่อผู้เข้าร่วม</h3>
                 <div class="text-right bg-[#8b6a96]/20 border border-white/10 rounded-xl p-2 mb-2 flex justify-center items-center">
+
                     <h3 class="text-white text-sm">ทั้งหมด <span id="totalCount" class="font-bold text-yellow-400"><?= countAllMemberByEventId($event['event_id']) ?></span> คน</h3>
                 </div>
             </div>
@@ -230,6 +307,7 @@ $isUsed_1_Member = $data['isUsed_1_Member'] ?? [];
                                                 <p class="text-white font-medium"><?= htmlspecialchars($member['name']) ?></p>
                                                 <p class="text-gray-400 text-sm"><?= htmlspecialchars($member['email']) ?></p>
                                                 <p class="text-gray-400 text-sm">อายุ: <?= getAge($member['birthday']) ?> ปี</p>
+
                                             </div>
                                         </div>
                                         <div class="text-right">
@@ -268,8 +346,16 @@ $isUsed_1_Member = $data['isUsed_1_Member'] ?? [];
                         <?php } else { ?>
                             <?php foreach ($approvedMember as $member) { ?>
                                 <?php $join_id = getJoinIdByEventId($event['event_id'], $member['user_id']) ?>
-                                <?php $isUsed = getIsUsedByJoinId($join_id['join_id']) ?>
-                                <?php if ($isUsed['is_used'] == 0) { ?>
+                                <?php $isUsed = getIsUsedByJoinId($join_id['join_id']);
+                                if ($member['gender'] === 'male') {
+                                    $gender = 'ชาย';
+                                } else if ($member['gender'] === 'female') {
+                                    $gender = 'หญิง';
+                                } else {
+                                    $gender = 'อื่นๆ';
+                                } 
+                                ?>
+                                <?php if (($isUsed['is_used'] ?? 0) == 0) { ?>
                                     <div class="participant-item opacity-75">
                                         <div class="flex items-center justify-between">
                                             <div class="flex items-center">
@@ -280,9 +366,15 @@ $isUsed_1_Member = $data['isUsed_1_Member'] ?? [];
                                                     <p class="text-white font-medium"><?= htmlspecialchars($member['name']) ?></p>
                                                     <p class="text-gray-400 text-sm"><?= htmlspecialchars($member['email']) ?></p>
                                                     <p class="text-gray-400 text-sm">อายุ: <?= getAge($member['birthday']) ?> ปี</p>
+                                                    <p class="text-gray-400 text-sm">เพศ: <?= htmlspecialchars($gender) ?></p>
                                                 </div>
                                             </div>
                                             <div class="text-right">
+                                                <form action="/verifyOtp" method="post">
+                                                    <input type="hidden" name="event_Id" value="<?= $event['event_id'] ?>">
+                                                    <input type="number" placeholder="otp" name="otp">
+                                                    <input type="submit">
+                                                </form>
                                                 <span class="text-green-400 text-sm font-medium">
                                                     <i class="fa-solid fa-check-circle mr-1"></i>อนุมัติแล้ว
                                                 </span>
@@ -357,7 +449,15 @@ $isUsed_1_Member = $data['isUsed_1_Member'] ?? [];
                         <?php } else { ?>
                             <?php foreach ($isUsed_1_Member as $member) { ?>
                                 <?php $join_id = getJoinIdByEventId($event['event_id'], $member['user_id']) ?>
-                                <?php $isUsed = getIsUsedByJoinId($join_id['join_id']) ?>
+                                <?php $isUsed = getIsUsedByJoinId($join_id['join_id']);
+                                if ($member['gender'] === 'male') {
+                                    $gender = 'ชาย';
+                                } else if ($member['gender'] === 'female') {
+                                    $gender = 'หญิง';
+                                } else {
+                                    $gender = 'อื่นๆ';
+                                }
+                                ?>
                                 <div class="participant-item opacity-75">
                                     <div class="flex items-center justify-between">
                                         <div class="flex items-center">
@@ -367,7 +467,8 @@ $isUsed_1_Member = $data['isUsed_1_Member'] ?? [];
                                             <div>
                                                 <p class="text-white font-medium"><?= htmlspecialchars($member['name']) ?></p>
                                                 <p class="text-gray-400 text-sm"><?= htmlspecialchars($member['email']) ?></p>
-                                                <p class="text-gray-400 text-sm">อายุ: <?= getAge($member['birthday']) ?> ปี</p>
+                                                <p class="text-gray-400 text-sm">อายุ: <?= htmlspecialchars(getAge($member['birthday'])) ?> ปี</p>
+                                                <p class="text-gray-400 text-sm">เพศ: <?= htmlspecialchars($gender) ?></p>
                                             </div>
                                         </div>
                                         <div class="text-right">

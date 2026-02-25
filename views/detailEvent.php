@@ -186,8 +186,8 @@
 
             <div class="mt-12 overflow-hidden">
                 <form action="/joinEvent" method="post">
-                    <input type="hidden" name="event_id" value="<?php echo $event['event_id'] ?? '' ?>">
-                    <input type="hidden" name="user_id" value="<?php echo $_SESSION['user']['user_id'] ?? '' ?>">
+                    <input type="hidden" name="event_id" value="<?php echo htmlspecialchars($event['event_id'] ?? '') ?>">
+                    <input type="hidden" name="user_id" value="<?php echo htmlspecialchars($_SESSION['user']['user_id'] ?? '') ?>">
                     <?php if (countApprovedMember($event['event_id']) < $event['amount']) { ?>
                         <?php if (isApproved($_SESSION['user']['user_id'] ?? 0, $event['event_id']) == 'pending') { ?>
                             <button disabled type="submit" class="bg-yellow-700 text-white px-8 py-2 rounded-lg font-semibold text-sm transition-all transform active:scale-95 shadow-[0_4px_10px_rgba(0,0,0,0.2)]">

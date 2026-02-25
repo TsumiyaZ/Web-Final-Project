@@ -33,3 +33,25 @@ function generateAndSaveOtp($join_id) {
         return false;
     }
 }
+
+function checkVerify($eventId, $otp) {
+    $conn = getConnection();
+    $sql = 'select * from otp 
+            join event_join on otp.join_id = event_join.join_id 
+            where event_join.event_id = ? and otp.otp_hash = ? and otp.is_used = 0';
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param('is', $eventId, $otp);
+    $stmt->execute();
+    $row = $stmt->get_result()->fetch_assoc();
+
+    if ($row) {
+        $sql = 'update otp set is_used = 1 where otp_hash = ?';
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param('s', $otp);
+        $stmt->execute();
+        return true;
+    } else {
+        return false;
+    }
+
+}

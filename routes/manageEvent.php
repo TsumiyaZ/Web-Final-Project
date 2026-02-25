@@ -21,8 +21,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $rejectedMember = getAllRejectedByEventId($event_id);
     $pendingMember = getAllPendingByEventId($event_id);
     $isUsed_1_Member = getAllIs_used_1_ByEventId($event_id);
+    $genderStats = getGenderStatsByEventId($event_id);
+    $ageStats = getAgeStatsByEventId($event_id);
 
-    renderView('/manageEvent', ['event' => $event, 'allMember' => $allMember, 'approvedMember' => $approvedMember, 'rejectedMember' => $rejectedMember, 'pendingMember' => $pendingMember, 'isUsed_1_Member' => $isUsed_1_Member]);
+    renderView('/manageEvent', ['event' => $event, 'allMember' => $allMember, 'approvedMember' => $approvedMember, 'rejectedMember' => $rejectedMember, 'pendingMember' => $pendingMember, 'isUsed_1_Member' => $isUsed_1_Member, 'genderStats' => $genderStats, 'ageStats' => $ageStats]);
     
 } else {
     $event_id = $_GET['event_id'] ?? 0;
@@ -37,8 +39,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $rejectedMember = getAllRejectedByEventId($event_id);
             $pendingMember = getAllPendingByEventId($event_id);
             $isUsed_1_Member = getAllIs_used_1_ByEventId($event_id);
+            $genderStats = getGenderStatsByEventId($event_id);
+            $ageStats = getAgeStatsByEventId($event_id);
 
-            renderView('/manageEvent', ['event' => $event, 'allMember' => $allMember, 'approvedMember' => $approvedMember, 'rejectedMember' => $rejectedMember, 'pendingMember' => $pendingMember, 'isUsed_1_Member' => $isUsed_1_Member]);
+            renderView('/manageEvent', ['event' => $event, 'allMember' => $allMember, 'approvedMember' => $approvedMember, 'rejectedMember' => $rejectedMember, 'pendingMember' => $pendingMember, 'isUsed_1_Member' => $isUsed_1_Member, 'genderStats' => $genderStats, 'ageStats' => $ageStats]);
         } else {
             header('Location: /myCreateEvent');
             exit();

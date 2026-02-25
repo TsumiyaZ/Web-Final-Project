@@ -9,13 +9,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if (empty($username) || empty($email) || empty($password) || empty($birthday) || empty($gender)) {
         $_SESSION['error'] = 'กรุณากรอกข้อมูลให้ครบทุกช่อง';
-        header('Location: /home');
+        header('Location: /register');
         exit();
     }
 
     if (checkEmailExists($email)) {
         $_SESSION['error'] = 'อีเมลนี้มีบัญชีอยู่เเล้ว';
-        header('Location: /home');
+        header('Location: /register');
         exit();
     }
 
@@ -23,11 +23,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     
     if ($result) {
         $_SESSION['success'] = 'สมัครสมาชิกสำเร็จ! กรุณาเข้าสู่ระบบ';
-        header('Location: /home');
+        header('Location: /login');
         exit();
     } else {
         $_SESSION['error'] = 'เกิดข้อผิดพลาดในการบันทึกข้อมูล';
-        header('Location: /home');
+        header('Location: /register');
         exit();
     }
-}        
+} else {
+    renderView('register');
+}

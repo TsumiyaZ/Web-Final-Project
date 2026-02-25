@@ -13,13 +13,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             'user_id' => $db['user_id'],
             'name'    => $db['name']
         ];
-
+        $unix_timestamp = time();
+        $_SESSION['timestamp'] = $unix_timestamp;
         header('Location: /home', true, 303);
         exit();
     }
     
     $_SESSION['error'] = 'Invalid email or password';
-    header('Location: /home', true, 303);
+    header('Location: /login', true, 303);
+    exit();
 } else {
-    renderView('home');
+    renderView('login');
 }   

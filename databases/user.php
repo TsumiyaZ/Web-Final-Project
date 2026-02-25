@@ -45,3 +45,4 @@ function getAge($birthday) {
 
     return $diff->y;
 }
+

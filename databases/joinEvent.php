@@ -281,3 +281,67 @@ function getAllIs_used_1_ByEventId($eventId){
     $stmt->execute();
     return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
 }
+
+function getGenderStatsByEventId($eventId) {
+    $conn = getConnection();
+    $sql = 'SELECT users.gender, COUNT(*) as count 
+            FROM users 
+            JOIN event_join ON users.user_id = event_join.user_id 
+            JOIN otp ON otp.join_id = event_join.join_id
+            WHERE event_join.event_id = ? AND event_join.status = "approved" and otp.is_used = 1
+            GROUP BY users.gender';
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param('i', $eventId);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $stats = ['male' => 0, 'female' => 0, 'other' => 0];
+    while ($row = $result->fetch_assoc()) {
+        if ($row['gender'] === 'male') $stats['male'] = $row['count'];
+        else if ($row['gender'] === 'female') $stats['female'] = $row['count'];
+        else $stats['other'] += $row['count'];
+    }
+    $stmt->close();
+    return $stats;
+}
+
+function getAgeStatsByEventId($eventId) {
+    $conn = getConnection();
+    $sql = 'SELECT users.birthday 
+            FROM users 
+            JOIN event_join ON users.user_id = event_join.user_id 
+            JOIN otp on otp.join_id = event_join.join_id
+            WHERE event_join.event_id = ? AND event_join.status = "approved" AND otp.is_used = 1';
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param('i', $eventId);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    
+    $stats = ['not in' => 0, '18-25' => 0, '26-35' => 0, '36+' => 0];
+    $today = new DateTime();
+    
+    while ($row = $result->fetch_assoc()) {
+        $birthday = new DateTime(datetime: $row['birthday']);
+        $age = $today->diff($birthday)->y;
+        
+        if ($age >= 18 && $age <= 25) $stats['18-25']++;
+        else if ($age >= 26 && $age <= 35) $stats['26-35']++;
+        else if ($age >= 36) $stats['36+']++;
+        else $stats['not in']++;
+    }
+    $stmt->close();
+    return $stats;
+}
+
+function isUsed_1($user_id, $event_id) {
+    $conn = getConnection();
+    $sql = 'select is_used from otp 
+            join event_join on otp.join_id = event_join.join_id
+            where event_join.event_id = ? and event_join.user_id = ? and otp.is_used = 1';
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param('ii', $event_id, $user_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $row = $result->fetch_assoc();
+    $stmt->close();
+    return ($row['is_used'] ?? 0 )== 1 ? true : false;
+}

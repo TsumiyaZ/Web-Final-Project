@@ -25,7 +25,7 @@
                         <div class="flex-shrink-0 w-32 h-32 md:w-40 md:h-40 bg-[#a38caf]/40 rounded-xl overflow-hidden shadow-inner">
                             <div class="w-full h-full flex items-center justify-center text-white/50">
                                 <?php if ($firstImg): ?>
-                                    <img src="<?php echo $firstImg['img_path'] ?>" alt="Event Image" class="w-full h-full object-cover">
+                                    <img src="<?php echo htmlspecialchars($firstImg['img_path']) ?>" alt="Event Image" class="w-full h-full object-cover">
                                 <?php else: ?>
                                     <i class="fa-solid fa-image text-4xl"></i>
                                 <?php endif; ?>
@@ -59,9 +59,15 @@
                             <div class="flex flex-1">
                                 <div>
                                     <?php if (isApproved($_SESSION['user']['user_id'], $each['event_id']) == 'approved') { ?>
-                                        <button type="submit" disabled class="bg-blue-600 text-white rounded-lg p-3 font-semibold text-sm transition-all transform active:scale-95 shadow-[0_4px_10px_rgba(0,0,0,0.2)]">
-                                            <i class="fa-solid fa-circle-check mr-2"></i>เข้าร่วมกิจกรรมเเล้ว
-                                        </button>
+                                        <?php if (isUsed_1($_SESSION['user']['user_id'], $each['event_id'])) { ?>
+                                            <button type="submit" disabled class="bg-green-600 text-white rounded-lg p-3 font-semibold text-sm transition-all transform active:scale-95 shadow-[0_4px_10px_rgba(0,0,0,0.2)]">
+                                                <i class="fa-solid fa-circle-check mr-2"></i>เข้าร่วมกิจกรรมแล้ว
+                                            </button>
+                                        <?php } else { ?>
+                                            <button type="submit" disabled class="bg-blue-600 text-white rounded-lg p-3 font-semibold text-sm transition-all transform active:scale-95 shadow-[0_4px_10px_rgba(0,0,0,0.2)]">
+                                                <i class="fa-solid fa-circle-check mr-2"></i>ได้รับการอนุมัติแล้ว
+                                            </button>
+                                        <?php } ?>
                                     <?php } else if (isApproved($_SESSION['user']['user_id'], $each['event_id']) == 'pending') { ?>
                                         <button type="submit" disabled class="bg-yellow-600 text-white rounded-lg p-3 font-semibold text-sm transition-all transform active:scale-95 shadow-[0_4px_10px_rgba(0,0,0,0.2)]">
                                             <i class="fa-solid fa-spinner mr-2 animate-spin"></i>รอการอนุมัติ
@@ -74,12 +80,14 @@
                                 </div>
                             </div>
                             <?php if (isApproved($_SESSION['user']['user_id'], $each['event_id']) == 'approved') { ?>
-                                <form action="/otp" method="post">
-                                    <input type="hidden" name="join_id" value="<?php echo getJoinIdByEventId($each['event_id'], $_SESSION['user']['user_id'])['join_id'] ?>">
-                                    <button type="submit" class="bg-[#f5f5f7] hover:bg-white text-[#5b3765] px-8 py-2 rounded-lg font-semibold text-sm transition-all transform active:scale-95 shadow-[0_4px_10px_rgba(0,0,0,0.2)]">
-                                        ขอ OTP
-                                    </button>
-                                </form>
+                                <?php if (!isUsed_1($_SESSION['user']['user_id'], $each['event_id'])) { ?>
+                                    <form action="/otp" method="post">
+                                        <input type="hidden" name="join_id" value="<?php echo htmlspecialchars(getJoinIdByEventId($each['event_id'], $_SESSION['user']['user_id'])['join_id']) ?>">
+                                        <button type="submit" class="bg-[#f5f5f7] hover:bg-white text-[#5b3765] px-8 py-2 rounded-lg font-semibold text-sm transition-all transform active:scale-95 shadow-[0_4px_10px_rgba(0,0,0,0.2)]">
+                                            ขอ OTP
+                                        </button>
+                                    </form>
+                                <?php } ?>
                             <?php } ?>
                         </div>
                     </div>
@@ -91,31 +99,31 @@
         </main>
 
         <!-- OTP Modal Overlay -->
-        <?php if ($_SESSION['showOtpModal'] && $_SESSION['generatedOtp']): ?>
-        <div id="otpModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm">
-            <div class="bg-gradient-to-br from-[#7c5176] to-[#4a304d] rounded-2xl p-8 max-w-md w-full shadow-2xl border border-white/20">
-                <div class="text-center mb-6">
-                    <div class="w-16 h-16 bg-white/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <i class="fa-solid fa-shield-halved text-3xl text-[#fff9c4]"></i>
+        <?php if ($_SESSION['showOtpModal'] ?? false && $_SESSION['generatedOtp'] ?? false): ?>
+            <div id="otpModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm">
+                <div class="bg-gradient-to-br from-[#7c5176] to-[#4a304d] rounded-2xl p-8 max-w-md w-full shadow-2xl border border-white/20">
+                    <div class="text-center mb-6">
+                        <div class="w-16 h-16 bg-white/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <i class="fa-solid fa-shield-halved text-3xl text-[#fff9c4]"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-white mb-2">รหัส OTP ของคุณ</h3>
+                        <p class="text-gray-300 text-sm">รหัสนี้จะหมดอายุใน 30 นาที</p>
                     </div>
-                    <h3 class="text-2xl font-bold text-white mb-2">รหัส OTP ของคุณ</h3>
-                    <p class="text-gray-300 text-sm">รหัสนี้จะหมดอายุใน 30 นาที</p>
-                </div>
-                
-                <div class="bg-[#2e2335] rounded-xl p-6 mb-6 text-center">
-                    <span class="text-4xl font-mono font-bold text-[#fff9c4] tracking-[0.5em]">
-                        <?php echo htmlspecialchars($_SESSION['generatedOtp']); ?>
-                    </span>
-                </div>
-                
-                <div class="text-center">
-                    <button onclick="window.location.href='/myJoinEvent?closeModal=1'" 
+
+                    <div class="bg-[#2e2335] rounded-xl p-6 mb-6 text-center">
+                        <span class="text-4xl font-mono font-bold text-[#fff9c4] tracking-[0.5em]">
+                            <?php echo htmlspecialchars($_SESSION['generatedOtp']); ?>
+                        </span>
+                    </div>
+
+                    <div class="text-center">
+                        <button onclick="window.location.href='/myJoinEvent?closeModal=1'"
                             class="bg-white/10 hover:bg-white/20 text-white px-8 py-3 rounded-xl font-semibold transition-all">
-                        ปิด
-                    </button>
+                            ปิด
+                        </button>
+                    </div>
                 </div>
             </div>
-        </div>
         <?php endif; ?>
 
         <?php include 'footer.php' ?>
