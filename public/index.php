@@ -10,7 +10,7 @@ require_once INCLUDES_DIR_ . 'router.php';
 require_once INCLUDES_DIR_ . 'views.php';
 require_once INCLUDES_DIR_ . 'database.php';
 
-const PUBLIC_ROUTES = ['/', '/home', '/login', '/register', '/logout'];
+const PUBLIC_ROUTES = ['/', '/home', '/login', '/register', '/logout', '/detailEvent'];
 $requestUri = strtok($_SERVER['REQUEST_URI'], '?');
 
 $isPublicRoute = in_array($requestUri, PUBLIC_ROUTES);
