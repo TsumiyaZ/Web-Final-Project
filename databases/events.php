@@ -156,3 +156,14 @@ function searchAllYourEventByUserId($user_id, $keyword, $startDate, $stopDate)
     $stmt->execute();
     return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
 }
+
+function getNameCreatorByEventId($event_id) {
+    $conn = getConnection();
+    $sql = 'select users.name from users
+            join events on events.creator_id = users.user_id
+            where events.event_id = ?';
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param('i', $event_id);
+    $stmt->execute();
+    return $stmt->get_result()->fetch_assoc();
+}

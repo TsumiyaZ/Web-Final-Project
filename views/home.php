@@ -1,5 +1,4 @@
         <?php include 'header.php' ?>
-
         <div class="space-y-4 p-10 rounded-2xl bg-[#2e2335] h-[800px] overflow-y-auto custom-scrollbar">
             <div class="flex gap-2 items-center">
                 <form action="/home" method="get">
@@ -17,11 +16,9 @@
                     </div>
                 </form>
             </div>
-
             <?php if (!empty($data['allEvent'])) { ?>
                 <?php foreach ($data['allEvent'] as $each) { ?>
                     <?php $firstImg = getFirstImgByEventId($each['event_id']); ?>
-
                     <a href="/detailEvent?event_id=<?php echo htmlspecialchars($each['event_id']) ?>" class="block">
                         <div class="flex items-center bg-[#8b6a96]/30 p-6 rounded-2xl border border-white/10 shadow-2xl hover:bg-[#8b6a96]/40 transition-all duration-300">
                             <div class="flex-shrink-0 w-32 h-32 md:w-40 md:h-40 bg-[#a38caf]/40 rounded-xl overflow-hidden shadow-inner">
@@ -33,7 +30,6 @@
                                     <?php endif; ?>
                                 </div>
                             </div>
-
                             <div class="flex-grow ml-6 space-y-3">
                                 <h3 class="text-xl font-semibold text-white"><?php echo htmlspecialchars($each['event_name']); ?></h3>
                                 <div class="space-y-2">
@@ -56,7 +52,6 @@
                                     </div>
                                 </div>
                             </div>
-
                             <div class="flex flex-col justify-end items-center h-32 md:h-40 ml-4">
                                 <?php if (isset($_SESSION['user'])) { ?>
                                     <form action="/joinEvent" method="post">
@@ -100,5 +95,4 @@
             <?php } ?>
         </div>
         </div>
-
         <?php include 'footer.php' ?>

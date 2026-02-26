@@ -14,10 +14,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $otp = $_POST['otp'];
     $event_id = $_POST['event_Id'];
+    $user_id = $_POST['user_id'];
 
-    $verify = checkVerify($event_id, $otp);
+    $verify = checkVerify($event_id, $otp, $user_id);
     if (!$verify) {
-        $_SESSION['error'] = 'ไม่พบ OTP';
+        $_SESSION['error'] = 'ไม่พบ OTP / OTP หมดอายุ';
     } else {
         $_SESSION['success'] = 'เช็คขื่อเข้าร่วมงานสำเร็จ';
     }

@@ -66,55 +66,55 @@
     }
 </style>
 
-<main class="max-w-4xl mx-auto px-6 py-10">
+<main class="max-w-4xl mx-auto px-4 md:px-6 py-6 md:py-10">
     
-    <div class="mb-8 flex items-center gap-4">
+    <div class="mb-6 md:mb-8 flex flex-col md:flex-row items-start md:items-center gap-4">
         <a href="javascript:history.back()" class="bg-white/20 hover:bg-white/40 w-10 h-10 flex items-center justify-center rounded-full transition-all">
             <i class="fa-solid fa-chevron-left text-white"></i>
         </a>
-        <h1 class="text-3xl font-medium text-white tracking-wide">สร้างกิจกรรมใหม่</h1>
+        <h1 class="text-2xl md:text-3xl font-medium text-white tracking-wide">สร้างกิจกรรมใหม่</h1>
     </div>
 
-    <div class="glass-container p-8 md:p-12 shadow-2xl">
-        <form action="/createEvent" method="POST" enctype="multipart/form-data" class="space-y-6">
+    <div class="glass-container p-6 md:p-8 lg:p-12 shadow-2xl">
+        <form action="/createEvent" method="POST" enctype="multipart/form-data" class="space-y-4 md:space-y-6">
             
             <div>
-                <label class="label-text">ชื่อกิจกรรม</label>
+                <label class="label-text text-sm md:text-base">ชื่อกิจกรรม</label>
                 <input type="text" name="nameEvent" placeholder="ระบุชื่อกิจกรรมของคุณ" 
-                       class="custom-field text-lg" required>
+                       class="custom-field text-base md:text-lg py-3 md:py-4" required>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
                 <div>
-                    <label class="label-text">วันที่เริ่มกิจกรรม</label>
-                    <input type="datetime-local" name="startDate" id="startDate" class="custom-field" required>
+                    <label class="label-text text-sm md:text-base">วันที่เริ่มกิจกรรม</label>
+                    <input type="datetime-local" name="startDate" id="startDate" class="custom-field py-3 md:py-4" required>
                 </div>
                 <div>
-                    <label class="label-text">วันที่สิ้นสุดกิจกรรม</label>
-                    <input type="datetime-local" name="stopDate" id="stopDate" class="custom-field" required>
+                    <label class="label-text text-sm md:text-base">วันที่สิ้นสุดกิจกรรม</label>
+                    <input type="datetime-local" name="stopDate" id="stopDate" class="custom-field py-3 md:py-4" required>
                 </div>
             </div>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
                 <div>
-                    <label class="label-text">รับจำนวน (คน)</label>
+                    <label class="label-text text-sm md:text-base">รับจำนวน (คน)</label>
                     <input type="number" name="amount" placeholder="เช่น 100" 
-                           class="custom-field" required>
+                           class="custom-field py-3 md:py-4" required>
                 </div>
                 <div>
-                    <label class="label-text">รูปภาพกิจกรรม (เลือกได้หลายรูป)</label>
+                    <label class="label-text text-sm md:text-base">รูปภาพกิจกรรม (เลือกได้หลายรูป)</label>
                     <input type="file" name="picture[]" accept="image/*" multiple 
-                           class="custom-field custom-file-input text-sm" required>
+                           class="custom-field custom-file-input text-sm md:text-base py-3 md:py-4" required>
                 </div>
             </div>
 
             <div>
-                <label class="label-text">รายละเอียดกิจกรรม</label>
-                <textarea name="description" rows="5" placeholder="อธิบายกิจกรรมของคุณที่นี่..." 
-                          class="custom-field resize-none" required></textarea>
+                <label class="label-text text-sm md:text-base">รายละเอียดกิจกรรม</label>
+                <textarea name="description" rows="4" placeholder="อธิบายกิจกรรมของคุณที่นี่..." 
+                          class="custom-field resize-none py-3 md:py-4" required></textarea>
             </div>
 
-            <div class="pt-6">
-                <button type="submit" id="btn-create" class="btn-create w-full py-4 rounded-2xl font-semibold text-lg shadow-lg hover:scale-[1.02] active:scale-[0.98] transition-all uppercase tracking-widest">
+            <div class="pt-4 md:pt-6">
+                <button type="submit" id="btn-create" class="btn-create w-full py-3 md:py-4 rounded-2xl font-semibold text-base md:text-lg shadow-lg hover:scale-[1.02] active:scale-[0.98] transition-all uppercase tracking-widest">
                     ยืนยันการสร้างกิจกรรม
                 </button>
             </div>

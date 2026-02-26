@@ -1,6 +1,5 @@
 <?php
 include 'header.php';
-
 $event = $data['event'] ?? [];
 $approvedMember = $data['approvedMember'] ?? [];
 $rejectedMember = $data['rejectedMember'] ?? [];
@@ -9,21 +8,17 @@ $allMember = $data['allMember'] ?? [];
 $isUsed_1_Member = $data['isUsed_1_Member'] ?? [];
 $genderStats = $data['genderStats'] ?? ['male' => 0, 'female' => 0, 'other' => 0];
 $ageStats = $data['ageStats'] ?? ['not in' => 0, '18-25' => 0, '26-35' => 0, '36+' => 0];
-
 ?>
-
 <style>
     body {
         background: #2e2335 !important;
     }
-
     .glass-container {
         background-color: rgba(139, 106, 150, 0.3);
         backdrop-filter: blur(10px);
         border-radius: 2rem;
         border: 1px solid rgba(255, 255, 255, 0.1);
     }
-
     .custom-field {
         background-color: rgba(163, 140, 175, 0.4);
         border: 1px solid rgba(255, 255, 255, 0.1);
@@ -33,14 +28,12 @@ $ageStats = $data['ageStats'] ?? ['not in' => 0, '18-25' => 0, '26-35' => 0, '36
         padding: 12px 16px;
         width: 100%;
     }
-
     .custom-field:focus {
         outline: none;
         background-color: rgba(163, 140, 175, 0.5);
         border-color: rgba(255, 255, 255, 0.2);
         box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.2);
     }
-
     .btn-primary {
         background-color: #f5f5f7;
         color: #5b3765;
@@ -50,12 +43,10 @@ $ageStats = $data['ageStats'] ?? ['not in' => 0, '18-25' => 0, '26-35' => 0, '36
         font-weight: 600;
         transition: all 0.2s;
     }
-
     .btn-primary:hover {
         background-color: #ffffff;
         transform: scale(1.02);
     }
-
     .btn-danger {
         background-color: #dc2626;
         color: #ffffff;
@@ -65,12 +56,10 @@ $ageStats = $data['ageStats'] ?? ['not in' => 0, '18-25' => 0, '26-35' => 0, '36
         font-weight: 600;
         transition: all 0.2s;
     }
-
     .btn-danger:hover {
         background-color: #b91c1c;
         transform: scale(1.02);
     }
-
     .btn-secondary {
         background-color: #6b7280;
         color: #ffffff;
@@ -80,12 +69,10 @@ $ageStats = $data['ageStats'] ?? ['not in' => 0, '18-25' => 0, '26-35' => 0, '36
         font-weight: 600;
         transition: all 0.2s;
     }
-
     .btn-secondary:hover {
         background-color: #4b5563;
         transform: scale(1.02);
     }
-
     .stat-card {
         background-color: rgba(163, 140, 175, 0.2);
         border: 1px solid rgba(255, 255, 255, 0.1);
@@ -93,7 +80,6 @@ $ageStats = $data['ageStats'] ?? ['not in' => 0, '18-25' => 0, '26-35' => 0, '36
         padding: 20px;
         text-align: center;
     }
-
     .participant-item {
         background-color: rgba(163, 140, 175, 0.15);
         border: 1px solid rgba(255, 255, 255, 0.05);
@@ -101,13 +87,11 @@ $ageStats = $data['ageStats'] ?? ['not in' => 0, '18-25' => 0, '26-35' => 0, '36
         padding: 16px;
         transition: all 0.2s;
     }
-
     .participant-item:hover {
         background-color: rgba(163, 140, 175, 0.25);
         border-color: rgba(255, 255, 255, 0.1);
     }
 </style>
-
 <main class="max-w-6xl mx-auto glass-container p-6 md:p-10 shadow-2xl mt-6 mb-12">
     <div class="mb-8 flex items-center justify-between">
         <a href="/myCreateEvent" class="bg-white text-gray-800 px-5 py-1.5 rounded-full flex items-center gap-2 text-sm font-medium hover:bg-gray-100 transition-all shadow-sm">
@@ -115,7 +99,6 @@ $ageStats = $data['ageStats'] ?? ['not in' => 0, '18-25' => 0, '26-35' => 0, '36
         </a>
         <h2 class="text-xl font-medium tracking-wide">ศูนย์บริหารกิจกรรม</h2>
     </div>
-
     <?php if ($event): ?>
         <!-- Event Details Section -->
         <div class="mb-8">
@@ -147,7 +130,6 @@ $ageStats = $data['ageStats'] ?? ['not in' => 0, '18-25' => 0, '26-35' => 0, '36
                 <textarea rows="4" class="custom-field resize-none" readonly><?= htmlspecialchars($event['description'] ?? '') ?></textarea>
             </div>
         </div>
-
         <!-- Statistics Section -->
         <div class="mb-8">
             <h3 class="text-lg font-semibold text-white mb-4">สถิติกิจกรรม</h3>
@@ -181,7 +163,6 @@ $ageStats = $data['ageStats'] ?? ['not in' => 0, '18-25' => 0, '26-35' => 0, '36
                     <p class="text-gray-300 text-sm">เข้างานเเล้ว</p>
                 </div>
             </div>
-
             <!-- Gender & Age Statistics -->
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
                 <!-- Gender Stats -->
@@ -214,7 +195,6 @@ $ageStats = $data['ageStats'] ?? ['not in' => 0, '18-25' => 0, '26-35' => 0, '36
                         </div>
                     </div>
                 </div>
-
                 <!-- Age Stats -->
                 <div class="stat-card">
                     <h4 class="text-white font-semibold mb-4 flex items-center justify-center">
@@ -250,12 +230,10 @@ $ageStats = $data['ageStats'] ?? ['not in' => 0, '18-25' => 0, '26-35' => 0, '36
                             </div>
                             <span class="text-white text-sm w-8 text-right"><?= $ageStats['36+'] ?></span>
                         </div>
-
                     </div>
                 </div>
             </div>
         </div>
-
         <!-- Action Buttons -->
         <div class="mb-8">
             <h3 class="text-lg font-semibold text-white mb-4">จัดการกิจกรรม</h3>
@@ -271,17 +249,14 @@ $ageStats = $data['ageStats'] ?? ['not in' => 0, '18-25' => 0, '26-35' => 0, '36
                 </button>
             </div>
         </div>
-
         <!-- Participants Section -->
         <div>
             <div class="flex justify-between items-center">
                 <h3 class="text-lg font-semibold text-white mb-2">รายชื่อผู้เข้าร่วม</h3>
                 <div class="text-right bg-[#8b6a96]/20 border border-white/10 rounded-xl p-2 mb-2 flex justify-center items-center">
-
                     <h3 class="text-white text-sm">ทั้งหมด <span id="totalCount" class="font-bold text-yellow-400"><?= countAllMemberByEventId($event['event_id']) ?></span> คน</h3>
                 </div>
             </div>
-
             <!-- Pending Members -->
             <div class="mb-6">
                 <div class="bg-[#8b6a96]/20 border border-white/10 rounded-xl p-4">
@@ -307,7 +282,6 @@ $ageStats = $data['ageStats'] ?? ['not in' => 0, '18-25' => 0, '26-35' => 0, '36
                                                 <p class="text-white font-medium"><?= htmlspecialchars($member['name']) ?></p>
                                                 <p class="text-gray-400 text-sm"><?= htmlspecialchars($member['email']) ?></p>
                                                 <p class="text-gray-400 text-sm">อายุ: <?= getAge($member['birthday']) ?> ปี</p>
-
                                             </div>
                                         </div>
                                         <div class="text-right">
@@ -329,7 +303,6 @@ $ageStats = $data['ageStats'] ?? ['not in' => 0, '18-25' => 0, '26-35' => 0, '36
                     </div>
                 </div>
             </div>
-
             <!-- Approved Members -->
             <div class="mb-6">
                 <div class="bg-[#8b6a96]/20 border border-white/10 rounded-xl p-4">
@@ -353,7 +326,7 @@ $ageStats = $data['ageStats'] ?? ['not in' => 0, '18-25' => 0, '26-35' => 0, '36
                                     $gender = 'หญิง';
                                 } else {
                                     $gender = 'อื่นๆ';
-                                } 
+                                }
                                 ?>
                                 <?php if (($isUsed['is_used'] ?? 0) == 0) { ?>
                                     <div class="participant-item opacity-75">
@@ -370,14 +343,23 @@ $ageStats = $data['ageStats'] ?? ['not in' => 0, '18-25' => 0, '26-35' => 0, '36
                                                 </div>
                                             </div>
                                             <div class="text-right">
-                                                <form action="/verifyOtp" method="post">
+                                                <form action="/verifyOtp" method="post" class="flex items-center gap-2">
                                                     <input type="hidden" name="event_Id" value="<?= $event['event_id'] ?>">
-                                                    <input type="number" placeholder="otp" name="otp">
-                                                    <input type="submit">
+                                                    <input type="hidden" name="user_id" value="<?= $member['user_id'] ?>">
+                                                    <input type="numeric"
+                                                        placeholder="กรอก OTP"
+                                                        name="otp"
+                                                        class="w-32 px-4 py-2 bg-gray-800/50 text-white rounded-lg border border-gray-600 focus:outline-none focus:border-blue-500 focus:bg-gray-800/70 focus:ring-2 focus:ring-blue-500/30 transition-all backdrop-blur-sm text-center font-mono text-lg"
+                                                        min="0"
+                                                        max="999999">
+                                                    <button type="submit"
+                                                        class="px-4 py-2 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-lg hover:from-blue-700 hover:to-blue-800 transition-all transform hover:scale-105 active:scale-95 shadow-lg hover:shadow-blue-500/25 font-medium">
+                                                        <i class="fa-solid fa-check-circle mr-2"></i>ตรวจสอบ
+                                                    </button>
                                                 </form>
-                                                <span class="text-green-400 text-sm font-medium">
+                                                <div class="mt-2 text-green-400 text-sm font-medium">
                                                     <i class="fa-solid fa-check-circle mr-1"></i>อนุมัติแล้ว
-                                                </span>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -392,7 +374,6 @@ $ageStats = $data['ageStats'] ?? ['not in' => 0, '18-25' => 0, '26-35' => 0, '36
                     </div>
                 </div>
             </div>
-
             <!-- Rejected Members -->
             <div class="mb-6">
                 <div class="bg-[#8b6a96]/20 border border-white/10 rounded-xl p-4">
@@ -432,7 +413,6 @@ $ageStats = $data['ageStats'] ?? ['not in' => 0, '18-25' => 0, '26-35' => 0, '36
                     </div>
                 </div>
             </div>
-
             <!-- check in Members -->
             <div class="mb-6">
                 <div class="bg-[#8b6a96]/20 border border-white/10 rounded-xl p-4">
@@ -483,9 +463,7 @@ $ageStats = $data['ageStats'] ?? ['not in' => 0, '18-25' => 0, '26-35' => 0, '36
                     </div>
                 </div>
             </div>
-
         </div>
-
     <?php else: ?>
         <div class="text-center py-12">
             <i class="fa-solid fa-exclamation-triangle text-6xl text-yellow-400 mb-4"></i>
@@ -497,5 +475,4 @@ $ageStats = $data['ageStats'] ?? ['not in' => 0, '18-25' => 0, '26-35' => 0, '36
         </div>
     <?php endif; ?>
 </main>
-
 <?php include 'footer.php'; ?>

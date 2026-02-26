@@ -52,59 +52,59 @@ include 'header.php';
     }
 </style>
 
-<main class="max-w-6xl mx-auto glass-container p-6 md:p-10 shadow-2xl mt-6 mb-12">
+<main class="max-w-6xl mx-auto glass-container p-4 md:p-6 lg:p-10 shadow-2xl mt-6 mb-12">
     
-    <div class="mb-8 flex items-center justify-between">
-        <button onclick="window.location.href='/myCreateEvent'" class="bg-white text-gray-800 px-5 py-1.5 rounded-full flex items-center gap-2 text-sm font-medium hover:bg-gray-100 transition-all shadow-sm">
+    <div class="mb-6 md:mb-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+        <button onclick="window.location.href='/myCreateEvent'" class="bg-white text-gray-800 px-4 md:px-5 py-1.5 rounded-full flex items-center gap-2 text-sm font-medium hover:bg-gray-100 transition-all shadow-sm">
             <i class="fa-solid fa-arrow-left"></i> กลับไปยังกิจกรรม
         </button>
-        <h2 class="text-xl font-medium tracking-wide">รายละเอียดการแก้ไข</h2>
+        <h2 class="text-lg md:text-xl font-medium tracking-wide">รายละเอียดการแก้ไข</h2>
     </div>
 
-    <form action="/updateEvent" method="POST" class="space-y-6">
+    <form action="/updateEvent" method="POST" class="space-y-4 md:space-y-6">
         <input type="hidden" name="event_id" value="<?= htmlspecialchars($data['event']['event_id'] ?? '') ?>">
 
         <div class="space-y-2">
-            <label class="block text-sm font-light ml-2">ชื่อกิจกรรม</label>
+            <label class="block text-sm md:text-base font-light ml-2 text-gray-300">ชื่อกิจกรรม</label>
             <input type="text" name="eventName" 
                    value="<?= htmlspecialchars($data['event']['event_name'] ?? 'freefire') ?>" 
-                   class="w-full px-6 py-3 custom-field" required>
+                   class="w-full px-4 md:px-6 py-3 md:py-4 custom-field text-base md:text-lg" required>
         </div>
 
         <div class="space-y-2">
-            <label class="block text-sm font-light ml-2">รายละเอียด</label>
-            <textarea name="description" rows="4" 
-                      class="w-full px-6 py-4 custom-field resize-none" required><?= htmlspecialchars($data['event']['description'] ?? 'ฟีฟาย โดดร่มอย่างตึง') ?></textarea>
+            <label class="block text-sm md:text-base font-light ml-2 text-gray-300">รายละเอียด</label>
+            <textarea name="description" rows="3 md:rows-4" 
+                      class="w-full px-4 md:px-6 py-3 md:py-4 custom-field resize-none text-base md:text-lg" required><?= htmlspecialchars($data['event']['description'] ?? 'ฟีฟาย โดดร่มอย่างตึง') ?></textarea>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
             <div class="space-y-2">
-                <label class="block text-sm font-light ml-2">วันที่จัดกิจกรรม</label>
+                <label class="block text-sm md:text-base font-light ml-2 text-gray-300">วันที่จัดกิจกรรม</label>
                 <input type="datetime-local" id="startDate" name="startDate" 
                        value="<?= htmlspecialchars($data['event']['start_date'] ?? '') ?>" 
-                       class="w-full px-6 py-3 custom-field">
+                       class="w-full px-4 md:px-6 py-3 md:py-4 custom-field text-base md:text-lg">
             </div>
             <div class="space-y-2">
-                <label class="block text-sm font-light ml-2">วันที่สิ้นสุดกิจกรรม</label>
+                <label class="block text-sm md:text-base font-light ml-2 text-gray-300">วันที่สิ้นสุดกิจกรรม</label>
                 <input type="datetime-local" id="stopDate" name="stopDate" 
                        value="<?= htmlspecialchars($data['event']['stop_date'] ?? '') ?>" 
-                       class="w-full px-6 py-3 custom-field">
+                       class="w-full px-4 md:px-6 py-3 md:py-4 custom-field text-base md:text-lg">
             </div>
         </div>
 
         <div class="space-y-2">
-            <label class="block text-sm font-light ml-2">รับจำนวน (คน)</label>
+            <label class="block text-sm md:text-base font-light ml-2 text-gray-300">รับจำนวน (คน)</label>
             <input type="number" name="amount" 
                    value="<?= htmlspecialchars($data['event']['amount'] ?? '1') ?>" 
-                   class="w-full px-6 py-3 custom-field">
+                   class="w-full px-4 md:px-6 py-3 md:py-4 custom-field text-base md:text-lg">
         </div>
 
-        <div class="flex justify-end gap-4 pt-10">
-            <button type="submit" id="btn-save" class="btn-save px-12 py-2.5 rounded-full font-medium shadow-md hover:brightness-105 transition-all">
-                บันทึก
-            </button>
-            <button type="button" onclick="window.location.href='/myCreateEvent'" class="btn-cancel px-12 py-2.5 rounded-full font-medium shadow-md hover:brightness-105 transition-all">
+        <div class="flex flex-col md:flex-row justify-end gap-3 md:gap-4 pt-6 md:pt-10">
+            <button type="button" onclick="window.location.href='/myCreateEvent'" class="btn-cancel w-full md:w-auto px-6 md:px-12 py-2.5 rounded-full font-medium shadow-md hover:brightness-105 transition-all text-base md:text-lg">
                 ยกเลิก
+            </button>
+            <button type="submit" id="btn-save" class="btn-save w-full md:w-auto px-6 md:px-12 py-2.5 rounded-full font-medium shadow-md hover:brightness-105 transition-all text-base md:text-lg">
+                บันทึก
             </button>
         </div>
     </form>

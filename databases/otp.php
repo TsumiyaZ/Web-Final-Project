@@ -7,7 +7,7 @@ function generateAndSaveOtp($join_id) {
 
     $now = date('Y-m-d H:i:s');
 
-    $sql = 'select otp_hash from otp where join_id = ? and expire_at > ? order by otp_id limit 1';
+    $sql = 'select otp_hash from otp where join_id = ? and expire_at > ? and is_used = 0 order by otp_id limit 1';
     $stmt = $conn->prepare($sql);
     $stmt->bind_param('is', $join_id, $now);
     $stmt->execute();
@@ -34,24 +34,15 @@ function generateAndSaveOtp($join_id) {
     }
 }
 
-function checkVerify($eventId, $otp) {
+function checkVerify($eventId, $otp, $user_id) {
     $conn = getConnection();
-    $sql = 'select * from otp 
-            join event_join on otp.join_id = event_join.join_id 
-            where event_join.event_id = ? and otp.otp_hash = ? and otp.is_used = 0';
+    $sql = 'UPDATE otp 
+            join event_join on event_join.join_id = otp.join_id
+            set otp.is_used = 1
+            where event_join.event_id = ? and otp.otp_hash = ? and event_join.user_id = ? and otp.expire_at > NOW() and otp.is_used = 0';
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param('is', $eventId, $otp);
+    $stmt->bind_param('isi', $eventId, $otp, $user_id);
     $stmt->execute();
-    $row = $stmt->get_result()->fetch_assoc();
 
-    if ($row) {
-        $sql = 'update otp set is_used = 1 where otp_hash = ?';
-        $stmt = $conn->prepare($sql);
-        $stmt->bind_param('s', $otp);
-        $stmt->execute();
-        return true;
-    } else {
-        return false;
-    }
-
+    return $stmt->affected_rows > 0;
 }

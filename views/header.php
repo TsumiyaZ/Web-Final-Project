@@ -94,12 +94,14 @@
 
 <body class="bg-[#2e2335] text-white h-screen relative">
 
-    <div id="main-content" class="w-full h-full p-6 transition-all duration-300">
+    <div id="main-content" class="w-full h-20 p-6 transition-all duration-300">
 
         <header class="flex justify-between items-center mb-10">
             <div class="bg-[#453a4d] px-4 py-2 rounded text-gray-300 font-bold tracking-widest text-sm">LOGO</div>
-            <div class="flex flex-1">
-                <div class="flex gap-3 px-8 items-center ">
+            
+            <!-- Desktop Navigation -->
+            <div class="hidden md:flex flex-1">
+                <div class="flex gap-3 px-8 items-center">
                     <div>
                         <a href="/home" class="bg-[#4d4d4d] px-4 py-2 rounded-full text-sm text-gray-300">กิจกรรมทั้งหมด</a>
                     </div>
@@ -113,7 +115,15 @@
                     <?php } ?>
                 </div>
             </div>
-            <div class="flex items-center gap-4">
+            
+            <!-- Mobile Menu Button -->
+            <div class="md:hidden">
+                <button onclick="toggleMobileMenu()" class="bg-[#4d4d4d] p-2 rounded-lg text-gray-300">
+                    <i class="fa-solid fa-bars text-lg"></i>
+                </button>
+            </div>
+            
+            <div class="hidden md:flex items-center gap-4">
                 <?php if (isset($_SESSION['user'])): ?>
                     <div class="flex items-center gap-3">
                         <div class="w-8 h-8 bg-[#6b5b7a] rounded-full flex items-center justify-center">
@@ -127,3 +137,69 @@
                 <?php endif; ?>
             </div>
         </header>
+        
+        <!-- Mobile Menu -->
+        <div id="mobileMenu" class="fixed inset-0 bg-black/50 z-50 hidden">
+            <div class="bg-[#2e2335] h-full w-80 max-w-[80vw] overflow-y-auto">
+                <div class="p-4">
+                    <div class="flex justify-between items-center mb-6">
+                        <div class="bg-[#453a4d] px-4 py-2 rounded text-gray-300 font-bold tracking-widest text-sm">LOGO</div>
+                        <button onclick="toggleMobileMenu()" class="bg-[#4d4d4d] p-2 rounded-lg text-gray-300">
+                            <i class="fa-solid fa-times text-lg"></i>
+                        </button>
+                    </div>
+                    
+                    <nav class="space-y-3">
+                        <div>
+                            <a href="/home" onclick="toggleMobileMenu()" class="block bg-[#4d4d4d] px-4 py-3 rounded-lg text-sm text-gray-300 hover:bg-[#5d5d5d] transition-colors">
+                                <i class="fa-solid fa-calendar mr-3"></i>กิจกรรมทั้งหมด
+                            </a>
+                        </div>
+                        <?php if (isset($_SESSION['user'])) { ?>
+                            <div>
+                                <a href="/myJoinEvent" onclick="toggleMobileMenu()" class="block bg-[#4d4d4d] px-4 py-3 rounded-lg text-sm text-gray-300 hover:bg-[#5d5d5d] transition-colors">
+                                    <i class="fa-solid fa-user-check mr-3"></i>กิจกรรมที่เข้าร่วม
+                                </a>
+                            </div>
+                            <div>
+                                <a href="/myCreateEvent" onclick="toggleMobileMenu()" class="block bg-[#4d4d4d] px-4 py-3 rounded-lg text-sm text-gray-300 hover:bg-[#5d5d5d] transition-colors">
+                                    <i class="fa-solid fa-plus-circle mr-3"></i>กิจกรรมที่สร้าง
+                                </a>
+                            </div>
+                        <?php } ?>
+                    </nav>
+                    
+                    <?php if (isset($_SESSION['user'])): ?>
+                        <div class="mt-8 pt-8 border-t border-gray-600">
+                            <div class="flex items-center gap-3 mb-4">
+                                <div class="w-10 h-10 bg-[#6b5b7a] rounded-full flex items-center justify-center">
+                                    <i class="fa-solid fa-user text-gray-300 text-sm"></i>
+                                </div>
+                                <div>
+                                    <p class="text-gray-300 text-sm font-medium">สวัสดี</p>
+                                    <p class="text-gray-400 text-xs"><?php echo htmlspecialchars($_SESSION['user']['name']); ?></p>
+                                </div>
+                            </div>
+                            <button onclick="window.location.href='/logout'" class="w-full bg-[#4d4d4d] hover:bg-[#5d5d5d] text-gray-300 px-4 py-3 rounded-lg text-sm transition-colors">
+                                <i class="fa-solid fa-sign-out-alt mr-2"></i>ออกจากระบบ
+                            </button>
+                        </div>
+                    <?php else: ?>
+                        <div class="mt-8 pt-8 border-t border-gray-600">
+                            <button onclick="window.location.href='/login'" class="w-full bg-[#4d4d4d] hover:bg-[#5d5d5d] text-gray-300 px-4 py-3 rounded-lg text-sm transition-colors">
+                                <i class="fa-solid fa-sign-in-alt mr-2"></i>เข้าสู่ระบบ
+                            </button>
+                        </div>
+                    <?php endif; ?>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            function toggleMobileMenu() {
+                document.getElementById('mobileMenu').classList.toggle('hidden');
+            }
+        </script>
+    </div>
+</body>
+</html>

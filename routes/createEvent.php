@@ -35,8 +35,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             $tmp_name = $_FILES['picture']['tmp_name'][$index];
             $error    = $_FILES['picture']['error'][$index];
+            $fileType = strtolower(pathinfo($fileName, PATHINFO_EXTENSION));
 
-            if ($error === 0) {
+            if ($error === 0) { 
+                if (!in_array($fileType, ['png', 'jpg', 'jpeg'])) {
+                    continue;
+                }
 
                 $newName = uniqid() . '_' . $fileName;
                 $path    = 'uploads/' . $newName;
