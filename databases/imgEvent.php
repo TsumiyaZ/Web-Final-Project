@@ -27,3 +27,13 @@ function getFirstImgByEventId($event_id) {
     $stmt->execute();
     return $stmt->get_result()->fetch_assoc();
 }
+
+function deleteImgByImgId($img_id) {
+    $conn = getConnection();
+    $sql = 'delete from event_imgs where img_id = ?';
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param('i', $img_id);
+    $stmt->execute();
+    
+    return $stmt->affected_rows > 0;
+}

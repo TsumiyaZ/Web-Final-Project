@@ -18,7 +18,7 @@ function getAllEvents()
     $stmt = $conn->prepare($sql);
     $stmt->execute();
     return $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
-}
+}   
 
 function getAllYourEventByUserId($user_id)
 {

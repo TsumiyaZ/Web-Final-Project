@@ -1,5 +1,12 @@
 <?php
 
+if (isset($_SESSION['user'])) {
+    $_SESSION = [];
+    session_destroy();
+    header('Location: /login');
+    exit();
+}
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $email = $_POST['email'] ?? '';
@@ -18,10 +25,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         header('Location: /home', true, 303);
         exit();
     }
-    
+
     $_SESSION['error'] = 'Invalid email or password';
     header('Location: /login', true, 303);
     exit();
 } else {
     renderView('login');
-}   
+}
