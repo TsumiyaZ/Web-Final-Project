@@ -5,6 +5,7 @@
         font-family: 'Kanit', sans-serif;
         /* แนะนำให้ใช้ font นี้เพื่อให้เหมือนแบบ */
     }
+
     .glass-container {
         background-color: rgba(139, 106, 150, 0.2);
         backdrop-filter: blur(15px);
@@ -12,6 +13,7 @@
         border: 1px solid rgba(255, 255, 255, 0.1);
         position: relative;
     }
+
     /* ส่วนของรูปภาพฝั่งซ้าย */
     .event-image-container {
         background: rgba(255, 255, 255, 0.1);
@@ -23,26 +25,31 @@
         overflow: hidden;
         position: relative;
     }
+
     .event-image-main {
         width: 100%;
         height: 100%;
         object-fit: cover;
     }
+
     .image-dots {
         display: flex;
         gap: 8px;
         justify-content: center;
         margin-top: 15px;
     }
+
     .dot {
         width: 10px;
         height: 10px;
         background: rgba(255, 255, 255, 0.3);
         border-radius: 50%;
     }
+
     .dot.active {
         background: #ffffff;
     }
+
     /* ข้อความหลัก */
     .event-title {
         font-size: 2.5rem;
@@ -51,11 +58,13 @@
         text-transform: uppercase;
         margin-bottom: 0.5rem;
     }
+
     .event-meta {
         color: rgba(255, 255, 255, 0.8);
         font-size: 1.1rem;
         margin-bottom: 1rem;
     }
+
     .participant-badge {
         background: #ffffff;
         color: #2e2335;
@@ -66,6 +75,7 @@
         margin-top: 1rem;
         box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
     }
+
     /* รายละเอียดด้านล่าง */
     .description-label {
         color: #ffffff;
@@ -74,12 +84,14 @@
         margin-bottom: 1rem;
         display: block;
     }
+
     .description-box {
         color: rgba(255, 255, 255, 0.7);
         line-height: 1.6;
         word-break: break-all;
         font-weight: 300;
     }
+
     /* ปุ่มเข้าร่วมสีขาวตามแบบ */
     .btn-join-main {
         background: #fdf6e3;
@@ -94,10 +106,12 @@
         cursor: pointer;
         box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
     }
+
     .btn-join-main:hover {
         transform: translateY(-2px);
         background: #ffffff;
     }
+
     .btn-cancel-main {
         background: #dc2626;
         color: white;
@@ -164,7 +178,7 @@
                     <?= nl2br(htmlspecialchars($event['description'] ?? 'ไม่มีรายละเอียด')) ?>
                 </div>
             </div>
-            <div class="mt-12 overflow-hidden">
+            <div class="mt-12 overflow-hidden flex justify-between">
                 <form action="/joinEvent" method="post">
                     <input type="hidden" name="event_id" value="<?php echo htmlspecialchars($event['event_id'] ?? '') ?>">
                     <input type="hidden" name="user_id" value="<?php echo htmlspecialchars($_SESSION['user']['user_id'] ?? '') ?>">
@@ -192,6 +206,11 @@
                         </button>
                     <?php } ?>
                 </form>
+                <form action="">
+                    <button type="" class="bg-[#f5f5f7] hover:bg-white text-[#5b3765] px-8 py-2 rounded-lg font-semibold text-sm transition-all transform active:scale-95 shadow-[0_4px_10px_rgba(0,0,0,0.2)]">
+                        <i class="fa-solid fa-user-plus mr-2"></i>จัดการกิจกรรม
+                    </button>
+                </form>
             </div>
         </div>
     <?php else: ?>
@@ -205,6 +224,7 @@
 <script>
     let currentImage = 1;
     const totalImages = <?= $count ?>;
+
     function showImage(imageNumber) {
         // Hide all images
         for (let i = 1; i <= totalImages; i++) {
@@ -229,10 +249,12 @@
         });
         currentImage = imageNumber;
     }
+
     function nextImage() {
         const next = currentImage >= totalImages ? 1 : currentImage + 1;
         showImage(next);
     }
+
     function previousImage() {
         const prev = currentImage <= 1 ? totalImages : currentImage - 1;
         showImage(prev);

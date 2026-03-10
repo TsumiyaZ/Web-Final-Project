@@ -1,50 +1,59 @@
-<?php include 'header.php'; ?>
+<!DOCTYPE html>
+<html lang="en">
 
-<style>
-    body {
-        background: #2e2335 !important;
-        font-family: 'Kanit', sans-serif;
-    }
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Modal UI</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600&family=Oswald:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background: #2e2335 !important;
+            font-family: 'Kanit', sans-serif;
+        }
 
-    .glass-container {
-        background-color: rgba(139, 106, 150, 0.3);
-        backdrop-filter: blur(10px);
-        border-radius: 2rem;
-        border: 1px solid rgba(255, 255, 255, 0.1);
-    }
+        .glass-container {
+            background-color: rgba(139, 106, 150, 0.3);
+            backdrop-filter: blur(10px);
+            border-radius: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
 
-    .custom-input {
-        background-color: rgba(163, 140, 175, 0.4);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        color: #ffffff;
-        border-radius: 1.25rem;
-        transition: all 0.2s;
-        padding: 12px 16px;
-        width: 100%;
-    }
+        .custom-input {
+            background-color: rgba(163, 140, 175, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+            border-radius: 1.25rem;
+            transition: all 0.2s;
+            padding: 12px 16px;
+            width: 100%;
+        }
 
-    .custom-input:focus {
-        outline: none;
-        background-color: rgba(163, 140, 175, 0.5);
-        border-color: rgba(255, 255, 255, 0.2);
-        box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.2);
-    }
+        .custom-input:focus {
+            outline: none;
+            background-color: rgba(163, 140, 175, 0.5);
+            border-color: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.2);
+        }
 
-    .btn-primary {
-        background-color: #f5f5f7;
-        color: #5b3765;
-        border: none;
-        border-radius: 1rem;
-        padding: 12px 24px;
-        font-weight: 600;
-        transition: all 0.2s;
-    }
+        .btn-primary {
+            background-color: #f5f5f7;
+            color: #5b3765;
+            border: none;
+            border-radius: 1rem;
+            padding: 12px 24px;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
 
-    .btn-primary:hover {
-        background-color: #ffffff;
-        transform: scale(1.02);
-    }
-</style>
+        .btn-primary:hover {
+            background-color: #ffffff;
+            transform: scale(1.02);
+        }
+    </style>
+</head>
 
 <main class="min-h-screen flex items-center justify-center p-4">
     <div class="w-full max-w-md glass-container p-8 shadow-2xl">
