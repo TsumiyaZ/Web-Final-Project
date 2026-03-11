@@ -194,7 +194,7 @@
             <div class="text-center mt-10">
                 <a href="/home" class="text-gray-500 hover:text-white text-sm transition-all duration-300 group">
                     <i class="fa-solid fa-arrow-left mr-2 group-hover:-translate-x-1 transition-transform"></i> 
-                    กลับไปหน้าหลัก
+                    กลับไปหน้าหลักสิไอ้ควย
                 </a>
             </div>
         </div>
