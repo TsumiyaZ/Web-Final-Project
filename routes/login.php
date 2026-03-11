@@ -22,6 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         ];
         $unix_timestamp = time();
         $_SESSION['timestamp'] = $unix_timestamp;
+        $_SESSION['success'] = "เข้าสู่ระบบเเล้ว";
         header('Location: /home', true, 303);
         exit();
     }

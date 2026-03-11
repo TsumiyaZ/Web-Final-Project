@@ -126,10 +126,10 @@
     $allImg = getImgByEventId($event['event_id']);
     ?>
     <?php if ($event): ?>
-        <div class="glass-container p-8 md:p-12 shadow-2xl">
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+        <div class="glass-container p-6 md:p-8 lg:p-12 shadow-2xl">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-12">
                 <div>
-                    <div class="event-image-container relative">
+                    <div class="event-image-container relative h-64 md:h-80 lg:h-96">
                         <?php if (!empty($allImg)): ?>
                             <?php $firstImg = true;
                             $count = 0; ?>
@@ -157,57 +157,57 @@
                     </div>
                 </div>
                 <div class="flex flex-col">
-                    <h1 class="event-title"><?= htmlspecialchars($event['event_name'] ?? 'NAME EVENT') ?></h1>
-                    <div class="event-meta">
+                    <h1 class="event-title text-xl md:text-2xl lg:text-3xl"><?= htmlspecialchars($event['event_name'] ?? 'NAME EVENT') ?></h1>
+                    <div class="event-meta text-sm md:text-base">
                         <i class="fa-regular fa-calendar-days mr-2"></i>
-                        <?= htmlspecialchars($event['start_date']) ?> - <?= htmlspecialchars($event['stop_date']) ?>
+                        <?= date('d M Y H:i', strtotime($event['start_date'])) ?> - <?= date('d M Y H:i', strtotime($event['stop_date'])) ?>
                     </div>
                     <div class="text-white/80 mb-4">
                         ชื่อผู้จัด: <span class="font-light"><?= htmlspecialchars(getNameCreatorByEventId($event['event_id'])['name']) ?></span>
                     </div>
                     <div>
-                        <div class="participant-badge">
+                        <div class="participant-badge text-sm md:text-base">
                             จำนวน <?= countApprovedMember($event['event_id']) ?> / <?= htmlspecialchars($event['amount']) ?>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="mt-10">
-                <label class="description-label">รายละเอียด</label>
-                <div class="description-box">
+                <label class="description-label text-lg md:text-xl">รายละเอียด</label>
+                <div class="description-box text-sm md:text-base">
                     <?= nl2br(htmlspecialchars($event['description'] ?? 'ไม่มีรายละเอียด')) ?>
                 </div>
             </div>
-            <div class="mt-12 overflow-hidden flex justify-between">
+            <div class="mt-8 md:mt-12 overflow-hidden flex flex-col md:flex-row justify-between gap-4">
                 <form action="/joinEvent" method="post">
                     <input type="hidden" name="event_id" value="<?php echo htmlspecialchars($event['event_id'] ?? '') ?>">
                     <input type="hidden" name="user_id" value="<?php echo htmlspecialchars($_SESSION['user']['user_id'] ?? '') ?>">
                     <?php if (countApprovedMember($event['event_id']) < $event['amount']) { ?>
                         <?php if (isApproved($_SESSION['user']['user_id'] ?? 0, $event['event_id']) == 'pending') { ?>
-                            <button disabled type="submit" class="bg-yellow-700 text-white px-8 py-2 rounded-lg font-semibold text-sm transition-all transform active:scale-95 shadow-[0_4px_10px_rgba(0,0,0,0.2)]">
+                            <button disabled type="submit" class="w-full md:w-auto bg-yellow-700 text-white px-6 py-2 rounded-lg font-semibold text-sm transition-all transform active:scale-95 shadow-[0_4px_10px_rgba(0,0,0,0.2)]">
                                 <i class="fa-solid fa-clock-rotate-left mr-2"></i>ขอลงทะเบียนเเล้ว
                             </button>
                         <?php } else if (isApproved($_SESSION['user']['user_id'], $event['event_id']) == 'approved') { ?>
-                            <button type="submit" disabled class="bg-blue-600 text-white px-8 py-2 rounded-lg font-semibold text-sm transition-all transform active:scale-95 shadow-[0_4px_10px_rgba(0,0,0,0.2)]">
+                            <button type="submit" disabled class="w-full md:w-auto bg-blue-600 text-white px-6 py-2 rounded-lg font-semibold text-sm transition-all transform active:scale-95 shadow-[0_4px_10px_rgba(0,0,0,0.2)]">
                                 <i class="fa-solid fa-circle-check mr-2"></i>เข้าร่วมกิจกรรมเเล้ว
                             </button>
                         <?php } else if (isApproved($_SESSION['user']['user_id'], $event['event_id']) == 'rejected') { ?>
-                            <button type="submit" class="bg-red-700 text-white px-8 py-2 rounded-lg font-semibold text-sm transition-all transform active:scale-95 shadow-[0_4px_10px_rgba(0,0,0,0.2)]">
+                            <button type="submit" disabled class="w-full md:w-auto bg-red-700 text-white px-6 py-2 rounded-lg font-semibold text-sm transition-all transform active:scale-95 shadow-[0_4px_10px_rgba(0,0,0,0.2)]">
                                 <i class="fa-solid fa-circle-xmark mr-2"></i>ถูกปฏิเสธ
                             </button>
                         <?php } else { ?>
-                            <button type="submit" class="bg-[#f5f5f7] hover:bg-white text-[#5b3765] px-8 py-2 rounded-lg font-semibold text-sm transition-all transform active:scale-95 shadow-[0_4px_10px_rgba(0,0,0,0.2)]">
+                            <button type="submit" class="w-full md:w-auto bg-[#f5f5f7] hover:bg-white text-[#5b3765] px-6 py-2 rounded-lg font-semibold text-sm transition-all transform active:scale-95 shadow-[0_4px_10px_rgba(0,0,0,0.2)]">
                                 <i class="fa-solid fa-user-plus mr-2"></i>ลงทะเบียน
                             </button>
                         <?php } ?>
                     <?php } else { ?>
-                        <button type="submit" disabled class="bg-red-800 text-white px-8 py-2 rounded-lg font-semibold text-sm transition-all transform active:scale-95 shadow-[0_4px_10px_rgba(0,0,0,0.2)]">
+                        <button type="submit" disabled class="w-full md:w-auto bg-red-800 text-white px-6 py-2 rounded-lg font-semibold text-sm transition-all transform active:scale-95 shadow-[0_4px_10px_rgba(0,0,0,0.2)]">
                             <i class="fa-solid fa-envelope mr-2"></i>ผู้เข้าร่วมเต็ม
                         </button>
                     <?php } ?>
                 </form>
-                <form action="">
-                    <button type="" class="bg-[#f5f5f7] hover:bg-white text-[#5b3765] px-8 py-2 rounded-lg font-semibold text-sm transition-all transform active:scale-95 shadow-[0_4px_10px_rgba(0,0,0,0.2)]">
+                <form action="" class="w-full md:w-auto">
+                    <button type="" class="w-full md:w-auto bg-[#f5f5f7] hover:bg-white text-[#5b3765] px-6 py-2 rounded-lg font-semibold text-sm transition-all transform active:scale-95 shadow-[0_4px_10px_rgba(0,0,0,0.2)]">
                         <i class="fa-solid fa-user-plus mr-2"></i>จัดการกิจกรรม
                     </button>
                 </form>

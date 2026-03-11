@@ -51,6 +51,17 @@ include 'header.php';
         transform: scale(1.02);
     }
 
+    .btn-danger {
+        transition: all 0.2s;
+        color: white;
+        border: none;
+    }
+
+    .btn-danger:hover {
+        transform: scale(1.05);
+        opacity: 0.9;
+    }
+
 </style>
 
 <main class="max-w-6xl mx-auto glass-container p-4 md:p-6 lg:p-10 shadow-2xl mt-6 mb-12">
@@ -107,12 +118,12 @@ include 'header.php';
                 <input type="file" name="picture[]" accept="image/*" multiple
                     class="custom-field custom-file-input text-sm md:text-base py-3 md:py-4">
             </div>
-            <div class="flex gap-2 ">
+            <div class="flex flex-wrap gap-2 md:gap-4">
                 <?php foreach (getImgByEventId($data['event']['event_id']) as $img) { ?>
                     <div class="flex flex-col">
-                        <img src="<?= htmlspecialchars($img['img_path']) ?>" alt="Event Image" class="w-20 h-20 object-cover mb-2">
-                        <button type="button" id="deleteImg_<?= $img['img_id'] ?>" class="btn-danger bg-green-600 rounded-xl w-full " onclick="selectImg(<?= $img['img_id'] ?>)">ลบ</button>
-                        <button type="button" id="cancelImg_<?= $img['img_id'] ?>" class="btn-danger bg-red-600 rounded-xl w-full hidden" onclick="selectImg(<?= $img['img_id'] ?>)">ยกเลิก</button>
+                        <img src="<?= htmlspecialchars($img['img_path']) ?>" alt="Event Image" class="w-16 h-16 md:w-20 md:h-20 object-cover mb-2 rounded-lg">
+                        <button type="button" id="deleteImg_<?= $img['img_id'] ?>" class="btn-danger bg-green-600 rounded-lg px-2 py-1 text-xs md:text-sm w-full" onclick="selectImg(<?= $img['img_id'] ?>)">ลบ</button>
+                        <button type="button" id="cancelImg_<?= $img['img_id'] ?>" class="btn-danger bg-red-600 rounded-lg px-2 py-1 text-xs md:text-sm w-full hidden" onclick="selectImg(<?= $img['img_id'] ?>)">ยกเลิก</button>
                     </div>
                 <?php } ?>
             </div>

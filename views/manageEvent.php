@@ -92,12 +92,12 @@ $ageStats = $data['ageStats'] ?? ['not in' => 0, '18-25' => 0, '26-35' => 0, '36
         border-color: rgba(255, 255, 255, 0.1);
     }
 </style>
-<main class="max-w-6xl mx-auto glass-container p-6 md:p-10 shadow-2xl mt-6 mb-12">
-    <div class="mb-8 flex items-center justify-between">
-        <a href="/myCreateEvent" class="bg-white text-gray-800 px-5 py-1.5 rounded-full flex items-center gap-2 text-sm font-medium hover:bg-gray-100 transition-all shadow-sm">
+<main class="max-w-6xl mx-auto glass-container p-4 md:p-6 lg:p-10 shadow-2xl mt-6 mb-12">
+    <div class="mb-6 md:mb-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+        <a href="/myCreateEvent" class="bg-white text-gray-800 px-4 md:px-5 py-1.5 rounded-full flex items-center gap-2 text-sm font-medium hover:bg-gray-100 transition-all shadow-sm">
             <i class="fa-solid fa-arrow-left"></i> จัดการกิจกรรม
         </a>
-        <h2 class="text-xl font-medium tracking-wide">ศูนย์บริหารกิจกรรม</h2>
+        <h2 class="text-lg md:text-xl font-medium tracking-wide">ศูนย์บริหารกิจกรรม</h2>
     </div>
     <?php if ($event): ?>
         <!-- Event Details Section -->
@@ -117,11 +117,11 @@ $ageStats = $data['ageStats'] ?? ['not in' => 0, '18-25' => 0, '26-35' => 0, '36
                 <div class="space-y-4">
                     <div>
                         <label class="block text-sm font-light text-gray-300 mb-2">วันที่เริ่มกิจกรรม</label>
-                        <input type="text" value="<?= htmlspecialchars($event['start_date'] ?? '') ?>" class="custom-field" readonly>
+                        <input type="text" value="<?= date('d M Y H:i', strtotime($event['start_date'] ?? '')) ?>" class="custom-field" readonly>
                     </div>
                     <div>
                         <label class="block text-sm font-light text-gray-300 mb-2">วันที่สิ้นสุดกิจกรรม</label>
-                        <input type="text" value="<?= htmlspecialchars($event['stop_date'] ?? '') ?>" class="custom-field" readonly>
+                        <input type="text" value="<?= date('d M Y H:i', strtotime($event['stop_date'] ?? '')) ?>" class="custom-field" readonly>
                     </div>
                 </div>
             </div>
@@ -133,7 +133,7 @@ $ageStats = $data['ageStats'] ?? ['not in' => 0, '18-25' => 0, '26-35' => 0, '36
         <!-- Statistics Section -->
         <div class="mb-8">
             <h3 class="text-lg font-semibold text-white mb-4">สถิติกิจกรรม</h3>
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                 <div class="stat-card">
                     <div class="text-3xl font-bold text-white mb-2">
                         <i class="fa-solid fa-users text-blue-400"></i>
@@ -237,23 +237,23 @@ $ageStats = $data['ageStats'] ?? ['not in' => 0, '18-25' => 0, '26-35' => 0, '36
         <!-- Action Buttons -->
         <div class="mb-8">
             <h3 class="text-lg font-semibold text-white mb-4">จัดการกิจกรรม</h3>
-            <div class="flex flex-wrap gap-4">
-                <form action="/editEvent" method="post">
+            <div class="flex flex-col md:flex-row gap-3 md:gap-4">
+                <form action="/editEvent" method="post" class="w-full md:w-auto">
                     <input type="hidden" name="event_id" value="<?= $event['event_id'] ?>">
-                    <button class="btn-primary">
+                    <button class="btn-primary w-full md:w-auto">
                         <i class="fa-solid fa-edit mr-2"></i> แก้ไขข้อมูล
                     </button>
                 </form>
-                <button onclick="showDeleteModal(<?= $event['event_id'] ?? 0 ?>)" class="btn-danger">
+                <button onclick="showDeleteModal(<?= $event['event_id'] ?? 0 ?>)" class="btn-danger w-full md:w-auto">
                     <i class="fa-solid fa-trash mr-2"></i> ลบกิจกรรม
                 </button>
             </div>
         </div>
         <!-- Participants Section -->
         <div>
-            <div class="flex justify-between items-center">
-                <h3 class="text-lg font-semibold text-white mb-2">รายชื่อผู้เข้าร่วม</h3>
-                <div class="text-right bg-[#8b6a96]/20 border border-white/10 rounded-xl p-2 mb-2 flex justify-center items-center">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-2">
+                <h3 class="text-lg font-semibold text-white mb-2 md:mb-0">รายชื่อผู้เข้าร่วม</h3>
+                <div class="bg-[#8b6a96]/20 border border-white/10 rounded-xl p-2 flex justify-center items-center">
                     <h3 class="text-white text-sm">ทั้งหมด <span id="totalCount" class="font-bold text-yellow-400"><?= countAllMemberByEventId($event['event_id']) ?></span> คน</h3>
                 </div>
             </div>
@@ -273,7 +273,7 @@ $ageStats = $data['ageStats'] ?? ['not in' => 0, '18-25' => 0, '26-35' => 0, '36
                         <?php } else { ?>
                             <?php foreach ($pendingMember as $member) { ?>
                                 <div class="participant-item">
-                                    <div class="flex items-center justify-between">
+                                    <div class="flex flex-col md:flex-row items-start md:items-center gap-3">
                                         <div class="flex items-center">
                                             <div class="w-10 h-10 bg-gradient-to-br from-yellow-500 to-orange-500 rounded-full flex items-center justify-center text-white font-semibold mr-3">
                                                 <i class="fa-solid fa-user text-sm"></i>
@@ -284,16 +284,16 @@ $ageStats = $data['ageStats'] ?? ['not in' => 0, '18-25' => 0, '26-35' => 0, '36
                                                 <p class="text-gray-400 text-sm">อายุ: <?= getAge($member['birthday']) ?> ปี</p>
                                             </div>
                                         </div>
-                                        <div class="text-right">
-                                            <form action="/approveMember" method="POST" class="inline">
+                                        <div class="flex flex-row md:flex-col gap-2 mt-3 md:mt-0">
+                                            <form action="/approveMember" method="POST">
                                                 <input type="hidden" name="event_id" value="<?= $event['event_id'] ?? 0 ?>">
                                                 <input type="hidden" name="user_id" value="<?= $member['user_id'] ?? 0 ?>">
-                                                <button type="submit" class="btn-primary mx-2">อนุมัติ</button>
+                                                <button type="submit" class="btn-primary text-sm px-3 py-1">อนุมัติ</button>
                                             </form>
-                                            <form action="/rejectMember" method="POST" class="inline">
+                                            <form action="/rejectMember" method="POST">
                                                 <input type="hidden" name="event_id" value="<?= $event['event_id'] ?? 0 ?>">
                                                 <input type="hidden" name="user_id" value="<?= $member['user_id'] ?? 0 ?>">
-                                                <button type="submit" class="btn-danger">ไม่อนุมัติ</button>
+                                                <button type="submit" class="btn-danger text-sm px-3 py-1">ไม่อนุมัติ</button>
                                             </form>
                                         </div>
                                     </div>
@@ -330,7 +330,7 @@ $ageStats = $data['ageStats'] ?? ['not in' => 0, '18-25' => 0, '26-35' => 0, '36
                                 ?>
                                 <?php if (($isUsed['is_used'] ?? 0) == 0) { ?>
                                     <div class="participant-item opacity-75">
-                                        <div class="flex items-center justify-between">
+                                        <div class="flex flex-col md:flex-row items-start md:items-center gap-3 justify-between">
                                             <div class="flex items-center">
                                                 <div class="w-10 h-10 bg-gradient-to-br from-green-500 to-emerald-500 rounded-full flex items-center justify-center text-white font-semibold mr-3">
                                                     <i class="fa-solid fa-check text-sm"></i>
@@ -342,22 +342,23 @@ $ageStats = $data['ageStats'] ?? ['not in' => 0, '18-25' => 0, '26-35' => 0, '36
                                                     <p class="text-gray-400 text-sm">เพศ: <?= htmlspecialchars($gender) ?></p>
                                                 </div>
                                             </div>
-                                            <div class="text-right">
-                                                <form action="/verifyOtp" method="post" class="flex items-center gap-2">
+                                            <div class="flex flex-col gap-2">
+                                                <form action="/verifyOtp" method="post" class="flex flex-col md:flex-row items-center gap-2">
                                                     <input type="hidden" name="event_Id" value="<?= $event['event_id'] ?>">
                                                     <input type="hidden" name="user_id" value="<?= $member['user_id'] ?>">
                                                     <input type="numeric"
                                                         placeholder="กรอก OTP"
                                                         name="otp"
-                                                        class="w-32 px-4 py-2 bg-gray-800/50 text-white rounded-lg border border-gray-600 focus:outline-none focus:border-blue-500 focus:bg-gray-800/70 focus:ring-2 focus:ring-blue-500/30 transition-all backdrop-blur-sm text-center font-mono text-lg"
+                                                        class="w-24 md:w-32 px-3 py-2 bg-gray-800/50 text-white rounded-lg border border-gray-600 focus:outline-none focus:border-blue-500 focus:bg-gray-800/70 focus:ring-2 focus:ring-blue-500/30 transition-all backdrop-blur-sm text-center font-mono text-sm md:text-lg"
                                                         min="0"
                                                         max="999999">
                                                     <button type="submit"
-                                                        class="px-4 py-2 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-lg hover:from-blue-700 hover:to-blue-800 transition-all transform hover:scale-105 active:scale-95 shadow-lg hover:shadow-blue-500/25 font-medium">
-                                                        <i class="fa-solid fa-check-circle mr-2"></i>ตรวจสอบ
+                                                        class="px-3 md:px-4 py-2 bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-lg hover:from-blue-700 hover:to-blue-800 transition-all transform hover:scale-105 active:scale-95 shadow-lg hover:shadow-blue-500/25 font-medium text-sm">
+                                                        <i class="fa-solid fa-check-circle mr-1"></i>ตรวจสอบ
                                                     </button>
                                                 </form>
-                                                <div class="mt-2 text-green-400 text-sm font-medium">
+                                                
+                                                <div class="text-green-400 text-sm font-medium flex justify-end">
                                                     <i class="fa-solid fa-check-circle mr-1"></i>อนุมัติแล้ว
                                                 </div>
                                             </div>
