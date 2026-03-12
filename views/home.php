@@ -23,7 +23,7 @@
                             <div class="flex-shrink-0 w-full h-48 md:w-32 md:h-32 lg:w-40 lg:h-40 bg-white/10 rounded-lg overflow-hidden shadow-inner mb-4 md:mb-0">
                                 <div class="w-full h-full flex items-center justify-center text-white/50">
                                     <?php if ($firstImg): ?>
-                                        <img src="<?php echo htmlspecialchars($firstImg['img_path']) ?>" alt="Event Image" class="w-full h-full object-cover">
+                                        <img src="<?php echo htmlspecialchars($firstImg['img_path']) ?>" alt="Event Image" width="100%" height="100%" class="w-full h-full object-cover">
                                     <?php else: ?>
                                         <i class="fa-solid fa-image text-4xl"></i>
                                     <?php endif; ?>

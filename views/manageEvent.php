@@ -1,5 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>จัดการกิจกรรม</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600&family=Oswald:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background: #2e2335 !important;
+            font-family: 'Kanit', sans-serif;
+        }
+
+        /* Toast notification styles */
+        .toast {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 9999;
+            background: #ff4d4d;
+            color: white;
+            padding: 16px 24px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            animation: slide 0.3s ease-out;
+        }
+
+        @keyframes slide {
+            from {
+                right: -100px;
+                opacity: 0;
+            }
+            to {
+                right: 20px;
+                opacity: 1;
+            }
+        }
+
+        /* Page transition animation */
+        .page-transition {
+            animation: pageLoad 0.5s ease-out;
+        }
+
+        @keyframes pageLoad {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body class="page-transition">
 <?php
-include 'header.php';
 $event = $data['event'] ?? [];
 $approvedMember = $data['approvedMember'] ?? [];
 $rejectedMember = $data['rejectedMember'] ?? [];
@@ -97,7 +154,7 @@ $ageStats = $data['ageStats'] ?? ['not in' => 0, '18-25' => 0, '26-35' => 0, '36
         <a href="/myCreateEvent" class="bg-white text-gray-800 px-4 md:px-5 py-1.5 rounded-full flex items-center gap-2 text-sm font-medium hover:bg-gray-100 transition-all shadow-sm">
             <i class="fa-solid fa-arrow-left"></i> จัดการกิจกรรม
         </a>
-        <h2 class="text-lg md:text-xl font-medium tracking-wide">ศูนย์บริหารกิจกรรม</h2>
+        <h2 class="text-lg text-white md:text-xl font-medium tracking-wide">ศูนย์บริหารกิจกรรม</h2>
     </div>
     <?php if ($event): ?>
         <!-- Event Details Section -->

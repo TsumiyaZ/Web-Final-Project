@@ -24,7 +24,7 @@ $deleImg = false;
 
 if (!empty($_POST['deleteImages'])) {
     $deleteIds = explode(',', $_POST['deleteImages']);
-    
+
     foreach ($deleteIds as $imgId) {
         if (!empty($imgId)) {
             deleteImgByImgId($imgId);
@@ -33,25 +33,25 @@ if (!empty($_POST['deleteImages'])) {
     }
 }
 
-if (!empty($_FILES['picture']['name'][0])) {
-    foreach ($_FILES['picture']['name'] as $index => $fileName) {
+foreach ($_FILES['picture']['name'] as $index => $fileName) {
+    $tmp_name = $_FILES['picture']['tmp_name'][$index];
+    $error    = $_FILES['picture']['error'][$index];
+    $fileSize = $_FILES['picture']['size'][$index];
+    $fileType = strtolower(pathinfo($fileName, PATHINFO_EXTENSION));
+    
+    if ($error === 0) {
+        if (!in_array($fileType, ['png', 'jpg', 'jpeg'])) {
+            continue;
+        }
+        $maxSize = 2 * 1024 * 1024;
+        if ($fileSize > $maxSize) {
+            continue;
+        }
+        $newName = uniqid() . '_' . $fileName;
+        $path    = 'uploads/' . $newName;
 
-        $tmp_name = $_FILES['picture']['tmp_name'][$index];
-        $error    = $_FILES['picture']['error'][$index];
-        $fileType = strtolower(pathinfo($fileName, PATHINFO_EXTENSION));
-
-        if ($error === 0) {
-            if (!in_array($fileType, ['png', 'jpg', 'jpeg'])) {
-                continue;
-            }
-
-            $newName = uniqid() . '_' . $fileName;
-            $path    = 'uploads/' . $newName;
-
-            if (move_uploaded_file($tmp_name, $path)) {
-                uploadImg($event_id, $path);
-                $updateImg = true;
-            }
+        if (move_uploaded_file($tmp_name, $path)) {
+            uploadImg($event_id, $path);
         }
     }
 }

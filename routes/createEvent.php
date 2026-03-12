@@ -32,16 +32,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         );
 
         foreach ($_FILES['picture']['name'] as $index => $fileName) {
-
             $tmp_name = $_FILES['picture']['tmp_name'][$index];
             $error    = $_FILES['picture']['error'][$index];
+            $fileSize = $_FILES['picture']['size'][$index];
             $fileType = strtolower(pathinfo($fileName, PATHINFO_EXTENSION));
 
-            if ($error === 0) { 
+            if ($error === 0) {
                 if (!in_array($fileType, ['png', 'jpg', 'jpeg'])) {
                     continue;
                 }
-
+                $maxSize = 2 * 1024 * 1024;
+                if ($fileSize > $maxSize) {
+                    continue;
+                }
                 $newName = uniqid() . '_' . $fileName;
                 $path    = 'uploads/' . $newName;
 
@@ -56,7 +59,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         header('Location: /myCreateEvent');
         exit();
-
     } else {
         $_SESSION['error'] = 'กรุณาใส่รูปอย่างน้อย 1 รูป';
         header('Location: /myCreateEvent');
