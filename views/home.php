@@ -15,10 +15,16 @@
                     </div>
                 </form>
             </div>
+            <?php 
+                $isLoggedIn = isset($_SESSION['user']);
+            ?>
             <?php if (!empty($data['allEvent'])) { ?>
                 <?php foreach ($data['allEvent'] as $each) { ?>
-                    <?php $firstImg = getFirstImgByEventId($each['event_id']); ?>
-                    <a href="/detailEvent?event_id=<?php echo htmlspecialchars($each['event_id']) ?>" class="block">
+                    <?php 
+                        $firstImg = getFirstImgByEventId($each['event_id']);
+                        $detailUrl = $isLoggedIn ? "/detailEvent?event_id=" . htmlspecialchars($each['event_id']) : "/login";    
+                    ?>
+                    <a href="<?= $detailUrl ?>" class="block">
                         <div class="flex flex-col md:flex-row items-start bg-white/5 p-3 rounded-lg border border-white/10 shadow-2xl hover:bg-white/10 transition-all duration-300">
                             <div class="flex-shrink-0 w-full h-48 md:w-32 md:h-32 lg:w-40 lg:h-40 bg-white/10 rounded-lg overflow-hidden shadow-inner mb-4 md:mb-0">
                                 <div class="w-full h-full flex items-center justify-center text-white/50">
