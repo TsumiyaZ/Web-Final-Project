@@ -345,3 +345,13 @@ function isUsed_1($user_id, $event_id) {
     $stmt->close();
     return ($row['is_used'] ?? 0 )== 1 ? true : false;
 }
+
+function cancelEvent($event_id, $user_id) {
+    $conn = getConnection();
+    $sql = 'delete from event_join where event_id = ? and user_id = ?';
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param('ii', $event_id, $user_id);
+    $stmt->execute();
+
+    return $stmt->affected_rows > 0;
+}

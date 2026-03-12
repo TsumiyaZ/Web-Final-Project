@@ -167,3 +167,14 @@ function getNameCreatorByEventId($event_id) {
     $stmt->execute();
     return $stmt->get_result()->fetch_assoc();
 }
+
+function checkOwnerEventOnDetail($event_id, $user_id) {
+    $conn = getConnection();
+    $sql = 'select events.* from events 
+            join users on events.creator_id = users.user_id
+            where events.event_id = ? and events.creator_id = ?';
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param('ii', $event_id, $user_id);
+    $stmt->execute();
+    return $stmt->get_result()->fetch_assoc() ? true : false;
+}

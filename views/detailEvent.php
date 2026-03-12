@@ -1,148 +1,254 @@
-<?php include 'header.php'; ?>
-<style>
-    body {
-        background: #2e2335 !important;
-        font-family: 'Kanit', sans-serif;
-        /* แนะนำให้ใช้ font นี้เพื่อให้เหมือนแบบ */
-    }
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Detail</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600&family=Oswald:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background: #2e2335 !important;
+            font-family: 'Kanit', sans-serif;
+        }
 
-    .glass-container {
-        background-color: rgba(139, 106, 150, 0.2);
-        backdrop-filter: blur(15px);
-        border-radius: 1.5rem;
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        position: relative;
-    }
+        /* Toast notification styles */
+        .toast {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 9999;
+            background: #ff4d4d;
+            color: white;
+            padding: 16px 24px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            animation: slide 0.3s ease-out;
+        }
 
-    /* ส่วนของรูปภาพฝั่งซ้าย */
-    .event-image-container {
-        background: rgba(255, 255, 255, 0.1);
-        border-radius: 1.5rem;
-        height: 400px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        overflow: hidden;
-        position: relative;
-    }
+        @keyframes slide {
+            from {
+                right: -100px;
+                opacity: 0;
+            }
+            to {
+                right: 20px;
+                opacity: 1;
+            }
+        }
 
-    .event-image-main {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-    }
+        /* Page transition animation */
+        .page-transition {
+            animation: pageLoad 0.5s ease-out;
+        }
 
-    .image-dots {
-        display: flex;
-        gap: 8px;
-        justify-content: center;
-        margin-top: 15px;
-    }
+        @keyframes pageLoad {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
 
-    .dot {
-        width: 10px;
-        height: 10px;
-        background: rgba(255, 255, 255, 0.3);
-        border-radius: 50%;
-    }
+        .glass-container {
+            background: linear-gradient(135deg, rgba(139, 106, 150, 0.25) 0%, rgba(124, 81, 118, 0.15) 100%);
+            backdrop-filter: blur(20px);
+            border-radius: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            position: relative;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.4), 
+                        0 0 0 1px rgba(255, 255, 255, 0.05) inset;
+            overflow: hidden;
+        }
 
-    .dot.active {
-        background: #ffffff;
-    }
+        .glass-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+        }
 
-    /* ข้อความหลัก */
-    .event-title {
-        font-size: 2.5rem;
-        font-weight: 700;
-        color: #ffffff;
-        text-transform: uppercase;
-        margin-bottom: 0.5rem;
-    }
+        /* ส่วนของรูปภาพฝั่งซ้าย */
+        .event-image-container {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+            border-radius: 1.5rem;
+            height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            position: relative;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3),
+                        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        }
 
-    .event-meta {
-        color: rgba(255, 255, 255, 0.8);
-        font-size: 1.1rem;
-        margin-bottom: 1rem;
-    }
+        .event-image-main {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
 
-    .participant-badge {
-        background: #ffffff;
-        color: #2e2335;
-        padding: 5px 20px;
-        border-radius: 20px;
-        display: inline-block;
-        font-weight: 600;
-        margin-top: 1rem;
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-    }
+        .event-image-main:hover {
+            transform: scale(1.05);
+        }
 
-    /* รายละเอียดด้านล่าง */
-    .description-label {
-        color: #ffffff;
-        font-size: 1.2rem;
-        margin-top: 2rem;
-        margin-bottom: 1rem;
-        display: block;
-    }
+        .image-dots {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            margin-top: 20px;
+        }
 
-    .description-box {
-        color: rgba(255, 255, 255, 0.7);
-        line-height: 1.6;
-        word-break: break-all;
-        font-weight: 300;
-    }
+        .dot {
+            width: 12px;
+            height: 12px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        }
 
-    /* ปุ่มเข้าร่วมสีขาวตามแบบ */
-    .btn-join-main {
-        background: #fdf6e3;
-        color: #2e2335;
-        padding: 10px 40px;
-        border-radius: 15px;
-        font-weight: 600;
-        font-size: 1.1rem;
-        transition: all 0.3s;
-        float: right;
-        border: none;
-        cursor: pointer;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-    }
+        .dot:hover {
+            background: rgba(255, 255, 255, 0.4);
+            transform: scale(1.2);
+        }
 
-    .btn-join-main:hover {
-        transform: translateY(-2px);
-        background: #ffffff;
-    }
+        .dot.active {
+            background: linear-gradient(135deg, #ffffff 0%, #f0f0f0 100%);
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.5),
+                        0 2px 8px rgba(0, 0, 0, 0.3);
+            transform: scale(1.3);
+        }
 
-    .btn-cancel-main {
-        background: #dc2626;
-        color: white;
-        padding: 10px 40px;
-        border-radius: 15px;
-        float: right;
-    }
+        /* ข้อความหลัก */
+        .event-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #ffffff 0%, #e0e0e0 50%, #ffffff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+            letter-spacing: 2px;
+            text-shadow: 0 4px 20px rgba(255, 255, 255, 0.1);
+        }
+
+        .event-meta {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .participant-badge {
+            background: linear-gradient(135deg, #ffffff 0%, #f8f8f8 100%);
+            color: #2e2335;
+            padding: 8px 24px;
+            border-radius: 25px;
+            display: inline-block;
+            font-weight: 700;
+            margin-top: 1rem;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3),
+                        0 0 0 1px rgba(255, 255, 255, 0.1) inset;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .participant-badge::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .participant-badge:hover::before {
+            left: 100%;
+        }
+
+        .participant-badge:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4),
+                        0 0 0 1px rgba(255, 255, 255, 0.2) inset;
+        }
+
+        /* รายละเอียดด้านล่าง */
+        .description-label {
+            color: #ffffff;
+            font-size: 1.3rem;
+            margin-top: 2.5rem;
+            margin-bottom: 1.5rem;
+            display: block;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .description-label::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(90deg, #7c5176, #ffffff);
+            border-radius: 2px;
+        }
+
+        .description-box {
+            color: rgba(255, 255, 255, 0.85);
+            line-height: 1.8;
+            word-break: break-word;
+            font-weight: 300;
+            font-size: 1.05rem;
+            background: rgba(255, 255, 255, 0.03);
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
 </style>
 <main class="max-w-7xl mx-auto p-4 md:p-10">
     <?php
     $event = $data['event'] ?? [];
-    $allImg = getImgByEventId($event['event_id']);
+    $allImg = getImgByEventId($event['event_id']) ?? [];
     ?>
     <?php if ($event): ?>
         <div class="glass-container p-6 md:p-8 lg:p-12 shadow-2xl">
+            <button onclick="window.location.href='/home'" class="group bg-white/10 hover:bg-white/20 backdrop-blur-sm border border-white/20 w-12 h-12 rounded-full transition-all duration-300 hover:scale-110 hover:shadow-lg mb-6 flex items-center justify-center">
+                <i class="fa-solid fa-angle-left text-white text-lg group-hover:-translate-x-1 transition-transform"></i>
+            </button>
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-12">
                 <div>
-                    <div class="event-image-container relative h-64 md:h-80 lg:h-96">
+                    <div id="carousel-wrapper" class="event-image-container relative h-64 md:h-80 lg:h-96">
                         <?php if (!empty($allImg)): ?>
-                            <?php $firstImg = true;
-                            $count = 0; ?>
-                            <?php foreach ($allImg as $img) { ?>
-                                <img src="<?= htmlspecialchars($img['img_path']) ?>" id="event-image-<?= $count + 1 ?>" class="w-full event-image-main <?= $count > 0 ? 'hidden' : '' ?>">
-                                <?php $count++; ?>
-                            <?php } ?>
-                            <!-- Navigation buttons -->
-                            <?php if ($count > 1): ?>
-                                <button onclick="previousImage()" class="absolute left-4 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-3 rounded-full transition-all">
+                            <?php foreach ($allImg as $index => $img): ?>
+                                <img src="<?= htmlspecialchars($img['img_path']) ?>" 
+                                     class="slide-img w-full event-image-main <?= $index > 0 ? 'hidden' : '' ?>">
+                            <?php endforeach; ?>
+                            
+                            <?php if (count($allImg) > 1): ?>
+                                <button onclick="prevSlide()" class="absolute left-4 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-3 rounded-full transition-all z-10">
                                     <i class="fa-solid fa-chevron-left"></i>
                                 </button>
-                                <button onclick="nextImage()" class="absolute right-4 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-3 rounded-full transition-all">
+                                <button onclick="nextSlide()" class="absolute right-4 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-3 rounded-full transition-all z-10">
                                     <i class="fa-solid fa-chevron-right"></i>
                                 </button>
                             <?php endif; ?>
@@ -151,11 +257,12 @@
                         <?php endif; ?>
                     </div>
                     <div class="image-dots">
-                        <?php for ($i = 0; $i < $count; $i++) { ?>
-                            <div class="dot <?= $i == 0 ? 'active' : '' ?>" onclick="showImage(<?= $i + 1 ?>)"></div>
-                        <?php } ?>
+                        <?php foreach ($allImg as $index => $img): ?>
+                            <div class="dot slide-dot <?= $index == 0 ? 'active' : '' ?>" onclick="goToSlide(<?= $index ?>)"></div>
+                        <?php endforeach; ?>
                     </div>
                 </div>
+                
                 <div class="flex flex-col">
                     <h1 class="event-title text-xl md:text-2xl lg:text-3xl"><?= htmlspecialchars($event['event_name'] ?? 'NAME EVENT') ?></h1>
                     <div class="event-meta text-sm md:text-base">
@@ -163,7 +270,7 @@
                         <?= date('d M Y H:i', strtotime($event['start_date'])) ?> - <?= date('d M Y H:i', strtotime($event['stop_date'])) ?>
                     </div>
                     <div class="text-white/80 mb-4">
-                        ชื่อผู้จัด: <span class="font-light"><?= htmlspecialchars(getNameCreatorByEventId($event['event_id'])['name']) ?></span>
+                        ชื่อผู้จัด: <span class="font-light"><?= htmlspecialchars(getNameCreatorByEventId($event['event_id'])['name'] ?? 'Admin') ?></span>
                     </div>
                     <div>
                         <div class="participant-badge text-sm md:text-base">
@@ -172,98 +279,105 @@
                     </div>
                 </div>
             </div>
+
             <div class="mt-10">
                 <label class="description-label text-lg md:text-xl">รายละเอียด</label>
                 <div class="description-box text-sm md:text-base">
                     <?= nl2br(htmlspecialchars($event['description'] ?? 'ไม่มีรายละเอียด')) ?>
                 </div>
             </div>
+
             <div class="mt-8 md:mt-12 overflow-hidden flex flex-col md:flex-row justify-between gap-4">
-                <form action="/joinEvent" method="post">
-                    <input type="hidden" name="event_id" value="<?php echo htmlspecialchars($event['event_id'] ?? '') ?>">
-                    <input type="hidden" name="user_id" value="<?php echo htmlspecialchars($_SESSION['user']['user_id'] ?? '') ?>">
-                    <?php if (countApprovedMember($event['event_id']) < $event['amount']) { ?>
-                        <?php if (isApproved($_SESSION['user']['user_id'] ?? 0, $event['event_id']) == 'pending') { ?>
-                            <button disabled type="submit" class="w-full md:w-auto bg-yellow-700 text-white px-6 py-2 rounded-lg font-semibold text-sm transition-all transform active:scale-95 shadow-[0_4px_10px_rgba(0,0,0,0.2)]">
-                                <i class="fa-solid fa-clock-rotate-left mr-2"></i>ขอลงทะเบียนเเล้ว
-                            </button>
-                        <?php } else if (isApproved($_SESSION['user']['user_id'], $event['event_id']) == 'approved') { ?>
-                            <button type="submit" disabled class="w-full md:w-auto bg-blue-600 text-white px-6 py-2 rounded-lg font-semibold text-sm transition-all transform active:scale-95 shadow-[0_4px_10px_rgba(0,0,0,0.2)]">
-                                <i class="fa-solid fa-circle-check mr-2"></i>เข้าร่วมกิจกรรมเเล้ว
-                            </button>
-                        <?php } else if (isApproved($_SESSION['user']['user_id'], $event['event_id']) == 'rejected') { ?>
-                            <button type="submit" disabled class="w-full md:w-auto bg-red-700 text-white px-6 py-2 rounded-lg font-semibold text-sm transition-all transform active:scale-95 shadow-[0_4px_10px_rgba(0,0,0,0.2)]">
-                                <i class="fa-solid fa-circle-xmark mr-2"></i>ถูกปฏิเสธ
-                            </button>
+                <?php if (isset($_SESSION['user'])): ?>
+                    <form action="/joinEvent" method="post">
+                        <input type="hidden" name="event_id" value="<?php echo htmlspecialchars($event['event_id'] ?? '') ?>">
+                        <input type="hidden" name="user_id" value="<?php echo htmlspecialchars($_SESSION['user']['user_id'] ?? '') ?>">
+                        <?php if (countApprovedMember($event['event_id']) < $event['amount']) { ?>
+                            <?php if (isApproved($_SESSION['user']['user_id'] ?? 0, $event['event_id']) == 'pending') { ?>
+                                <button disabled type="submit" class="w-full md:w-auto bg-yellow-700 text-white px-6 py-2 rounded-lg font-semibold text-sm transition-all transform active:scale-95 shadow-[0_4px_10px_rgba(0,0,0,0.2)]">
+                                    <i class="fa-solid fa-clock-rotate-left mr-2"></i>ขอลงทะเบียนเเล้ว
+                                </button>
+                            <?php } else if (isApproved($_SESSION['user']['user_id'], $event['event_id']) == 'approved') { ?>
+                                <button type="submit" disabled class="w-full md:w-auto bg-blue-600 text-white px-6 py-2 rounded-lg font-semibold text-sm transition-all transform active:scale-95 shadow-[0_4px_10px_rgba(0,0,0,0.2)]">
+                                    <i class="fa-solid fa-circle-check mr-2"></i>เข้าร่วมกิจกรรมเเล้ว
+                                </button>
+                            <?php } else if (isApproved($_SESSION['user']['user_id'], $event['event_id']) == 'rejected') { ?>
+                                <button type="submit" disabled class="w-full md:w-auto bg-red-700 text-white px-6 py-2 rounded-lg font-semibold text-sm transition-all transform active:scale-95 shadow-[0_4px_10px_rgba(0,0,0,0.2)]">
+                                    <i class="fa-solid fa-circle-xmark mr-2"></i>ถูกปฏิเสธ
+                                </button>
+                            <?php } else { ?>
+                                <button type="submit" class="w-full md:w-auto bg-[#f5f5f7] hover:bg-white text-[#5b3765] px-6 py-2 rounded-lg font-semibold text-sm transition-all transform active:scale-95 shadow-[0_4px_10px_rgba(0,0,0,0.2)]">
+                                    <i class="fa-solid fa-user-plus mr-2"></i>ลงทะเบียน
+                                </button>
+                            <?php } ?>
                         <?php } else { ?>
-                            <button type="submit" class="w-full md:w-auto bg-[#f5f5f7] hover:bg-white text-[#5b3765] px-6 py-2 rounded-lg font-semibold text-sm transition-all transform active:scale-95 shadow-[0_4px_10px_rgba(0,0,0,0.2)]">
-                                <i class="fa-solid fa-user-plus mr-2"></i>ลงทะเบียน
+                            <button type="submit" disabled class="w-full md:w-auto bg-red-800 text-white px-6 py-2 rounded-lg font-semibold text-sm transition-all transform active:scale-95 shadow-[0_4px_10px_rgba(0,0,0,0.2)]">
+                                <i class="fa-solid fa-envelope mr-2"></i>ผู้เข้าร่วมเต็ม
                             </button>
                         <?php } ?>
-                    <?php } else { ?>
-                        <button type="submit" disabled class="w-full md:w-auto bg-red-800 text-white px-6 py-2 rounded-lg font-semibold text-sm transition-all transform active:scale-95 shadow-[0_4px_10px_rgba(0,0,0,0.2)]">
-                            <i class="fa-solid fa-envelope mr-2"></i>ผู้เข้าร่วมเต็ม
-                        </button>
+                    </form>
+                    
+                    <?php if (checkOwnerEventOnDetail($event['event_id'], $_SESSION['user']['user_id'])) { ?>
+                        <form action="/manageEvent" method="POST" class="w-full md:w-auto">
+                            <input type="hidden" name="event_id" value="<?php echo $event['event_id']; ?>">
+                            <input type="hidden" name="user_id" value="<?php echo $_SESSION['user']['user_id']; ?>">
+                            <button type="submit" class="w-full md:w-auto bg-[#f5f5f7] hover:bg-white text-[#5b3765] px-6 py-2 rounded-lg font-semibold text-sm transition-all transform active:scale-95 shadow-[0_4px_10px_rgba(0,0,0,0.2)]">
+                                <i class="fa-solid fa-list-check mr-2"></i>จัดการกิจกรรม
+                            </button>
+                        </form>
                     <?php } ?>
-                </form>
-                <form action="" class="w-full md:w-auto">
-                    <button type="" class="w-full md:w-auto bg-[#f5f5f7] hover:bg-white text-[#5b3765] px-6 py-2 rounded-lg font-semibold text-sm transition-all transform active:scale-95 shadow-[0_4px_10px_rgba(0,0,0,0.2)]">
-                        <i class="fa-solid fa-user-plus mr-2"></i>จัดการกิจกรรม
-                    </button>
-                </form>
+                <?php else: ?>
+                    <form action="/login" method="GET">
+                        <button type="submit" class="w-full md:w-auto bg-[#f5f5f7] hover:bg-white text-[#5b3765] px-6 py-2 rounded-lg font-semibold text-sm transition-all transform active:scale-95 shadow-[0_4px_10px_rgba(0,0,0,0.2)]">
+                            <i class="fa-solid fa-user-plus mr-2"></i>ลงทะเบียน
+                        </button>
+                    </form>
+                <?php endif; ?>
             </div>
-        </div>
-    <?php else: ?>
-        <div class="text-center py-20 glass-container">
-            <i class="fa-solid fa-circle-exclamation text-6xl text-white/20 mb-4"></i>
-            <h3 class="text-white text-xl">ไม่พบข้อมูลกิจกรรม</h3>
-            <a href="/home" class="text-white/50 underline mt-4 block">กลับหน้าหลัก</a>
         </div>
     <?php endif; ?>
 </main>
+
 <script>
-    let currentImage = 1;
-    const totalImages = <?= $count ?>;
+    // ใช้สคริปต์แบบระบุเป้าหมายโดยตรง (ไม่พึ่ง ID จาก PHP)
+    let currentIdx = 0;
+    const slides = document.querySelectorAll('.slide-img');
+    const dots = document.querySelectorAll('.slide-dot');
 
-    function showImage(imageNumber) {
-        // Hide all images
-        for (let i = 1; i <= totalImages; i++) {
-            const img = document.getElementById(`event-image-${i}`);
-            if (img) {
-                img.classList.add('hidden');
-            }
-        }
-        // Show selected image
-        const selectedImg = document.getElementById(`event-image-${imageNumber}`);
-        if (selectedImg) {
-            selectedImg.classList.remove('hidden');
-        }
-        // Update dots
-        const dots = document.querySelectorAll('.dot');
-        dots.forEach((dot, index) => {
-            if (index === imageNumber - 1) {
-                dot.classList.add('active');
-            } else {
-                dot.classList.remove('active');
-            }
-        });
-        currentImage = imageNumber;
+    function updateCarousel(index) {
+        if (slides.length === 0) return;
+
+        // ตรวจสอบ Index ไม่ให้เกินขอบเขต
+        if (index >= slides.length) currentIdx = 0;
+        else if (index < 0) currentIdx = slides.length - 1;
+        else currentIdx = index;
+
+        // ซ่อนรูปทั้งหมดและเอา active ออกจากจุดทั้งหมด
+        slides.forEach(img => img.classList.add('hidden'));
+        dots.forEach(dot => dot.classList.remove('active'));
+
+        // แสดงรูปที่เลือกและไฮไลท์จุด
+        slides[currentIdx].classList.remove('hidden');
+        dots[currentIdx].classList.add('active');
     }
 
-    function nextImage() {
-        const next = currentImage >= totalImages ? 1 : currentImage + 1;
-        showImage(next);
+    function nextSlide() {
+        updateCarousel(currentIdx + 1);
     }
 
-    function previousImage() {
-        const prev = currentImage <= 1 ? totalImages : currentImage - 1;
-        showImage(prev);
+    function prevSlide() {
+        updateCarousel(currentIdx - 1);
     }
-    // Auto-play carousel (optional)
-    setInterval(() => {
-        if (totalImages > 1) {
-            nextImage();
+
+    function goToSlide(idx) {
+        updateCarousel(idx);
+    }
+
+    // Auto-play ทุก 5 วินาที
+    document.addEventListener('DOMContentLoaded', () => {
+        if (slides.length > 1) {
+            setInterval(nextSlide, 5000);
         }
-    }, 5000); // Change image every 5 seconds
+    });
 </script>
 <?php include 'footer.php'; ?>

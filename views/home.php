@@ -9,6 +9,9 @@
                         <button type="submit" class="bg-white/20 text-white px-4 py-1.5 rounded text-sm hover:bg-white/30">
                             ค้นหา
                         </button>
+                        <button type="button" onclick="clearFilters()" class="bg-white/20 text-white px-4 py-1.5 rounded text-sm hover:bg-white/30">
+                            <i class="fa-solid fa-eraser"></i>
+                        </button>
                     </div>
                 </form>
             </div>
@@ -93,4 +96,20 @@
             <?php } ?>
         </div>
         </div>
+
+<script>
+    function clearFilters() {
+        // Clear form values
+        const form = document.querySelector('form[action="/home"]');
+        if (form) {
+            form.querySelector('input[name="search"]').value = '';
+            form.querySelector('input[name="start_date"]').value = '';
+            form.querySelector('input[name="stop_date"]').value = '';
+            
+            // Submit the form to clear filters
+            form.submit();
+        }
+    }
+</script>
+
         <?php include 'footer.php' ?>

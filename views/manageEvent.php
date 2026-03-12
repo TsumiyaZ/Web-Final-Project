@@ -273,7 +273,7 @@ $ageStats = $data['ageStats'] ?? ['not in' => 0, '18-25' => 0, '26-35' => 0, '36
                         <?php } else { ?>
                             <?php foreach ($pendingMember as $member) { ?>
                                 <div class="participant-item">
-                                    <div class="flex flex-col md:flex-row items-start md:items-center gap-3">
+                                    <div class="flex flex-col md:flex-row items-start md:items-center gap-3 justify-between">
                                         <div class="flex items-center">
                                             <div class="w-10 h-10 bg-gradient-to-br from-yellow-500 to-orange-500 rounded-full flex items-center justify-center text-white font-semibold mr-3">
                                                 <i class="fa-solid fa-user text-sm"></i>
@@ -284,7 +284,7 @@ $ageStats = $data['ageStats'] ?? ['not in' => 0, '18-25' => 0, '26-35' => 0, '36
                                                 <p class="text-gray-400 text-sm">อายุ: <?= getAge($member['birthday']) ?> ปี</p>
                                             </div>
                                         </div>
-                                        <div class="flex flex-row md:flex-col gap-2 mt-3 md:mt-0">
+                                        <div class="flex flex-row md:flex-row gap-2 mt-3 md:mt-0">
                                             <form action="/approveMember" method="POST">
                                                 <input type="hidden" name="event_id" value="<?= $event['event_id'] ?? 0 ?>">
                                                 <input type="hidden" name="user_id" value="<?= $member['user_id'] ?? 0 ?>">

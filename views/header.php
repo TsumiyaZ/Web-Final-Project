@@ -89,10 +89,47 @@
         .custom-scrollbar::-webkit-scrollbar-thumb:hover {
             background: #5a4d63;
         }
+
+        /* Active page navigation styling */
+        .nav-active {
+            background: #7c5176 !important;
+            color: #ffffff !important;
+            font-weight: 600;
+            box-shadow: 0 4px 12px rgba(124, 81, 118, 0.3);
+            transform: translateY(-1px);
+            transition: all 0.3s ease;
+        }
+
+        .nav-active:hover {
+            background: #8b6285 !important;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(124, 81, 118, 0.4);
+        }
+
+        /* Smooth scroll behavior */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Page transition animation */
+        .page-transition {
+            animation: pageLoad 0.5s ease-out;
+        }
+
+        @keyframes pageLoad {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
     </style>
 </head>
 
-<body class="bg-[#2e2335] text-white h-screen relative">
+<body class="bg-[#2e2335] text-white h-screen relative page-transition">
 
     <div id="main-content" class="w-full h-20 p-6 transition-all duration-300">
 
@@ -103,14 +140,14 @@
             <div class="hidden md:flex flex-1">
                 <div class="flex gap-3 px-8 items-center">
                     <div>
-                        <a href="/home" class="bg-[#4d4d4d] px-4 py-2 rounded-full text-sm text-gray-300">กิจกรรมทั้งหมด</a>
+                        <a href="/home" class="bg-[#4d4d4d] px-4 py-2 rounded-full text-sm text-gray-300 <?php echo basename($_SERVER['PHP_SELF']) == 'home.php' || $_SERVER['REQUEST_URI'] == '/' || $_SERVER['REQUEST_URI'] == '/home' ? 'nav-active' : ''; ?>">กิจกรรมทั้งหมด</a>
                     </div>
                     <?php if (isset($_SESSION['user'])) { ?>
                         <div>
-                            <a href="/myJoinEvent" class="bg-[#4d4d4d] px-4 py-2 rounded-full text-sm text-gray-300">กิจกรรมที่เข้าร่วม</a>
+                            <a href="/myJoinEvent" class="bg-[#4d4d4d] px-4 py-2 rounded-full text-sm text-gray-300 <?php echo strpos($_SERVER['REQUEST_URI'], '/myJoinEvent') !== false ? 'nav-active' : ''; ?>">กิจกรรมที่เข้าร่วม</a>
                         </div>
                         <div>
-                            <a href="/myCreateEvent" class="bg-[#4d4d4d] px-4 py-2 rounded-full text-sm text-gray-300">กิจกรรมที่สร้าง</a>
+                            <a href="/myCreateEvent" class="bg-[#4d4d4d] px-4 py-2 rounded-full text-sm text-gray-300 <?php echo strpos($_SERVER['REQUEST_URI'], '/myCreateEvent') !== false ? 'nav-active' : ''; ?>">กิจกรรมที่สร้าง</a>
                         </div>
                     <?php } ?>
                 </div>
@@ -151,18 +188,18 @@
                     
                     <nav class="space-y-3">
                         <div>
-                            <a href="/home" onclick="toggleMobileMenu()" class="block bg-[#4d4d4d] px-4 py-3 rounded-lg text-sm text-gray-300 hover:bg-[#5d5d5d] transition-colors">
+                            <a href="/home" onclick="toggleMobileMenu()" class="block bg-[#4d4d4d] px-4 py-3 rounded-lg text-sm text-gray-300 hover:bg-[#5d5d5d] transition-colors <?php echo basename($_SERVER['PHP_SELF']) == 'home.php' || $_SERVER['REQUEST_URI'] == '/' || $_SERVER['REQUEST_URI'] == '/home' ? 'nav-active' : ''; ?>">
                                 <i class="fa-solid fa-calendar mr-3"></i>กิจกรรมทั้งหมด
                             </a>
                         </div>
                         <?php if (isset($_SESSION['user'])) { ?>
                             <div>
-                                <a href="/myJoinEvent" onclick="toggleMobileMenu()" class="block bg-[#4d4d4d] px-4 py-3 rounded-lg text-sm text-gray-300 hover:bg-[#5d5d5d] transition-colors">
+                                <a href="/myJoinEvent" onclick="toggleMobileMenu()" class="block bg-[#4d4d4d] px-4 py-3 rounded-lg text-sm text-gray-300 hover:bg-[#5d5d5d] transition-colors <?php echo strpos($_SERVER['REQUEST_URI'], '/myJoinEvent') !== false ? 'nav-active' : ''; ?>">
                                     <i class="fa-solid fa-user-check mr-3"></i>กิจกรรมที่เข้าร่วม
                                 </a>
                             </div>
                             <div>
-                                <a href="/myCreateEvent" onclick="toggleMobileMenu()" class="block bg-[#4d4d4d] px-4 py-3 rounded-lg text-sm text-gray-300 hover:bg-[#5d5d5d] transition-colors">
+                                <a href="/myCreateEvent" onclick="toggleMobileMenu()" class="block bg-[#4d4d4d] px-4 py-3 rounded-lg text-sm text-gray-300 hover:bg-[#5d5d5d] transition-colors <?php echo strpos($_SERVER['REQUEST_URI'], '/myCreateEvent') !== false ? 'nav-active' : ''; ?>">
                                     <i class="fa-solid fa-plus-circle mr-3"></i>กิจกรรมที่สร้าง
                                 </a>
                             </div>
