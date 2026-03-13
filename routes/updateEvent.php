@@ -33,25 +33,37 @@ if (!empty($_POST['deleteImages'])) {
     }
 }
 
-foreach ($_FILES['picture']['name'] as $index => $fileName) {
-    $tmp_name = $_FILES['picture']['tmp_name'][$index];
-    $error    = $_FILES['picture']['error'][$index];
-    $fileSize = $_FILES['picture']['size'][$index];
-    $fileType = strtolower(pathinfo($fileName, PATHINFO_EXTENSION));
-    
-    if ($error === 0) {
+if (!empty($_FILES['picture']['name'][0])) {
+
+    foreach ($_FILES['picture']['name'] as $index => $fileName) {
+
+        if ($fileName == '') {
+            continue;
+        }
+
+        $tmp_name = $_FILES['picture']['tmp_name'][$index];
+        $error    = $_FILES['picture']['error'][$index];
+        $fileSize = $_FILES['picture']['size'][$index];
+        $fileType = strtolower(pathinfo($fileName, PATHINFO_EXTENSION));
+
+        if ($error !== 0) {
+            continue;
+        }
+
         if (!in_array($fileType, ['png', 'jpg', 'jpeg'])) {
             continue;
         }
-        $maxSize = 2 * 1024 * 1024;
-        if ($fileSize > $maxSize) {
+
+        if ($fileSize > 2 * 1024 * 1024) {
             continue;
         }
+
         $newName = uniqid() . '_' . $fileName;
         $path    = 'uploads/' . $newName;
 
         if (move_uploaded_file($tmp_name, $path)) {
             uploadImg($event_id, $path);
+            $updateImg = true;
         }
     }
 }
