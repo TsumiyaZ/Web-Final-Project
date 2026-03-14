@@ -17,11 +17,9 @@
             font-family: 'Oswald', sans-serif;
         }
 
-        /* เพิ่ม CSS สำหรับการเบลอพื้นหลัง */
         .background-blur {
             filter: blur(8px);
             pointer-events: none;
-            /* ป้องกันการคลิกเนื้อหาข้างหลังตอนเปิด Modal */
         }
 
         .modal-gradient {
@@ -41,7 +39,6 @@
             background-color: rgba(255, 255, 255, 0.1);
         }
 
-        /* ตั้งค่าเริ่มต้นให้ Modal ซ่อนอยู่ */
         #modal-overlay {
             transition: opacity 0.3s ease;
             pointer-events: none;
@@ -90,7 +87,6 @@
             background: #5a4d63;
         }
 
-        /* Active page navigation styling */
         .nav-active {
             background: #7c5176 !important;
             color: #ffffff !important;
@@ -106,12 +102,10 @@
             box-shadow: 0 6px 16px rgba(124, 81, 118, 0.4);
         }
 
-        /* Smooth scroll behavior */
         html {
             scroll-behavior: smooth;
         }
 
-        /* Page transition animation */
         .page-transition {
             animation: pageLoad 0.5s ease-out;
         }

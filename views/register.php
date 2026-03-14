@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sign Up - Unique Style</title>
+    <title>Sign Up - Clean Style</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600&family=Oswald:wght@400;600;700&display=swap" rel="stylesheet">
@@ -18,7 +18,6 @@
             background-color: var(--bg-color);
             font-family: 'Kanit', sans-serif;
             margin: 0;
-            /* ปรับให้เลื่อนได้เฉพาะแนวตั้งหากเนื้อหายาวกว่าจอ (สำหรับมือถือ) */
             overflow-x: hidden;
             min-height: 100vh;
             width: 100vw;
@@ -28,53 +27,8 @@
             padding: 2rem 0;
         }
 
-        /* --- 1. Background Layers --- */
-        .mesh-gradient {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            z-index: -2;
-            background: 
-                radial-gradient(at 0% 0%, rgba(91, 55, 101, 0.5) 0px, transparent 50%),
-                radial-gradient(at 100% 0%, rgba(244, 114, 182, 0.15) 0px, transparent 50%),
-                radial-gradient(at 100% 100%, rgba(91, 55, 101, 0.5) 0px, transparent 50%),
-                radial-gradient(at 0% 100%, rgba(244, 114, 182, 0.15) 0px, transparent 50%);
-            animation: meshMove 20s ease-in-out infinite alternate;
-        }
-
-        @keyframes meshMove {
-            0% { transform: scale(1); }
-            100% { transform: scale(1.1) rotate(2deg); }
-        }
-
-        .grid-overlay {
-            position: fixed;
-            inset: 0;
-            z-index: -1;
-            background-image: 
-                linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-                linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
-            background-size: 60px 60px;
-            mask-image: radial-gradient(circle at center, black, transparent 90%);
-        }
-
-        .scanline {
-            position: absolute;
-            width: 100%;
-            height: 2px;
-            background: linear-gradient(to right, transparent, rgba(244, 114, 182, 0.3), transparent);
-            top: -10%;
-            animation: scanMove 8s linear infinite;
-        }
-
-        @keyframes scanMove {
-            0% { top: -10%; opacity: 0; }
-            50% { opacity: 1; }
-            100% { top: 110%; opacity: 0; }
-        }
-
-        /* --- 2. Container & Inputs --- */
         .glass-container {
-            background-color: rgba(139, 106, 150, 0.2);
+            background-color: rgba(139, 106, 150, 0.3); 
             backdrop-filter: blur(15px);
             -webkit-backdrop-filter: blur(15px);
             border-radius: 2.5rem;
@@ -101,7 +55,6 @@
             box-shadow: 0 0 15px rgba(244, 114, 182, 0.2);
         }
 
-        /* สำหรับ Select ปรับลูกศร */
         select.custom-input {
             appearance: none;
             background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='white'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
@@ -133,11 +86,6 @@
 </head>
 
 <body>
-
-    <div class="mesh-gradient"></div>
-    <div class="grid-overlay">
-        <div class="scanline"></div>
-    </div>
 
     <main class="w-full max-w-lg px-4 my-8">
         <div class="glass-container p-8 md:p-10">

@@ -13,7 +13,6 @@
             font-family: 'Kanit', sans-serif;
         }
 
-        /* Toast notification styles */
         .toast {
             position: fixed;
             top: 20px;
@@ -38,7 +37,6 @@
             }
         }
 
-        /* Page transition animation */
         .page-transition {
             animation: pageLoad 0.5s ease-out;
         }

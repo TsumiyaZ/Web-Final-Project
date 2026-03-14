@@ -136,47 +136,38 @@
 
 <script>
     function clearFilters() {
-        // Clear form values
         const form = document.querySelector('form[action="/myJoinEvent"]');
         if (form) {
             form.querySelector('input[name="search"]').value = '';
             form.querySelector('input[name="start_date"]').value = '';
             form.querySelector('input[name="stop_date"]').value = '';
             
-            // Submit the form to clear filters
             form.submit();
         }
     }
 
     function showCancelConfirmModal(eventId, userId) {
-        // Create modal overlay
         const modal = document.createElement('div');
         modal.className = 'fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm animate-fadeIn ';
         
-        // Create modal content
         const modalContent = document.createElement('div');
         modalContent.className = 'bg-gradient-to-br from-red-600/95 via-red-700/95 to-red-800/95 rounded-2xl p-8 max-w-md w-full shadow-2xl border border-white/20 transform animate-scaleIn';
         
-        // Create icon container
         const iconContainer = document.createElement('div');
         iconContainer.className = 'w-20 h-20 bg-white/10 rounded-full flex items-center justify-center mx-auto mb-6 backdrop-blur-sm border border-white/20';
         iconContainer.innerHTML = '<i class="fa-solid fa-exclamation-triangle text-4xl text-yellow-400 animate-pulse"></i>';
         
-        // Create title
         const title = document.createElement('h3');
         title.className = 'text-2xl font-bold text-white mb-4 text-center';
         title.textContent = 'ยืนยันการยกเลิก';
         
-        // Create message
         const message = document.createElement('p');
         message.className = 'text-white/90 text-center mb-8 text-lg leading-relaxed';
         message.innerHTML = 'คุณต้องการยกเลิกการเข้าร่วมกิจกรรมนี้หรือไม่?<br><span class="text-white/70 text-sm">การกระทำนี้ไม่สามารถย้อนกลับได้</span>';
-        
-        // Create button container
+
         const buttonContainer = document.createElement('div');
         buttonContainer.className = 'flex flex-col sm:flex-row gap-4 justify-center';
         
-        // Create cancel button
         const cancelBtn = document.createElement('button');
         cancelBtn.className = 'flex-1 bg-white/10 hover:bg-white/20 text-white px-6 py-3 rounded-xl font-semibold transition-all transform hover:scale-105 backdrop-blur-sm border border-white/20';
         cancelBtn.textContent = 'ยกเลิก';
@@ -184,12 +175,11 @@
             modal.remove();
         };
         
-        // Create confirm button
         const confirmBtn = document.createElement('button');
         confirmBtn.className = 'flex-1 bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white px-6 py-3 rounded-xl font-semibold transition-all transform hover:scale-105 shadow-lg';
         confirmBtn.innerHTML = '<i class="fa-solid fa-times mr-2"></i>ยกเลิกการเข้าร่วม';
         confirmBtn.onclick = () => {
-            // Create and submit form
+
             const form = document.createElement('form');
             form.method = 'POST';
             form.action = 'cancelEvent';
@@ -210,7 +200,6 @@
             form.submit();
         };
         
-        // Assemble modal
         buttonContainer.appendChild(cancelBtn);
         buttonContainer.appendChild(confirmBtn);
         modalContent.appendChild(iconContainer);
@@ -219,28 +208,13 @@
         modalContent.appendChild(buttonContainer);
         modal.appendChild(modalContent);
         
-        // Add modal to body
         document.body.appendChild(modal);
         
-        // Close modal on background click
         modal.addEventListener('click', (e) => {
             if (e.target === modal) {
                 modal.remove();
             }
-        });
-        
-        // Add CSS animations
-        const style = document.createElement('style');
-        style.textContent = `
-            @keyframes fadeIn {
-                from { opacity: 0; }
-                to { opacity: 1; }
-            }
-            .animate-fadeIn {
-                animation: fadeIn 0.3s ease-out;
-            }
-        `;
-        document.head.appendChild(style);
+        }); 
     }
 </script>
 

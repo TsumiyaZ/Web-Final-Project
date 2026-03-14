@@ -4,13 +4,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Modern Login UI - Unique Style</title>
+    <title>Modern Login UI - No Background</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600&family=Oswald:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-color: #2e2335;
+            --bg-color: #2e2335; 
             --accent-pink: #f472b6;
         }
 
@@ -26,53 +26,6 @@
             justify-content: center;
         }
 
-        /* --- 1. Animated Mesh Gradient (พื้นหลังฟุ้งๆ ขยับได้) --- */
-        .mesh-gradient {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            z-index: -2;
-            background: 
-                radial-gradient(at 0% 0%, rgba(91, 55, 101, 0.5) 0px, transparent 50%),
-                radial-gradient(at 100% 0%, rgba(244, 114, 182, 0.15) 0px, transparent 50%),
-                radial-gradient(at 100% 100%, rgba(91, 55, 101, 0.5) 0px, transparent 50%),
-                radial-gradient(at 0% 100%, rgba(244, 114, 182, 0.15) 0px, transparent 50%);
-            animation: meshMove 20s ease-in-out infinite alternate;
-        }
-
-        @keyframes meshMove {
-            0% { transform: scale(1); }
-            100% { transform: scale(1.1) rotate(2deg); }
-        }
-
-        /* --- 2. Cyberpunk Grid (เส้นตารางล้ำๆ) --- */
-        .grid-overlay {
-            position: fixed;
-            inset: 0;
-            z-index: -1;
-            background-image: 
-                linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-                linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
-            background-size: 60px 60px;
-            mask-image: radial-gradient(circle at center, black, transparent 90%);
-        }
-
-        /* แสงวิ่งผ่านตาราง (Scanline) */
-        .scanline {
-            position: absolute;
-            width: 100%;
-            height: 2px;
-            background: linear-gradient(to right, transparent, rgba(244, 114, 182, 0.3), transparent);
-            top: -10%;
-            animation: scanMove 8s linear infinite;
-        }
-
-        @keyframes scanMove {
-            0% { top: -10%; opacity: 0; }
-            50% { opacity: 1; }
-            100% { top: 110%; opacity: 0; }
-        }
-
-        /* --- 3. Glass Container (ธีมเดิมของคุณ) --- */
         .glass-container {
             background-color: rgba(139, 106, 150, 0.2);
             backdrop-filter: blur(15px);
@@ -120,7 +73,6 @@
             transform: translateY(0);
         }
 
-        /* Toast notification styles */
         .toast {
             position: fixed;
             top: 20px;
@@ -148,11 +100,6 @@
 </head>
 
 <body>
-
-    <div class="mesh-gradient"></div>
-    <div class="grid-overlay">
-        <div class="scanline"></div>
-    </div>
 
     <main class="w-full max-w-md px-4">
         <div class="glass-container p-8 md:p-10">
@@ -202,5 +149,3 @@
 
 </body>
 </html>
-
-<?php include "footer.php" ?>
