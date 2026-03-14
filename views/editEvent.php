@@ -148,13 +148,13 @@
             <div class="space-y-2">
                 <label class="block text-sm md:text-base font-light ml-2 text-gray-300">วันที่จัดกิจกรรม</label>
                 <input type="datetime-local" id="startDate" name="startDate"
-                    value="<?= htmlspecialchars($data['event']['start_date'] ?? '') ?>"
+                    value="<?= date('Y-m-d\TH:i', strtotime($data['event']['start_date'] ?? '')) ?>"
                     class="w-full px-4 md:px-6 py-3 md:py-4 custom-field text-base md:text-lg">
             </div>
             <div class="space-y-2">
                 <label class="block text-sm md:text-base font-light ml-2 text-gray-300">วันที่สิ้นสุดกิจกรรม</label>
                 <input type="datetime-local" id="stopDate" name="stopDate"
-                    value="<?= htmlspecialchars($data['event']['stop_date'] ?? '') ?>"
+                    value="<?= date('Y-m-d\TH:i', strtotime($data['event']['stop_date'] ?? '')) ?>"
                     class="w-full px-4 md:px-6 py-3 md:py-4 custom-field text-base md:text-lg">
             </div>
         </div>

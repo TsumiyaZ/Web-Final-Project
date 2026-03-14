@@ -64,9 +64,15 @@ function updateEventByEventId($name_event, $startDate, $stopDate, $description, 
             description = ?,
             amount = ?
             where event_id = ?';
+            
     $stmt = $conn->prepare($sql);
+
+    $startDate = !empty(trim($startDate)) ? $startDate : null;
+    $stopDate = !empty(trim($stopDate)) ? $stopDate : null;
+
     $stmt->bind_param('ssssii', $name_event, $startDate, $stopDate, $description, $amount, $event_id);
-    $stmt->execute();
+    
+    $result = $stmt->execute();
 
     return $stmt->affected_rows > 0;
 }
