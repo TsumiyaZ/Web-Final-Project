@@ -14,7 +14,6 @@
             font-family: 'Kanit', sans-serif;
         }
 
-        /* Toast notification styles */
         .toast {
             position: fixed;
             top: 20px;
@@ -39,7 +38,6 @@
             }
         }
 
-        /* Page transition animation */
         .page-transition {
             animation: pageLoad 0.5s ease-out;
         }
@@ -154,7 +152,7 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
                 <div>
                     <label class="label-text text-sm md:text-base">รับจำนวน (คน)</label>
-                    <input type="number" name="amount" placeholder="เช่น 100" 
+                    <input type="number" name="amount" min="1" max="9999999" placeholder="เช่น 100" 
                            class="custom-field py-3 md:py-4" required>
                 </div>
                 <div >

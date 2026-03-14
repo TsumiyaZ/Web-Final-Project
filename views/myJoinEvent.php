@@ -24,11 +24,11 @@
                 <div class="flex flex-col md:flex-row gap-2">
                     <div class="flex-shrink-0 w-full h-48 md:w-32 md:h-32 lg:w-40 lg:h-40 bg-white/10 rounded-lg overflow-hidden shadow-inner mb-4 md:mb-0">
                         <div class="w-full h-full flex items-center justify-center text-white/50">
-                            <?php if ($firstImg): ?>
+                            <?php if ($firstImg) { ?>
                                 <img src="<?php echo htmlspecialchars($firstImg['img_path']) ?>" alt="Event Image" class="w-full h-full object-cover">
-                            <?php else: ?>
+                            <?php } else { ?>
                                 <i class="fa-solid fa-image text-4xl"></i>
-                            <?php endif; ?>
+                            <?php } ?>
                         </div>
                     </div>
 
@@ -58,7 +58,7 @@
                     <div class="flex flex-col justify-center items-center mt-4 md:mt-0 md:justify-end md:items-center h-auto md:h-32 lg:h-40 w-full md:w-auto">
                         <div class="flex flex-col gap-2 w-full md:w-auto md:items-end">
                             <div class="flex flex-col gap-2 w-full md:w-auto md:items-end">
-                                <?php if (isApproved($_SESSION['user']['user_id'], $each['event_id']) == 'approved') { ?>
+                                <?php if (checkStatus($_SESSION['user']['user_id'], $each['event_id']) == 'approved') { ?>
                                     <?php if (isUsed_1($_SESSION['user']['user_id'], $each['event_id'])) { ?>
                                         <button type="submit" disabled class="w-full md:w-auto bg-green-600 text-white rounded-lg px-4 py-2 font-semibold text-xs md:text-sm transition-all">
                                             <i class="fa-solid fa-circle-check mr-2"></i>เข้าร่วมกิจกรรมแล้ว
@@ -68,7 +68,8 @@
                                             <i class="fa-solid fa-circle-check mr-2"></i>ได้รับการอนุมัติแล้ว
                                         </button>
                                     <?php } ?>
-                                <?php } else if (isApproved($_SESSION['user']['user_id'], $each['event_id']) == 'pending') { ?>
+
+                                <?php } else if (checkStatus($_SESSION['user']['user_id'], $each['event_id']) == 'pending') { ?>
                                     <button type="submit" disabled class="w-full md:w-auto bg-yellow-600 text-white rounded-lg px-4 py-2 font-semibold text-xs md:text-sm transition-all">
                                         <i class="fa-solid fa-spinner mr-2 animate-spin"></i>รอการอนุมัติ
                                     </button>
@@ -79,13 +80,15 @@
                                             <i class="fa-solid fa-times mr-2"></i>ยกเลิกการเข้าร่วม
                                         </button>
                                     </form>
-                                <?php } else if (isApproved($_SESSION['user']['user_id'], $each['event_id']) == 'rejected') { ?>
+
+                                <?php } else if (checkStatus($_SESSION['user']['user_id'], $each['event_id']) == 'rejected') { ?>
                                     <button type="submit" disabled class="w-full md:w-auto bg-red-600 text-white rounded-lg px-4 py-2 font-semibold text-xs md:text-sm transition-all">
                                         <i class="fa-solid fa-circle-xmark mr-2"></i>ไม่ผ่านการอนุมัติ
                                     </button>
                                 <?php } ?>
                             </div>
-                            <?php if (isApproved($_SESSION['user']['user_id'], $each['event_id']) == 'approved') { ?>
+
+                            <?php if (checkStatus($_SESSION['user']['user_id'], $each['event_id']) == 'approved') { ?>
                                 <?php if (!isUsed_1($_SESSION['user']['user_id'], $each['event_id'])) { ?>
                                     <form action="/otp" method="post" class="w-full md:w-auto flex justify-end">
                                         <input type="hidden" name="join_id" value="<?php echo htmlspecialchars(getJoinIdByEventId($each['event_id'], $_SESSION['user']['user_id'])['join_id']) ?>">
@@ -95,6 +98,7 @@
                                     </form>
                                 <?php } ?>
                             <?php } ?>
+
                         </div>
                     </div>
                 </div>
@@ -106,7 +110,7 @@
 </div>
 
 <!-- OTP Modal Overlay -->
-<?php if ($_SESSION['showOtpModal'] ?? false && $_SESSION['generatedOtp'] ?? false): ?>
+<?php if ($_SESSION['showOtpModal'] ?? false && $_SESSION['generatedOtp'] ?? false) { ?>
     <div id="otpModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm">
         <div class="bg-gradient-to-br from-[#7c5176] to-[#4a304d] rounded-2xl p-8 max-w-md w-full shadow-2xl border border-white/20">
             <div class="text-center mb-6">
@@ -131,7 +135,7 @@
             </div>
         </div>
     </div>
-<?php endif; ?>
+<?php } ?>
 
 
 <script>

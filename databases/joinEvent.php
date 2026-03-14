@@ -184,7 +184,7 @@ function countAllCheckInMember($event_id) {
     return $stmt->get_result()->fetch_assoc()['total'] ?? 0;
 }
 
-function isApproved($user_id, $event_id)
+function checkStatus($user_id, $event_id)
 {
     $conn = getConnection();
     $sql = 'select status from event_join where user_id = ? and event_id = ?';

@@ -161,7 +161,7 @@
 
         <div class="space-y-2">
             <label class="block text-sm md:text-base font-light ml-2 text-gray-300">รับจำนวน (คน)</label>
-            <input type="number" name="amount"
+            <input type="number" name="amount" min="1" max="9999999"
                 value="<?= htmlspecialchars($data['event']['amount'] ?? '1') ?>"
                 class="w-full px-4 md:px-6 py-3 md:py-4 custom-field text-base md:text-lg">
         </div>
@@ -214,6 +214,32 @@
 
     document.querySelector('form').addEventListener('submit', function() {
         document.getElementById('deleteImages').value = selectDelData.join(',');
+    });
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const startDate = document.getElementById('startDate');
+        const stopDate = document.getElementById('stopDate');
+        const submitBtn = document.getElementById('btn-save');
+
+        function validateDates() {
+            const start = new Date(startDate.value);
+            const stop = new Date(stopDate.value);
+            
+            if (startDate.value && stopDate.value) {
+                if (start >= stop) {
+                    submitBtn.disabled = true;
+                    submitBtn.textContent = 'วันเริ่มต้องน้อยกว่าวันสิ้นสุด';
+                    submitBtn.classList.add('opacity-50', 'cursor-not-allowed');
+                } else {
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = 'บันทึก';
+                    submitBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+                }
+            }
+        }
+
+        startDate.addEventListener('change', validateDates);
+        stopDate.addEventListener('change', validateDates);
     });
 </script>
 

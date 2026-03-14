@@ -39,7 +39,7 @@
                                 <h3 class="text-lg md:text-xl font-semibold text-white"><?php echo htmlspecialchars($each['event_name']); ?></h3>
                                 <div class="space-y-2">
                                     <p class="text-gray-300 text-sm line-clamp-2">
-                                        <i class="fa-solid fa-book"></i> <?php echo htmlspecialchars($each['description']); ?>
+                                        <i class="fa-solid fa-book"></i> <?php echo htmlspecialchars(string: $each['description']); ?>
                                     </p>
                                     <div class="flex flex-col gap-2 text-gray-400 text-sm">
                                         <div>
@@ -63,15 +63,15 @@
                                         <input type="hidden" name="event_id" value="<?php echo $each['event_id'] ?? '' ?>">
                                         <input type="hidden" name="user_id" value="<?php echo $_SESSION['user']['user_id'] ?? '' ?>">
                                         <?php if (countApprovedMember($each['event_id']) < $each['amount']) { ?>
-                                            <?php if (isApproved($_SESSION['user']['user_id'] ?? 0, $each['event_id']) == 'pending') { ?>
+                                            <?php if (checkStatus($_SESSION['user']['user_id'] ?? 0, $each['event_id']) == 'pending') { ?>
                                                 <button disabled type="submit" class="w-full md:w-auto bg-yellow-700 text-white px-6 py-2 rounded-lg font-semibold text-xs md:text-sm transition-all transform active:scale-95 shadow-[0_4px_10px_rgba(0,0,0,0.2)]">
                                                     <i class="fa-solid fa-clock-rotate-left mr-2"></i>ขอลงทะเบียนเเล้ว
                                                 </button>
-                                            <?php } else if (isApproved($_SESSION['user']['user_id'], $each['event_id']) == 'approved') { ?>
+                                            <?php } else if (checkStatus($_SESSION['user']['user_id'], $each['event_id']) == 'approved') { ?>
                                                 <button type="submit" disabled class="w-full md:w-auto bg-blue-600 text-white px-6 py-2 rounded-lg font-semibold text-xs md:text-sm transition-all transform active:scale-95 shadow-[0_4px_10px_rgba(0,0,0,0.2)]">
                                                     <i class="fa-solid fa-circle-check mr-2"></i>เข้าร่วมกิจกรรมเเล้ว
                                                 </button>
-                                            <?php } else if (isApproved($_SESSION['user']['user_id'], $each['event_id']) == 'rejected') { ?>
+                                            <?php } else if (checkStatus($_SESSION['user']['user_id'], $each['event_id']) == 'rejected') { ?>
                                                 <button type="submit" class="w-full md:w-auto bg-red-700 text-white px-6 py-2 rounded-lg font-semibold text-xs md:text-sm transition-all transform active:scale-95 shadow-[0_4px_10px_rgba(0,0,0,0.2)]">
                                                     <i class="fa-solid fa-circle-xmark mr-2"></i>ถูกปฏิเสธ
                                                 </button>
@@ -105,14 +105,11 @@
 
 <script>
     function clearFilters() {
-        // Clear form values
         const form = document.querySelector('form[action="/home"]');
         if (form) {
             form.querySelector('input[name="search"]').value = '';
             form.querySelector('input[name="start_date"]').value = '';
             form.querySelector('input[name="stop_date"]').value = '';
-            
-            // Submit the form to clear filters
             form.submit();
         }
     }

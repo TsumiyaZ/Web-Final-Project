@@ -184,3 +184,15 @@ function checkOwnerEventOnDetail($event_id, $user_id) {
     $stmt->execute();
     return $stmt->get_result()->fetch_assoc() ? true : false;
 }
+
+
+function getMyAllCreateEvent($user_id) {
+    $conn = getConnection();
+    $sql = 'select count(*) as total from events 
+            join users on events.creator_id = users.user_id
+            where events.creator_id = ?';
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param('i', $user_id);
+    $stmt->execute();
+    return $stmt->get_result()->fetch_assoc()['total'];
+}

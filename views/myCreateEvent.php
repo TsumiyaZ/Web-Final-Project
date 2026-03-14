@@ -88,14 +88,12 @@ include 'header.php';
 
 <script>
     function clearFilters() {
-        // Clear form values
         const form = document.querySelector('form[action="/myCreateEvent"]');
         if (form) {
             form.querySelector('input[name="search"]').value = '';
             form.querySelector('input[name="start_date"]').value = '';
             form.querySelector('input[name="stop_date"]').value = '';
-            
-            // Submit the form to clear filters
+
             form.submit();
         }
     }

@@ -293,15 +293,15 @@
                         <input type="hidden" name="event_id" value="<?php echo htmlspecialchars($event['event_id'] ?? '') ?>">
                         <input type="hidden" name="user_id" value="<?php echo htmlspecialchars($_SESSION['user']['user_id'] ?? '') ?>">
                         <?php if (countApprovedMember($event['event_id']) < $event['amount']) { ?>
-                            <?php if (isApproved($_SESSION['user']['user_id'] ?? 0, $event['event_id']) == 'pending') { ?>
+                            <?php if (checkStatus($_SESSION['user']['user_id'] ?? 0, $event['event_id']) == 'pending') { ?>
                                 <button disabled type="submit" class="w-full md:w-auto bg-yellow-700 text-white px-6 py-2 rounded-lg font-semibold text-sm transition-all transform active:scale-95 shadow-[0_4px_10px_rgba(0,0,0,0.2)]">
                                     <i class="fa-solid fa-clock-rotate-left mr-2"></i>ขอลงทะเบียนเเล้ว
                                 </button>
-                            <?php } else if (isApproved($_SESSION['user']['user_id'], $event['event_id']) == 'approved') { ?>
+                            <?php } else if (checkStatus($_SESSION['user']['user_id'], $event['event_id']) == 'approved') { ?>
                                 <button type="submit" disabled class="w-full md:w-auto bg-blue-600 text-white px-6 py-2 rounded-lg font-semibold text-sm transition-all transform active:scale-95 shadow-[0_4px_10px_rgba(0,0,0,0.2)]">
                                     <i class="fa-solid fa-circle-check mr-2"></i>เข้าร่วมกิจกรรมเเล้ว
                                 </button>
-                            <?php } else if (isApproved($_SESSION['user']['user_id'], $event['event_id']) == 'rejected') { ?>
+                            <?php } else if (checkStatus($_SESSION['user']['user_id'], $event['event_id']) == 'rejected') { ?>
                                 <button type="submit" disabled class="w-full md:w-auto bg-red-700 text-white px-6 py-2 rounded-lg font-semibold text-sm transition-all transform active:scale-95 shadow-[0_4px_10px_rgba(0,0,0,0.2)]">
                                     <i class="fa-solid fa-circle-xmark mr-2"></i>ถูกปฏิเสธ
                                 </button>

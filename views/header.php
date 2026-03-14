@@ -157,9 +157,9 @@
             <div class="hidden md:flex items-center gap-4">
                 <?php if (isset($_SESSION['user'])): ?>
                     <div class="flex items-center gap-3">
-                        <div class="w-8 h-8 bg-[#6b5b7a] rounded-full flex items-center justify-center">
+                        <button onclick="window.location.href='/myProfile'" class="w-8 h-8 bg-[#6b5b7a] rounded-full flex items-center justify-center hover:bg-[#7b6b8a] transition-colors">
                             <i class="fa-solid fa-user text-gray-300 text-xs"></i>
-                        </div>
+                        </button>
                         <span class="text-gray-300 text-sm">สวัสดี, <?php echo htmlspecialchars($_SESSION['user']['name']); ?></span>
                         <button onclick="window.location.href='/logout'" class="bg-[#4d4d4d] hover:bg-[#5d5d5d] text-gray-300 px-4 py-1.5 rounded-full text-sm transition-colors">ออกจากระบบ</button>
                     </div>
