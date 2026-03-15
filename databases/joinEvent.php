@@ -206,26 +206,26 @@ function searchAllMyJoinEvent($user_id, $keyword, $startDate, $stopDate)
     if ($keyword != '' && $startDate != '' && $stopDate != '') {
         $sql = 'SELECT events.* FROM events 
         JOIN event_join ON events.event_id = event_join.event_id
-        WHERE event_join.user_id = ? and events.event_name like ? and events.start_date BETWEEN ? and ?';
+        WHERE event_join.user_id = ? and events.event_name like ? and DATE(events.start_date) BETWEEN ? and ?';
         $stmt = $conn->prepare($sql);
         $keyword = "%$keyword%";
         $stmt->bind_param('ssss', $user_id, $keyword, $startDate, $stopDate);
     } else if ($startDate != '' && $stopDate != '') {
         $sql = 'SELECT events.* FROM events 
         JOIN event_join ON events.event_id = event_join.event_id
-        WHERE event_join.user_id = ? and events.start_date BETWEEN ? and ?';
+        WHERE event_join.user_id = ? and DATE(events.start_date) BETWEEN ? and ?';
         $stmt = $conn->prepare($sql);
         $stmt->bind_param('sss', $user_id, $startDate, $stopDate);
     } else if ($startDate != '') {
         $sql = 'SELECT events.* FROM events 
         JOIN event_join ON events.event_id = event_join.event_id
-        WHERE event_join.user_id = ? and events.start_date >= ?';
+        WHERE event_join.user_id = ? and DATE(events.start_date) >= ?';
         $stmt = $conn->prepare($sql);
         $stmt->bind_param('ss', $user_id, $startDate);
     } else if ($stopDate != '') {
         $sql = 'SELECT events.* FROM events 
         JOIN event_join ON events.event_id = event_join.event_id
-        WHERE event_join.user_id = ? and events.start_date <= ?';
+        WHERE event_join.user_id = ? and DATE(events.start_date) <= ?';
         $stmt = $conn->prepare($sql);
         $stmt->bind_param('ss', $user_id, $stopDate);
     } else {

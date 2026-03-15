@@ -94,20 +94,20 @@ function getEventByKeyword($keyword, $startDate, $stopDate)
     $sql = '';
 
     if ($keyword != '' && $startDate != '' && $stopDate != '') {
-        $sql = 'SELECT * FROM events WHERE event_name LIKE ? AND start_date BETWEEN ? AND ?';
+        $sql = 'SELECT * FROM events WHERE event_name LIKE ? AND DATE(start_date) BETWEEN ? AND ?';
         $stmt = $conn->prepare($sql);
         $keyword = "%$keyword%";
         $stmt->bind_param('sss', $keyword, $startDate, $stopDate);
     } else if ($startDate != '' && $stopDate != '') {
-        $sql = 'SELECT * FROM events WHERE start_date BETWEEN ? AND ?';
+        $sql = 'SELECT * FROM events WHERE DATE(start_date) BETWEEN ? AND ?';
         $stmt = $conn->prepare($sql);
         $stmt->bind_param('ss', $startDate, $stopDate);
     } else if ($startDate != '') {
-        $sql = 'SELECT * FROM events WHERE start_date >= ?';
+        $sql = 'SELECT * FROM events WHERE DATE(start_date) >= ?';
         $stmt = $conn->prepare($sql);
         $stmt->bind_param('s', $startDate);
     } else if ($stopDate != '') {
-        $sql = 'SELECT * FROM events WHERE stop_date <= ?';
+        $sql = 'SELECT * FROM events WHERE DATE(stop_date) <= ?';
         $stmt = $conn->prepare($sql);
         $stmt->bind_param('s', $stopDate);
     } else {
@@ -129,26 +129,26 @@ function searchAllYourEventByUserId($user_id, $keyword, $startDate, $stopDate)
     if ($keyword != '' && $startDate != '' && $stopDate != '') {
         $sql = 'select events.* from events 
                 JOIN users ON events.creator_id = users.user_id 
-                where events.creator_id = ? and events.event_name like ? and events.start_date BETWEEN ? AND ?';
+                where events.creator_id = ? and events.event_name like ? and DATE(events.start_date) BETWEEN ? AND ?';
         $stmt = $conn->prepare($sql);
         $keyword = '%' . $keyword . '%';
         $stmt->bind_param('isss', $user_id, $keyword, $startDate, $stopDate);
     } else if ($startDate != '' && $stopDate != '') {
         $sql = 'select events.* from events 
                 JOIN users ON events.creator_id = users.user_id 
-                where events.creator_id = ? and events.start_date BETWEEN ? AND ?';
+                where events.creator_id = ? and DATE(events.start_date) BETWEEN ? AND ?';
         $stmt = $conn->prepare($sql);
         $stmt->bind_param('iss', $user_id, $startDate, $stopDate);
     } else if ($startDate != '') {
         $sql = 'select events.* from events 
                 JOIN users ON events.creator_id = users.user_id 
-                where events.creator_id = ? and events.start_date >= ?';
+                where events.creator_id = ? and DATE(events.start_date) >= ?';
         $stmt = $conn->prepare($sql);
         $stmt->bind_param('is', $user_id, $startDate);
     } else if ($stopDate != '') {
         $sql = 'select events.* from events 
                 JOIN users ON events.creator_id = users.user_id 
-                where events.creator_id = ? and events.start_date <= ?';
+                where events.creator_id = ? and DATE(events.start_date) <= ?';
         $stmt = $conn->prepare($sql);
         $stmt->bind_param('is', $user_id, $stopDate);
     } else {
