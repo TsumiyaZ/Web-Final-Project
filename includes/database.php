@@ -1,9 +1,9 @@
 <?php
 
-$host = 'localhost';
-$db = 'final';
-$user = 'Final';
-$pass = 'abc123';
+$host = 'eventeiei.k1god.com';
+$db = 'k1god_eventEiEi';
+$user = 'k1god_eventEiEi';
+$pass = '$UR823~gLyjfxeih';
 
 $con = new mysqli($host, $user, $pass, $db);
 
