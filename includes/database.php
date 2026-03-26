@@ -1,6 +1,7 @@
 <?php
 
-$host = 'eventeiei.k1god.com';
+$host = 'k1god.com';
+// $host = 'eventeiei.k1god.com';
 $db = 'k1god_eventEiEi';
 $user = 'k1god_eventEiEi';
 $pass = '$UR823~gLyjfxeih';
